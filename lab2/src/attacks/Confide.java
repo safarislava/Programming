@@ -1,4 +1,4 @@
-package attacks;
+package src.attacks;
 
 import ru.ifmo.se.pokemon.*;
 

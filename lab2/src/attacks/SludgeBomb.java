@@ -1,4 +1,4 @@
-package attacks;
+package src.attacks;
 
 import ru.ifmo.se.pokemon.*;
 
@@ -9,7 +9,9 @@ public class SludgeBomb extends SpecialMove {
 
     @Override
     public void applyOppEffects(Pokemon p) {
-        new Effect().chance(0.3).poison(p);
+        if (Math.random() < 0.3) {
+            Effect.poison(p);
+        }
     }
 
     @Override

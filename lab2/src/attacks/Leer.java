@@ -1,4 +1,4 @@
-package attacks;
+package src.attacks;
 
 import ru.ifmo.se.pokemon.*;
 
@@ -9,7 +9,7 @@ public class Leer extends StatusMove {
 
     @Override
     public void applyOppEffects(Pokemon p) {
-           p.setMod(Stat.DEFENSE, -1);; 
+        p.setMod(Stat.DEFENSE, -1);; 
     }
 
     @Override

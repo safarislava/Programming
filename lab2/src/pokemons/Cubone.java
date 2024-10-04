@@ -1,6 +1,6 @@
-package pokemons;
+package src.pokemons;
 
-import attacks.*;
+import src.attacks.*;
 import ru.ifmo.se.pokemon.*;
 
 public class Cubone extends Pokemon{

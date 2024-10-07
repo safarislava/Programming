@@ -4,7 +4,7 @@ import ru.ifmo.se.pokemon.*;
 
 public class Growth extends SpecialMove {
     public Growth() {
-        super(Type.NORMAL, 0, 0);
+        super(Type.NORMAL, 0, 100);
     }
     
     @Override

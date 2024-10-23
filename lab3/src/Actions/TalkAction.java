@@ -1,6 +1,6 @@
 package Actions;
 
-import Actions.Interfaces.ActionHumans;
+import Actions.Abstractions.ActionHumans;
 import Entities.Human;
 import Exceptions.NullOpinionException;
 

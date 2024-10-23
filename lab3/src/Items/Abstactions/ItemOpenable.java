@@ -9,10 +9,12 @@ public abstract class ItemOpenable extends Item implements Openable {
         super(name);
     }
 
+    @Override
     public void open() {
         isOpen = !isOpen;
     }
 
+    @Override
     public boolean isOpen() {
         return isOpen;
     }

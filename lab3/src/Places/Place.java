@@ -45,4 +45,9 @@ public class Place {
 
         return this.title.equals(((Place) object).title);
     }
+
+    @Override
+    public int hashCode() {
+        return title.hashCode();
+    }
 }

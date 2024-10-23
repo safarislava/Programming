@@ -61,4 +61,9 @@ public class Human {
 
         return this.name.equals(((Human) object).name);
     }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

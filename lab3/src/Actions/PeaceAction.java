@@ -1,6 +1,6 @@
 package Actions;
 
-import Actions.Abstractions.ActionHumans;
+import Actions.Interfaces.ActionHumans;
 import Entities.Human;
 
 public class PeaceAction extends ActionHumans {
@@ -10,7 +10,7 @@ public class PeaceAction extends ActionHumans {
 
     @Override
     public boolean start() {
-        System.out.println(human1.getName() + " и " + human2.getName() + " помирились");
+        System.out.println(human1 + " и " + human2 + " помирились");
         return true;
     }
 }

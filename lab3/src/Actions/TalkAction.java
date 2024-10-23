@@ -1,7 +1,8 @@
 package Actions;
 
-import Actions.Abstractions.ActionHumans;
+import Actions.Interfaces.ActionHumans;
 import Entities.Human;
+import Exceptions.NullOpinionException;
 
 public class TalkAction extends ActionHumans {
     private String statement;
@@ -14,13 +15,20 @@ public class TalkAction extends ActionHumans {
         this.statement = statement;
     }
 
+    public void setOpinion(Object object) {
+        if (human1.getOpinion(object) == null) {
+            throw new NullOpinionException("Малыш ничего не думает о " + object);
+        }
+
+        setStatement(object + " " + human1.getOpinion(object));
+    }
+
     @Override
     public boolean start() {
-        System.out.println(human1.getName() + " рассказывает " + human2.getName() + ", что " + statement);
+        System.out.println(human1+ " рассказывает " + human2 + ", что " + statement);
 
-        // TODO trust
         if (!human2.isTrust(human1)) {
-            System.out.println(human2.getName() + " неповерил");
+            System.out.println(human2 + " неповерил");
             return false; // disagree
         }
         return true;

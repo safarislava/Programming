@@ -14,11 +14,13 @@ import Places.School;
 import Places.Street;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        // TODO enum, interface
-        // TODO toString, hashCode
+        // TODO hashCode
+
+        Random random = new Random();
 
         Room room = new Room();
         room.addItem(new Wardrobe());
@@ -31,19 +33,23 @@ public class Main {
         ArrayList<Guy> guys = new ArrayList<>();
         Guy malish = new Guy("Малыш", mother.getAddress(), new SchoolClass(school17, 6, 'A'));
 
-        Address gunillaAddress = new Address(lomonosovaStreet, (int) (Math.random() * 20), (int) (Math.random() * 100));
-        Guy gunilla = new Guy("Гунилла", gunillaAddress, malish.getSchoolClass());
-        Address cristerAddress = new Address(lomonosovaStreet, (int) (Math.random() * 20), (int) (Math.random() * 100));
-        Guy crister = new Guy("Кристер", cristerAddress, malish.getSchoolClass());
+        Address gunillaAddress = new Address(lomonosovaStreet, random.nextInt(20), random.nextInt(1000));
+        Guy gunilla = new Guy("Гунилла", gunillaAddress, new SchoolClass(school17, 6, (char) (Math.random() * 4) + 'A'));
+        Address cristerAddress = new Address(lomonosovaStreet, random.nextInt(20), random.nextInt(1000));
+        Guy crister = new Guy("Кристер", cristerAddress, new SchoolClass(school17, 6, (char) (Math.random() * 4) + 'A'));
 
         guys.add(malish);
         guys.add(crister);
         guys.add(new Guy("Леонардо", new Address(new Street("Строителей"), 120, 15)));
-        guys.add(new Guy("Раф", new Address(lomonosovaStreet, (int) (Math.random() * 20), (int) (Math.random() * 100))));
+        guys.add(new Guy("Раф", new Address(lomonosovaStreet, random.nextInt(20), random.nextInt(100))));
         guys.add(new Guy("Донателло", new Address(new Street("Карла Маркса"), 100, 5)));
-        guys.add(new Guy("Микелянжело", new Address(lomonosovaStreet, (int) (Math.random() * 20), (int) (Math.random() * 100))));
+        guys.add(new Guy("Микелянжело", new Address(lomonosovaStreet, random.nextInt(20), random.nextInt(1000))));
         guys.add(new Guy("Сплинтер", new Address(new Street("Лебедева"), 1, 5)));
         guys.add(gunilla);
+
+        for (Guy guy : guys) {
+            guy.addPower(random.nextInt(0,3));
+        }
 
         mother.setTrust(malish, 1);
         gunilla.setTrust(malish, (float) Math.random());
@@ -54,7 +60,9 @@ public class Main {
         OpenAction openAction = new OpenAction(malish, wardrobes.get(0));
         openAction.start();
 
-        Rock rock = new Rock();
+        Rock rock = new Rock(random.nextInt(15), 1);
+
+        DayOfWeek dayOfWeek = DayOfWeek.values()[random.nextInt(DayOfWeek.values().length)];
 
         System.out.println("-------START-------");
 
@@ -62,20 +70,29 @@ public class Main {
         gunilla.enter(malish.getPlace());
         crister.enter(malish.getPlace());
 
+        System.out.println();
+
         System.out.print("У Малыша и Гуниллы ");
         malish.getAddress().equals(gunilla.getAddress());
-        System.out.print("И у Малыша и Кристера ");
+        System.out.print("У Малыша и Кристера ");
         malish.getAddress().equals(crister.getAddress());
 
-        // TODO repeat with school class
+        System.out.print("У Малыша и Гуниллы ");
+        malish.getSchoolClass().equals(gunilla.getSchoolClass());
+        System.out.print("У Малыша и Кристера ");
+        malish.getSchoolClass().equals(crister.getSchoolClass());
+
+        System.out.println();
 
         malish.addOpinion(gunilla, "ужасно хорошая");
 
         TalkAction talkAction = new TalkAction(malish, mother);
-        talkAction.setStatement(gunilla.getName() + " " + malish.getOpinion(gunilla));
+        talkAction.setOpinion(gunilla);
         talkAction.start();
 
         malish.addOpinion(crister, "любит, давно уже простил ему шишку на лбу");
+
+        System.out.println();
 
         FightAction fightAction = new FightAction(malish, crister);
         PeaceAction peaceAction = new PeaceAction(malish, crister);
@@ -85,11 +102,13 @@ public class Main {
             peaceAction.start();
         }
 
+        System.out.println();
+
         for (Guy guy : guys){
             if (guy.getAddress().street().equals(malish.getAddress().street())) {
                 try {
-                    if (guy == malish) throw new MalishEnemyException("Малыш не Тайлер Дёрден");
-                    if (guy == gunilla) throw new MalishEnemyException("Малыш никогда не бил Гуниллу");
+                    if (guy == malish) throw new MalishEnemyException("Малыш - не Тайлер Дёрден");
+                    if (guy == gunilla) throw new MalishEnemyException("Малыш никогда не бьёт Гуниллу");
 
                     fightAction = new FightAction(malish, guy);
                     fightAction.start();
@@ -100,6 +119,14 @@ public class Main {
             }
         }
 
+        System.out.println();
+
+        if (dayOfWeek == DayOfWeek.SUNDAY || dayOfWeek == DayOfWeek.SATURDAY) {
+            System.out.println("Малыш, Гунилла и Кристер спокойно гуляли, проишествий не было, т.к. было " + dayOfWeek);
+            return;
+        }
+
+        System.out.println("Малыш, Гунилла и Кристер шли со школы, т.к. было обычное " + dayOfWeek);
         talkAction = new TalkAction(malish, gunilla);
         talkAction.setStatement("Карлсон существует");
         if (!talkAction.start()) {

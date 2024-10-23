@@ -1,5 +1,7 @@
 package Items.Abstactions;
 
+import Entities.Human;
+
 public abstract class Item {
     private String name;
 
@@ -7,9 +9,15 @@ public abstract class Item {
         this.name = name;
     }
 
-    public String getName(){
+    @Override
+    public String toString() {
         return name;
     }
 
-    public abstract boolean use();
+    @Override
+    public boolean equals(Object object){
+        if (this.getClass() != object.getClass()) return false;
+
+        return this.name.equals(((Item) object).name);
+    }
 }

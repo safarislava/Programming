@@ -2,7 +2,6 @@ package Entities;
 
 import Entities.Characteristics.Address;
 import Places.Place;
-import Places.Street;
 
 import java.util.HashMap;
 
@@ -17,14 +16,13 @@ public class Human {
     public Human(String name, Address address) {
         this.name = name;
         this.address = address;
-        this.opinions = new HashMap<Object, String>();
-
-        trust = new HashMap<>();
+        this.opinions = new HashMap<>();
+        this.trust = new HashMap<>();
     }
 
     public void addOpinion(Human human, String level) {
         opinions.put(human, level);
-        System.out.println(name + " относится к " + human.getName() + " так: " + level);
+        System.out.println(name + " относится к " + human + " так: " + level);
     }
 
     public String getOpinion(Object object) {
@@ -39,10 +37,6 @@ public class Human {
         return Math.random() < trust.get(human);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Address getAddress() {
         return address;
     }
@@ -54,5 +48,17 @@ public class Human {
     public void enter(Place place) {
         this.place = place;
         System.out.println(name + " зашёл в " + place.getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if (this.getClass() != object.getClass()) return false;
+
+        return this.name.equals(((Human) object).name);
     }
 }

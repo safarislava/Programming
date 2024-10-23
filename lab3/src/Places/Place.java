@@ -26,11 +26,23 @@ public class Place {
 
         for (Item item : items) {
             try {
-                // TODO unchecked exception
                 itemsSearched.add((T) item);
-            } catch (ClassCastException ignored) {}
+            }
+            catch (ClassCastException ignored) {}
         }
 
         return itemsSearched;
+    }
+
+    @Override
+    public String toString() {
+        return title;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this.getClass() != object.getClass()) return false;
+
+        return this.title.equals(((Place) object).title);
     }
 }

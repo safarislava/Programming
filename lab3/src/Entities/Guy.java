@@ -35,7 +35,7 @@ public class Guy extends Human {
 
     public void applyDamage(int damage){
         hp -= damage;
-        if (hp < 0) {
+        if (hp <= 0) {
             System.out.println(name + " заплакал");
             hp = 10;
         }

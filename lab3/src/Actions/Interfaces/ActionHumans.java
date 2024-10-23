@@ -1,4 +1,4 @@
-package Actions.Abstractions;
+package Actions.Interfaces;
 
 import Entities.Human;
 

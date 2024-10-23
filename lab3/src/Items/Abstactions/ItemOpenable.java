@@ -1,19 +1,19 @@
 package Items.Abstactions;
 
-public abstract class ItemOpenable extends Item {
+import Items.Interfaces.Openable;
+
+public abstract class ItemOpenable extends Item implements Openable {
     private boolean isOpen = false;
 
     public ItemOpenable(String name) {
         super(name);
     }
 
-    @Override
-    public boolean use() {
+    public void open() {
         isOpen = !isOpen;
-        return true;
     }
 
-    public boolean isOpen(){
+    public boolean isOpen() {
         return isOpen;
     }
 }

@@ -1,6 +1,6 @@
 package Actions;
 
-import Actions.Abstractions.ActionHumans;
+import Actions.Interfaces.ActionHumans;
 import Entities.Guy;
 import Items.Abstactions.Weapon;
 
@@ -20,7 +20,7 @@ public class FightAction extends ActionHumans {
 
     @Override
     public boolean start() {
-        System.out.println(human1.getName() + " и " + human2.getName() + " подрались");
+        System.out.println(human1 + " и " + human2 + " подрались");
 
         int damageGuy1 = ((Guy) human2).getPower();
         int damageGuy2 = ((Guy) human1).getPower();
@@ -28,19 +28,19 @@ public class FightAction extends ActionHumans {
         if (weaponGuy1 != null) {
             if (weaponGuy1.use()) {
                 damageGuy2 *= weaponGuy1.getPowerScale();
-                System.out.println(human1.getName() + " использует " + weaponGuy1.getName());
+                System.out.println(human1 + " использует " + weaponGuy1);
             }
         }
 
         if (weaponGuy2 != null) {
             if (weaponGuy2.use()) {
                 damageGuy1 *= weaponGuy2.getPowerScale();
-                System.out.println(human2.getName() + " использует " + weaponGuy2.getName());
+                System.out.println(human2 + " использует " + weaponGuy2);
             }
         }
 
         ((Guy) human1).applyDamage(damageGuy1);
-        ((Guy) human1).applyDamage(damageGuy2);
+        ((Guy) human2).applyDamage(damageGuy2);
 
         return true;
     }

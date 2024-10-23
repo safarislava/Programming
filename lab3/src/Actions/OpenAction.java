@@ -13,16 +13,16 @@ public class OpenAction {
     }
 
     public boolean start() {
-        item.use();
+        item.open();
 
-        System.out.print(human.getName());
+        System.out.print(human);
         if (item.isOpen()){
             System.out.print(" открыл ");
         }
         else {
             System.out.print(" закрыл ");
         }
-        System.out.println(item.getName());
+        System.out.println(item);
 
         return true;
     }

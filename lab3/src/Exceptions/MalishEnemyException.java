@@ -7,11 +7,8 @@ public class MalishEnemyException extends Exception {
         super(message);
     }
 
-    public MalishEnemyException (Throwable cause) {
-        super (cause);
-    }
-
-    public MalishEnemyException (String message, Throwable cause) {
-        super (message, cause);
+    @Override
+    public String getMessage() {
+        return "Exception: Малыш, не может драться, так как " + super.getMessage();
     }
 }

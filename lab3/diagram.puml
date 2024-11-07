@@ -1,0 +1,179 @@
+@startuml
+class Places.Room {
+}
+class Actions.OpenAction {
+# Human human
+# ItemOpenable item
++ boolean start()
+}
+
+
+class Exceptions.NullOpinionException {
++ String getMessage()
+}
+
+class Items.Rock {
+}
+class Places.Place {
+- String title
+- ArrayList<Item> items
++ String getTitle()
++ void addItem(Item)
++ ArrayList<T> getItemsByType()
++ String toString()
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+interface Items.Interfaces.Openable {
++ void open()
++ boolean isOpen()
+}
+
+class Entities.Human {
+# String name
+# Address address
+# Place place
+- HashMap<Object,String> opinions
+- HashMap<Human,Float> trust
++ void addOpinion(Human,String)
++ String getOpinion(Object)
++ void setTrust(Human,float)
++ boolean isTrust(Human)
++ Address getAddress()
++ Place getPlace()
++ void enter(Place)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
+}
+
+class Entities.Characteristics.Address {
++ Street street
++ int house
++ int flat
+}
+
+class Entities.Characteristics.SchoolClass {
++ School school
++ int level
++ char litera
+}
+
+abstract class Items.Abstactions.ItemOpenable {
+- boolean isOpen
++ void open()
++ boolean isOpen()
+}
+
+
+class Actions.TalkAction {
+- String statement
++ void setStatement(String)
++ void setOpinion(Object)
++ boolean start()
+}
+
+
+interface Items.Interfaces.Usable {
++ boolean use()
+}
+
+class Items.Wardrobe {
+}
+abstract class Items.Abstactions.Weapon {
+- int powerScale
+- int durability
++ boolean use()
++ int getPowerScale()
+}
+
+
+abstract class Items.Abstactions.Item {
+- String name
++ String toString()
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class Places.Street {
+}
+class Entities.Guy {
+- SchoolClass schoolClass
+- int power
+- int hp
++ SchoolClass getSchoolClass()
++ int getPower()
++ void addPower(int)
++ int getHp()
++ void applyDamage(int)
+}
+
+
+class Places.School {
+}
+class Exceptions.MalishEnemyException {
++ String getMessage()
+}
+
+abstract class Actions.Abstractions.ActionHumans {
+# Human human1
+# Human human2
++ {abstract}boolean start()
+}
+
+
+class Actions.FightAction {
+- Weapon weaponGuy1
+- Weapon weaponGuy2
++ boolean start()
+}
+
+
+class Actions.PeaceAction {
++ boolean start()
+}
+
+enum DayOfWeek {
++  MONDAY
++  TUESDAY
++  WEDNESDAY
++  THURSDAY
++  FRIDAY
++  SATURDAY
++  SUNDAY
+- String title
++ String toString()
+}
+
+
+
+
+Places.Place <|-- Places.Room
+Exceptions.RuntimeException <|-- Exceptions.NullOpinionException
+Items.Abstactions.Weapon <|-- Items.Rock
+Items.Interfaces.Openable <|.. Items.Abstactions.ItemOpenable
+Items.Abstactions.Item <|-- Items.Abstactions.ItemOpenable
+Actions.Abstractions.ActionHumans <|-- Actions.TalkAction
+Items.Abstactions.ItemOpenable <|-- Items.Wardrobe
+Items.Interfaces.Usable <|.. Items.Abstactions.Weapon
+Items.Abstactions.Item <|-- Items.Abstactions.Weapon
+Places.Place <|-- Places.Street
+Item <-- Place
+Entities.Characteristics.Address <-- Entities.Human
+Entities.Characteristics.SchoolClass <-- Entities.Guy
+Entities.Human <|-- Entities.Guy
+Entities.Human <-- Actions.Abstractions.ActionHumans
+Entities.Human <-- Actions.OpenAction
+Items.Abstactions.ItemOpenable <-- Actions.OpenAction
+Items.Abstactions.Weapon <-- Actions.FightAction
+Places.Street <-- Entities.Characteristics.Address
+Places.School <-- Entities.Characteristics.SchoolClass
+Places.Place <|-- Places.School
+Exceptions.Exception <|-- Exceptions.MalishEnemyException
+Actions.Abstractions.ActionHumans <|-- Actions.FightAction
+Actions.Abstractions.ActionHumans <|-- Actions.PeaceAction
+
+@enduml

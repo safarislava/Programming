@@ -7,7 +7,7 @@ public enum DayOfWeek {
     SATURDAY ("Суббота"),
     SUNDAY ("Воскресенье");
 
-    private String title;
+    private final String title;
 
     DayOfWeek(String title) {
         this.title = title;

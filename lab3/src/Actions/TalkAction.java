@@ -1,34 +1,35 @@
 package Actions;
 
-import Actions.Abstractions.ActionHumans;
 import Entities.Human;
 import Exceptions.NullOpinionException;
 
-public class TalkAction extends ActionHumans {
+public class TalkAction {
+    private final Human human1;
+    private final Human human2;
     private String statement;
 
     public TalkAction(Human human1, Human human2) {
-        super(human1, human2);
+        this.human1 = human1;
+        this.human2 = human2;
     }
 
     public void setStatement(String statement){
         this.statement = statement;
     }
 
-    public void setOpinion(Object object) {
+    public void setOpinion(Object object) throws NullOpinionException {
         if (human1.getOpinion(object) == null) {
-            throw new NullOpinionException("Малыш ничего не думает о " + object);
+            throw new NullOpinionException(String.format("Малыш ничего не думает о %s", object));
         }
 
-        setStatement(object + " " + human1.getOpinion(object));
+        setStatement(String.format("%s %s", object, human1.getOpinion(object)));
     }
 
-    @Override
     public boolean start() {
-        System.out.println(human1+ " рассказывает " + human2 + ", что " + statement);
+        System.out.printf("%s рассказывает %s, что %s%n", human1, human2, statement);
 
         if (!human2.isTrust(human1)) {
-            System.out.println(human2 + " неповерил");
+            System.out.printf("%s не поверил%n", human2);
             return false; // disagree
         }
         return true;

@@ -3,7 +3,7 @@ package Items.Abstactions;
 import Items.Interfaces.Usable;
 
 public abstract class Weapon extends Item implements Usable {
-    private int powerScale;
+    private final int powerScale;
     private int durability;
 
     public Weapon(String name, int powerScale, int durability) {
@@ -15,7 +15,7 @@ public abstract class Weapon extends Item implements Usable {
     @Override
     public boolean use() {
         if (durability == 0) {
-            System.out.println(this + " сломано");
+            System.out.printf("%s сломано%n", this);
             return false;
         }
         durability--;

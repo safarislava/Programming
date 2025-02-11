@@ -1,28 +1,25 @@
 package Actions;
 
 import Entities.Human;
-import Items.Abstactions.ItemOpenable;
+import Items.Interfaces.Openable;
 
 public class OpenAction {
-    protected Human human;
-    protected ItemOpenable item;
+    protected final Human human;
+    protected final Openable item;
 
-    public OpenAction(Human human, ItemOpenable item) {
+    public OpenAction(Human human, Openable item) {
         this.human = human;
         this.item = item;
     }
 
     public boolean start() {
+        if (item == null){
+            return false;
+        }
+
         item.open();
 
-        System.out.print(human);
-        if (item.isOpen()){
-            System.out.print(" открыл ");
-        }
-        else {
-            System.out.print(" закрыл ");
-        }
-        System.out.println(item);
+        System.out.printf("%s %s %s%n", human, item.isOpen() ? "открыл" : "закрыл", item);
 
         return true;
     }

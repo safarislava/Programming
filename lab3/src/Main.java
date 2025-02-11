@@ -6,7 +6,9 @@ import Entities.Characteristics.Address;
 import Entities.Characteristics.SchoolClass;
 import Entities.Guy;
 import Entities.Human;
-import Exceptions.MalishEnemyException;
+import Exceptions.EnemyException;
+import Exceptions.NullOpinionException;
+import Items.Interfaces.Openable;
 import Items.Rock;
 import Items.Wardrobe;
 import Places.Room;
@@ -21,7 +23,7 @@ public class Main {
         Random random = new Random();
 
         Room room = new Room();
-        room.addItem(new Wardrobe());
+        room.addOpenable(new Wardrobe());
 
         School school17 = new School(17);
 
@@ -32,9 +34,12 @@ public class Main {
         Guy malish = new Guy("Малыш", mother.getAddress(), new SchoolClass(school17, 6, 'A'));
 
         Address gunillaAddress = new Address(lomonosovaStreet, random.nextInt(20), random.nextInt(1000));
-        Guy gunilla = new Guy("Гунилла", gunillaAddress, new SchoolClass(school17, 6, (char) (Math.random() * 4) + 'A'));
+        Guy gunilla = new Guy("Гунилла", gunillaAddress,
+                new SchoolClass(school17, 6, (char) (Math.random() * 4 + 'A')));
+
         Address cristerAddress = new Address(lomonosovaStreet, random.nextInt(20), random.nextInt(1000));
-        Guy crister = new Guy("Кристер", cristerAddress, new SchoolClass(school17, 6, (char) (Math.random() * 4) + 'A'));
+        Guy crister = new Guy("Кристер", cristerAddress,
+                new SchoolClass(school17, 6, (char) (Math.random() * 4 + 'A')));
 
         guys.add(malish);
         guys.add(crister);
@@ -53,9 +58,19 @@ public class Main {
         gunilla.setTrust(malish, (float) Math.random());
         crister.setTrust(gunilla, (float) Math.random());
 
+        malish.setTrust(crister, (float) Math.random());
+        crister.setTrust(malish, (float) Math.random());
+
         malish.enter(room);
-        ArrayList<Wardrobe> wardrobes = room.getItemsByType();
-        OpenAction openAction = new OpenAction(malish, wardrobes.get(0));
+
+        ArrayList<Openable> openables = room.getOpenables();
+        Openable wardrobe = null;
+        try {
+            wardrobe = openables.get(0);
+        }
+        catch (IndexOutOfBoundsException ignored) {}
+
+        OpenAction openAction = new OpenAction(malish, wardrobe);
         openAction.start();
 
         Rock rock = new Rock(random.nextInt(15), 1);
@@ -64,29 +79,37 @@ public class Main {
 
         System.out.println("-------START-------");
 
-        openAction.start();
+        if (!openAction.start()) {
+            System.out.printf("У %s галлюцинации, объекта не существует%n", malish);
+        }
+
         gunilla.enter(malish.getPlace());
         crister.enter(malish.getPlace());
 
         System.out.println();
 
         System.out.print("У Малыша и Гуниллы ");
-        malish.getAddress().equals(gunilla.getAddress());
+        malish.getAddress().printCoincidences(gunilla.getAddress());
         System.out.print("У Малыша и Кристера ");
-        malish.getAddress().equals(crister.getAddress());
+        malish.getAddress().printCoincidences(crister.getAddress());
 
         System.out.print("У Малыша и Гуниллы ");
-        malish.getSchoolClass().equals(gunilla.getSchoolClass());
+        malish.getSchoolClass().printCoincidences(gunilla.getSchoolClass());
         System.out.print("У Малыша и Кристера ");
-        malish.getSchoolClass().equals(crister.getSchoolClass());
+        malish.getSchoolClass().printCoincidences(crister.getSchoolClass());
 
         System.out.println();
 
         malish.addOpinion(gunilla, "ужасно хорошая");
 
         TalkAction talkAction = new TalkAction(malish, mother);
-        talkAction.setOpinion(gunilla);
-        talkAction.start();
+        try {
+            talkAction.setOpinion(gunilla);
+            talkAction.start();
+        }
+        catch (NullOpinionException e) {
+            System.out.println("Разговор не состоялся");
+        }
 
         malish.addOpinion(crister, "любит, давно уже простил ему шишку на лбу");
 
@@ -96,8 +119,9 @@ public class Main {
         PeaceAction peaceAction = new PeaceAction(malish, crister);
 
         for (int i = 0; i < 3; i++){
-            fightAction.start();
-            peaceAction.start();
+            if (fightAction.start()){
+                peaceAction.start();
+            }
         }
 
         System.out.println();
@@ -105,13 +129,15 @@ public class Main {
         for (Guy guy : guys){
             if (guy.getAddress().street().equals(malish.getAddress().street())) {
                 try {
-                    if (guy == malish) throw new MalishEnemyException("Малыш - не Тайлер Дёрден");
-                    if (guy == gunilla) throw new MalishEnemyException("Малыш никогда не бьёт Гуниллу");
+                    if (guy == gunilla) {
+                        System.out.println("Малыш никогда не бьёт Гуниллу");
+                        continue;
+                    }
 
                     fightAction = new FightAction(malish, guy);
                     fightAction.start();
                 }
-                catch (MalishEnemyException exception) {
+                catch (EnemyException exception) {
                     System.out.println(exception.getMessage());
                 }
             }
@@ -120,11 +146,11 @@ public class Main {
         System.out.println();
 
         if (dayOfWeek == DayOfWeek.SUNDAY || dayOfWeek == DayOfWeek.SATURDAY) {
-            System.out.println("Малыш, Гунилла и Кристер спокойно гуляли, проишествий не было, т.к. было " + dayOfWeek);
+            System.out.printf("Малыш, Гунилла и Кристер спокойно гуляли, происшествий не было, т.к. было %s%n", dayOfWeek);
             return;
         }
 
-        System.out.println("Малыш, Гунилла и Кристер шли со школы, т.к. было обычное " + dayOfWeek);
+        System.out.printf("Малыш, Гунилла и Кристер шли из школы, т.к. было обычное %s%n", dayOfWeek);
         talkAction = new TalkAction(malish, gunilla);
         talkAction.setStatement("Карлсон существует");
         if (!talkAction.start()) {

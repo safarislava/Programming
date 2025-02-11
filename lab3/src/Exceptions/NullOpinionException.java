@@ -1,14 +1,12 @@
 package Exceptions;
 
-public class NullOpinionException extends RuntimeException {
-    public NullOpinionException() {}
-
+public class NullOpinionException extends Exception {
     public NullOpinionException(String message) {
         super(message);
     }
 
     @Override
     public String getMessage() {
-        return "Exception: " + super.getMessage();
+        return String.format("Exception: %s", super.getMessage());
     }
 }

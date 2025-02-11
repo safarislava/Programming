@@ -1,7 +1,7 @@
-import Common.CsvManager;
-import Common.ConsoleManager;
-import Common.Program;
-import Data.Database;
+import common.CsvManager;
+import common.ConsoleManager;
+import common.Program;
+import data.Database;
 
 public class Main {
     public static void main(String[] args) {

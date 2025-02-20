@@ -77,6 +77,11 @@ public class Database implements OrganizationDAO {
         database.remove(id);
     }
 
+    /**
+     * Load or rewrite existed organizations into collection
+     *
+     * @param organizations Array of organizations
+     */
     public void load(Organization[] organizations) {
         for (Organization organization : organizations) {
             database.put(organization.getId(), organization);

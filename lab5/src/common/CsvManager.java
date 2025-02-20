@@ -22,7 +22,7 @@ public class CsvManager {
     /**
      * Save collection to csv file
      *
-     * @param organizations Array of organization
+     * @param organizations Array of organizations
      * @param fileName Value of file name
      */
     public void save(Organization[] organizations, String fileName) {
@@ -76,7 +76,7 @@ public class CsvManager {
      * Load from file collection.
      *
      * @param fileName Value of file name
-     * @return Array of associated elements of collection
+     * @return Array of organizations
      */
     public Organization[] load(String fileName) {
         try {

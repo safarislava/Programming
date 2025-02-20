@@ -33,6 +33,11 @@ public class Address {
         return zipCode;
     }
 
+    /**
+     * Setter of zip code
+     *
+     * @param zipCode Value of zip code
+     */
     public void setZipCode(String zipCode) {
         if (zipCode == null) throw new IllegalArgumentException();
         this.zipCode = zipCode;
@@ -47,6 +52,11 @@ public class Address {
         return town;
     }
 
+    /**
+     * Setter of town
+     *
+     * @param town Value of town
+     */
     public void setTown(Location town) {
         if (town == null) throw new IllegalArgumentException();
         this.town = town;

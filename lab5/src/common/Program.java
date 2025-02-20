@@ -42,7 +42,7 @@ public class Program {
                 commandController.execute(command, args);
             }
             catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.printf("Error: %s%n", e.getMessage());
             }
         }
     }

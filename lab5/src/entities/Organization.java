@@ -293,6 +293,11 @@ public class Organization implements Comparable<Organization> {
         setPostalAddress(organization.getPostalAddress());
     }
 
+    /**
+     * Validate field
+     *
+     * @return True if exist an error
+     */
     public boolean valid() {
         return id < 0 || name == null || name.isEmpty() || coordinates == null || creationDate == null
                 || annualTurnover == null || annualTurnover < 0

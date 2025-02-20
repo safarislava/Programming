@@ -9,6 +9,12 @@ import java.util.Scanner;
 public class ScriptManager implements Input {
     private final Scanner scanner;
 
+
+    /**
+     * Standard constructor
+     *
+     * @param fileName Value of file name
+     */
     public ScriptManager(String fileName) {
         File file = new File(fileName + ".sh");
         try {
@@ -18,6 +24,9 @@ public class ScriptManager implements Input {
         }
     }
 
+    /**
+     * @return Value of next line
+     */
     private String getLine() {
         return scanner.nextLine();
     }

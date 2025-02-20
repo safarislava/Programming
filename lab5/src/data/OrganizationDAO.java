@@ -20,12 +20,17 @@ public interface OrganizationDAO {
     int count();
 
     /**
-     * Get all keys from collection
-     * @return Array of keys
+     * Get all organizations
+     *
+     * @return Array of organizations
      */
-
     Organization[] getOrganizations();
 
+    /**
+     * Get all ids from collection
+     *
+     * @return Array of ids
+     */
     Integer[] getIds();
 
     /**

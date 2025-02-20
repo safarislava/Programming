@@ -34,6 +34,11 @@ public class Coordinates {
         return x;
     }
 
+    /**
+     * Setter of x
+     *
+     * @param x Value of x
+     */
     public void setX(double x) {
         this.x = x;
     }
@@ -47,6 +52,11 @@ public class Coordinates {
         return y;
     }
 
+    /**
+     * Setter of y
+     *
+     * @param y Value of y
+     */
     public void setY(Float y) {
         if (y == null) throw new IllegalArgumentException();
         this.y = y;

@@ -4,6 +4,9 @@ import common.Program;
 import common.ScriptManager;
 import data.OrganizationDAO;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Realisation of CommandBuilder.
  * Provide executing script.
@@ -14,6 +17,8 @@ import data.OrganizationDAO;
 public class ExecuteScriptCommand implements Command {
     private final String fileName;
     private final OrganizationDAO data;
+
+    private static final Set<String> calls = new HashSet<>();
 
     /**
      * Standard constructor.
@@ -28,9 +33,14 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public void execute() {
+        if (calls.contains(fileName)) throw new RuntimeException("Recursive call");
+
         ScriptManager scriptManager = new ScriptManager(fileName);
 
         Program program = new Program(data, scriptManager);
+        calls.add(fileName);
+
         program.start();
+        calls.remove(fileName);
     }
 }

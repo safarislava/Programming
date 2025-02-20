@@ -36,6 +36,11 @@ public class Location {
         return x;
     }
 
+    /**
+     * Setter of x
+     *
+     * @param x Value of x
+     */
     public void setX(double x) {
         this.x = x;
     }
@@ -49,6 +54,11 @@ public class Location {
         return y;
     }
 
+    /**
+     * Setter of y
+     *
+     * @param y Value of x
+     */
     public void setY(Long y) {
         if (y == null) throw new IllegalArgumentException();
         this.y = y;
@@ -63,6 +73,11 @@ public class Location {
         return z;
     }
 
+    /**
+     * Setter of z
+     *
+     * @param z Value of z
+     */
     public void setZ(float z) {
         this.z = z;
     }

@@ -4,6 +4,7 @@ import commands.CommandController;
 import data.OrganizationDAO;
 
 import java.util.Arrays;
+import java.util.Set;
 
 /**
  * Major class. Provides life cycle of program.
@@ -22,9 +23,9 @@ public class Program {
      *
      * @param data Value of data access object
      */
-    public Program(OrganizationDAO data, Input input) {
+    public Program(OrganizationDAO data, Input input, Set<String> scriptCalls) {
         this.input = input;
-        commandController = new CommandController(this, data, input);
+        commandController = new CommandController(this, data, input, scriptCalls);
     }
 
     /**

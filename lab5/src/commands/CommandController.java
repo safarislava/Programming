@@ -6,6 +6,7 @@ import common.Program;
 import data.OrganizationDAO;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Class that recognize command from string words.
@@ -24,7 +25,7 @@ public class CommandController {
      * @param data Value of data access object
      * @param input Value of class proving asking missing information
      */
-    public CommandController(Program program, OrganizationDAO data, Input input) {
+    public CommandController(Program program, OrganizationDAO data, Input input, Set<String> scriptCalls) {
         this.commandBuilders = new HashMap<>(){{
             put("info", new InfoCommandBuilder(data));
             put("show", new ShowCommandBuilder(data));
@@ -34,7 +35,7 @@ public class CommandController {
             put("exit", new ExitCommandBuilder(program));
             put("save", new SaveCommandBuilder(data));
             put("clear", new ClearCommandBuilder(data));
-            put("execute_script", new ExecuteScriptCommandBuilder(data));
+            put("execute_script", new ExecuteScriptCommandBuilder(data, scriptCalls));
             put("remove_greater", new RemoveGreaterCommandBuilder(input, data));
             put("remove_lower", new RemoveLowerCommandBuilder(input, data));
             put("remove_greater_id", new RemoveGreaterIdCommandBuilder(data));

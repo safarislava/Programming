@@ -2,8 +2,8 @@ package commands;
 
 import commands.builders.*;
 import common.Input;
-import common.Program;
-import data.OrganizationDAO;
+import common.Client;
+import collection.OrganizationDAO;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -21,29 +21,29 @@ public class CommandController {
     /**
      * Standard constructor
      *
-     * @param program Value of class providing lifecycle of program
+     * @param client Value of class providing lifecycle of program
      * @param data Value of data access object
      * @param input Value of class proving asking missing information
      */
-    public CommandController(Program program, OrganizationDAO data, Input input, Set<String> scriptCalls) {
+    public CommandController(Client client, OrganizationDAO data, Input input, Set<String> scriptCalls) {
         this.commandBuilders = new HashMap<>(){{
-            put("info", new InfoCommandBuilder(data));
-            put("show", new ShowCommandBuilder(data));
+            put("info", new InfoCommandBuilder(data, client));
+            put("show", new ShowCommandBuilder(data, client));
             put("insert", new InsertCommandBuilder(data, input));
             put("update", new UpdateCommandBuilder(data, input));
             put("remove_id", new RemoveCommandBuilder(data));
-            put("exit", new ExitCommandBuilder(program));
+            put("exit", new ExitCommandBuilder(client));
             put("save", new SaveCommandBuilder(data));
             put("clear", new ClearCommandBuilder(data));
             put("execute_script", new ExecuteScriptCommandBuilder(data, scriptCalls));
             put("remove_greater", new RemoveGreaterCommandBuilder(input, data));
             put("remove_lower", new RemoveLowerCommandBuilder(input, data));
             put("remove_greater_id", new RemoveGreaterIdCommandBuilder(data));
-            put("count_less_than_type", new CountLessTypeCommandBuilder(data));
-            put("filter_by_full_name", new FilterFullNameCommandBuilder(data));
-            put("filter_contains_name", new FilterContainsNameCommandBuilder(data));
+            put("count_less_than_type", new CountLessTypeCommandBuilder(data, client));
+            put("filter_by_full_name", new FilterFullNameCommandBuilder(data, client));
+            put("filter_contains_name", new FilterContainsNameCommandBuilder(data, client));
         }};
-        this.commandBuilders.put("help", new HelpCommandBuilder(this));
+        this.commandBuilders.put("help", new HelpCommandBuilder(this, client));
     }
 
     /**

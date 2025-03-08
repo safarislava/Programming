@@ -1,6 +1,6 @@
 package commands;
 
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 import entities.Organization;
 
 /**

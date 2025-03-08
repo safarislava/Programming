@@ -2,7 +2,7 @@ package commands.builders;
 
 import commands.Command;
 import commands.ExecuteScriptCommand;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 
 import java.util.Set;
 

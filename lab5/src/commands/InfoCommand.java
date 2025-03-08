@@ -1,6 +1,7 @@
 package commands;
 
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
+import common.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -11,18 +12,22 @@ import data.OrganizationDAO;
  */
 public class InfoCommand implements Command {
     private final OrganizationDAO data;
+    private final Client client;
 
     /**
      * Standard constructor.
      *
-     * @param data Value of data access object
+     * @param data    Value of data access object
+     * @param client Value of program
      */
-    public InfoCommand(OrganizationDAO data) {
+    public InfoCommand(OrganizationDAO data, Client client) {
         this.data = data;
+        this.client = client;
     }
 
     @Override
     public void execute() {
-        System.out.printf("%s %s%n", data.type(), data.count());
+        String text = String.format("%s %s%n", data.type(), data.count());
+        client.showText(text);
     }
 }

@@ -1,8 +1,11 @@
-package data;
+package server.collection;
 
-import entities.Organization;
+import general.collection.OrganizationData;
+import general.entities.Organization;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -11,13 +14,13 @@ import java.util.HashMap;
  * @since 1.0
  * @author safarislava
  */
-public class Database implements OrganizationDAO {
+public class CollectionManager implements OrganizationData {
     private final HashMap<Integer, Organization> database;
 
     /**
      * Standard constructor.
      */
-    public Database() {
+    public CollectionManager() {
         database = new HashMap<>();
     }
 
@@ -32,20 +35,20 @@ public class Database implements OrganizationDAO {
     }
 
     @Override
-    public Organization[] getOrganizations() {
-        Organization[] organizations = new Organization[database.size()];
-        Integer[] ids = getIds();
+    public List<Organization> getOrganizations() {
+        LinkedList<Organization> organizations = new LinkedList<>();
+        List<Integer> ids = getIds();
 
-        for (int i = 0; i < database.size(); i++) {
-            organizations[i] = getOrganization(ids[i]);
+        for (Integer id : ids) {
+            organizations.add(database.get(id));
         }
 
         return organizations;
     }
 
     @Override
-    public Integer[] getIds() {
-        return database.keySet().toArray(new Integer[0]);
+    public List<Integer> getIds() {
+        return new LinkedList<>(database.keySet());
     }
 
     @Override
@@ -78,7 +81,7 @@ public class Database implements OrganizationDAO {
     }
 
     /**
-     * Load or rewrite existed organizations into collection
+     * Load or rewrite existed organizations into general.collection
      *
      * @param organizations Array of organizations
      */

@@ -2,7 +2,7 @@ package commands.builders;
 
 import commands.Command;
 import commands.ExitCommand;
-import common.Program;
+import common.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -17,10 +17,10 @@ public class ExitCommandBuilder implements CommandBuilder {
     /**
      * Standard constructor.
      *
-     * @param program Value of lifecycle class
+     * @param client Value of lifecycle class
      */
-    public ExitCommandBuilder(Program program) {
-        exitCommand = new ExitCommand(program);
+    public ExitCommandBuilder(Client client) {
+        exitCommand = new ExitCommand(client);
     }
 
     @Override

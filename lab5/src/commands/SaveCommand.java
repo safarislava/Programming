@@ -1,7 +1,7 @@
 package commands;
 
 import common.CsvManager;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 import entities.Organization;
 
 /**

@@ -3,7 +3,7 @@ package commands.builders;
 import commands.Command;
 import commands.UpdateCommand;
 import common.Input;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 import entities.Organization;
 
 /**

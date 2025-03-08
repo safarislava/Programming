@@ -2,7 +2,8 @@ package commands.builders;
 
 import commands.Command;
 import commands.CountLessTypeCommand;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
+import common.Client;
 import entities.OrganizationType;
 
 /**
@@ -14,14 +15,17 @@ import entities.OrganizationType;
  */
 public class CountLessTypeCommandBuilder implements CommandBuilder {
     private final OrganizationDAO data;
+    public final Client client;
 
     /**
      * Standard constructor.
      *
-     * @param data Value of data access object
+     * @param data    Value of data access object
+     * @param client
      */
-    public CountLessTypeCommandBuilder(OrganizationDAO data) {
+    public CountLessTypeCommandBuilder(OrganizationDAO data, Client client) {
         this.data = data;
+        this.client = client;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class CountLessTypeCommandBuilder implements CommandBuilder {
         }
         if (type == null) throw new IllegalArgumentException("Invalid organization type");
 
-        return new CountLessTypeCommand(type, data);
+        return new CountLessTypeCommand(type, data, client);
     }
 
     @Override

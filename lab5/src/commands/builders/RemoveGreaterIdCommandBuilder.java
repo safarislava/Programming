@@ -2,7 +2,7 @@ package commands.builders;
 
 import commands.Command;
 import commands.RemoveGreaterIdCommand;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 
 /**
  * Realisation of CommandBuilder.

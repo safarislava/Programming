@@ -1,7 +1,7 @@
 package common;
 
 import commands.CommandController;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -13,7 +13,7 @@ import java.util.Set;
  * @since 1.0
  * @author safarislava
  */
-public class Program {
+public class Client {
     private boolean running = false;
     private final Input input;
     private final CommandController commandController;
@@ -23,7 +23,7 @@ public class Program {
      *
      * @param data Value of data access object
      */
-    public Program(OrganizationDAO data, Input input, Set<String> scriptCalls) {
+    public Client(OrganizationDAO data, Input input, Set<String> scriptCalls) {
         this.input = input;
         commandController = new CommandController(this, data, input, scriptCalls);
     }
@@ -53,5 +53,9 @@ public class Program {
      */
     public void stop() {
         running = false;
+    }
+
+    public void showText(String text) {
+        System.out.print(text);
     }
 }

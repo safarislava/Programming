@@ -2,20 +2,23 @@ package commands.builders;
 
 import commands.Command;
 import commands.FilterContainsNameCommand;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
+import common.Client;
 
 public class FilterContainsNameCommandBuilder implements CommandBuilder {
     private final OrganizationDAO data;
+    private final Client client;
 
-    public FilterContainsNameCommandBuilder(OrganizationDAO data) {
+    public FilterContainsNameCommandBuilder(OrganizationDAO data, Client client) {
         this.data = data;
+        this.client = client;
     }
 
     @Override
     public Command build(String[] args) {
         if (args.length != 1) throw new IllegalArgumentException("Invalid number of arguments");
 
-        return new FilterContainsNameCommand(args[0], data);
+        return new FilterContainsNameCommand(args[0], data, client);
     }
 
     @Override

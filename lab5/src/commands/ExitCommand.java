@@ -1,6 +1,6 @@
 package commands;
 
-import common.Program;
+import common.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -10,19 +10,19 @@ import common.Program;
  * @author safarislava
  */
 public class ExitCommand implements Command {
-    private final Program program;
+    private final Client client;
 
     /**
      * Standard constructor.
      *
-     * @param program Value of lifecycle class
+     * @param client Value of lifecycle class
      */
-    public ExitCommand(Program program) {
-        this.program = program;
+    public ExitCommand(Client client) {
+        this.client = client;
     }
 
     @Override
     public void execute() {
-        program.stop();
+        client.stop();
     }
 }

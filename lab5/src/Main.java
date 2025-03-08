@@ -1,19 +1,22 @@
 import common.CsvManager;
 import common.ConsoleManager;
-import common.Program;
-import data.Database;
+import common.Client;
+import collection.CollectionManager;
 
 import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
-        CsvManager conserve = new CsvManager();
+        CsvManager csvManager = new CsvManager();
         ConsoleManager console = new ConsoleManager();
 
-        Database database = new Database();
-        database.load(conserve.load(args[0]));
+        CollectionManager collectionManager = new CollectionManager();
 
-        Program program = new Program(database, console, new HashSet<>());
-        program.start();
+        if (args.length >= 1) {
+            collectionManager.load(csvManager.load(args[0]));
+        }
+
+        Client client = new Client(collectionManager, console, new HashSet<>());
+        client.start();
     }
 }

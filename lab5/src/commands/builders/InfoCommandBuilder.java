@@ -2,7 +2,8 @@ package commands.builders;
 
 import commands.Command;
 import commands.InfoCommand;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
+import common.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -17,10 +18,11 @@ public class InfoCommandBuilder implements CommandBuilder {
     /**
      * Standard constructor.
      *
-     * @param data Value of data access object
+     * @param data    Value of data access object
+     * @param client Value of program
      */
-    public InfoCommandBuilder(OrganizationDAO data) {
-        this.infoCommand = new InfoCommand(data);
+    public InfoCommandBuilder(OrganizationDAO data, Client client) {
+        this.infoCommand = new InfoCommand(data, client);
     }
 
     @Override

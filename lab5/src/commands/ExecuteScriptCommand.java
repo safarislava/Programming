@@ -1,8 +1,8 @@
 package commands;
 
-import common.Program;
+import common.Client;
 import common.ScriptManager;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 
 import java.util.Set;
 
@@ -37,9 +37,9 @@ public class ExecuteScriptCommand implements Command {
 
         ScriptManager scriptManager = new ScriptManager(fileName);
 
-        Program program = new Program(data, scriptManager, calls);
+        Client client = new Client(data, scriptManager, calls);
 
-        program.start();
+        client.start();
         calls.remove(fileName);
     }
 }

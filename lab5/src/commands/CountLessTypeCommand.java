@@ -1,6 +1,7 @@
 package commands;
 
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
+import common.Client;
 import entities.Organization;
 import entities.OrganizationType;
 
@@ -14,16 +15,19 @@ import entities.OrganizationType;
 public class CountLessTypeCommand implements Command {
     private final OrganizationDAO data;
     private final OrganizationType type;
+    private final Client client;
 
     /**
      * Standard constructor.
      *
-     * @param type Value of organization type
-     * @param data Value of data access object
+     * @param type    Value of organization type
+     * @param data    Value of data access object
+     * @param client
      */
-    public CountLessTypeCommand(OrganizationType type, OrganizationDAO data) {
+    public CountLessTypeCommand(OrganizationType type, OrganizationDAO data, Client client) {
         this.type = type;
         this.data = data;
+        this.client = client;
     }
 
     @Override
@@ -35,6 +39,6 @@ public class CountLessTypeCommand implements Command {
             if (organization.getType().compareTo(type) > 0) count++;
         }
 
-        System.out.println(count);
+        client.showText(String.valueOf(count));
     }
 }

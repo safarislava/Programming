@@ -2,7 +2,7 @@ package commands.builders;
 
 import commands.ClearCommand;
 import commands.Command;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
 
 /**
  * Realisation of CommandBuilder.

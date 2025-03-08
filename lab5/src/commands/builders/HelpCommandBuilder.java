@@ -3,6 +3,7 @@ package commands.builders;
 import commands.Command;
 import commands.CommandController;
 import commands.HelpCommand;
+import common.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -18,9 +19,10 @@ public class HelpCommandBuilder implements CommandBuilder {
      * Standard constructor.
      *
      * @param controller Value of recognizing command controller
+     * @param client
      */
-    public HelpCommandBuilder(CommandController controller) {
-        helpCommand = new HelpCommand(controller);
+    public HelpCommandBuilder(CommandController controller, Client client) {
+        helpCommand = new HelpCommand(controller, client);
     }
 
     @Override

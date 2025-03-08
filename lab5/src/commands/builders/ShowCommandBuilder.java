@@ -2,7 +2,8 @@ package commands.builders;
 
 import commands.Command;
 import commands.ShowCommand;
-import data.OrganizationDAO;
+import collection.OrganizationDAO;
+import common.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -17,10 +18,11 @@ public class ShowCommandBuilder implements CommandBuilder {
     /**
      * Standard constructor.
      *
-     * @param data Value of data access object
+     * @param data    Value of data access object
+     * @param client Value of program
      */
-    public ShowCommandBuilder(OrganizationDAO data) {
-        showCommand = new ShowCommand(data);
+    public ShowCommandBuilder(OrganizationDAO data, Client client) {
+        showCommand = new ShowCommand(data, client);
     }
 
     @Override

@@ -70,7 +70,6 @@ public class ConsoleManager implements Input {
             }
         }
 
-
         while (true) {
             try {
                 Coordinates coordinates = getCoordinates();

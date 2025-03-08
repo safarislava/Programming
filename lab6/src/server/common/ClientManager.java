@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 
 /**
@@ -20,6 +21,8 @@ public class ClientManager {
     private ServerSocket serverSocket;
     private Socket socket;
 
+    private final Logger logger = Logger.getLogger(ClientManager.class.getName());
+
     /**
      * Standard constructor.
      *
@@ -29,7 +32,7 @@ public class ClientManager {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: " + port);
+            logger.severe("Could not listen on port: " + port);
         }
     }
 
@@ -39,10 +42,9 @@ public class ClientManager {
     public void waitConnecting() {
         try {
             socket = serverSocket.accept();
-            socket.getSoTimeout();
         }
         catch (IOException e) {
-            System.err.println("Accept failed");
+            logger.warning("Accept failed");
         }
     }
 
@@ -60,7 +62,7 @@ public class ClientManager {
             return (CommandBuilder) deserializer.readObject();
         }
         catch (ClassNotFoundException e) {
-            System.err.println("Class not found");
+            logger.warning("Class not found");
         }
         return null;
     }

@@ -6,6 +6,7 @@ import server.common.ClientManager;
 import server.common.CommandManager;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * Major class. Provides life cycle of server side program.
@@ -18,6 +19,8 @@ public class Server {
 
     private ClientManager clientManager;
     private final CommandManager commandManager;
+
+    private final Logger logger = Logger.getLogger(Server.class.getName());
 
     /**
      * Standard constructor.
@@ -33,6 +36,7 @@ public class Server {
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        logger.info("Server started");
     }
 
     /**
@@ -41,19 +45,27 @@ public class Server {
     public void start() {
         running = true;
         while (running) {
+            logger.info("Waiting for connection...");
             clientManager.waitConnecting();
+            logger.info("New connection established");
 
             while (running) {
                 try {
+                    logger.info("Waiting for command...");
                     CommandBuilder commandBuilder = clientManager.receiveCommandBuilder();
+                    logger.info("New command established");
 
                     String response = commandManager.execute(commandBuilder);
 
+                    logger.info("Sending response: ...");
                     clientManager.sendResponse(response);
+                    logger.info(String.format("Sent response : %s", response.trim()));
                 }
                 catch (IOException e) {
+                    logger.info("Socket disconnected");
                     break;
                 }
+
             }
         }
     }

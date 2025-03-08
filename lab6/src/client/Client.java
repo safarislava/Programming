@@ -68,9 +68,6 @@ public class Client {
             catch (IOException e) {
                 serverManager.closeSocket();
             }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
         }
     }
 

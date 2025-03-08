@@ -2,6 +2,7 @@ package client.common;
 
 import client.Client;
 import general.commands.builders.*;
+import general.commands.builders.interfaces.CommandBuilder;
 
 import java.util.HashMap;
 

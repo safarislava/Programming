@@ -1,7 +1,7 @@
 package general.commands;
 
 import client.common.CommandController;
-import general.commands.builders.CommandBuilder;
+import general.commands.builders.interfaces.CommandBuilder;
 
 import java.util.HashMap;
 

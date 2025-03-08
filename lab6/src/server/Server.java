@@ -1,7 +1,7 @@
 package server;
 
 import general.collection.OrganizationData;
-import general.commands.builders.CommandBuilder;
+import general.commands.builders.interfaces.CommandBuilder;
 import server.common.ClientManager;
 import server.common.CommandManager;
 

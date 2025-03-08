@@ -1,6 +1,6 @@
 package server.common;
 
-import general.commands.builders.CommandBuilder;
+import general.commands.builders.interfaces.CommandBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;

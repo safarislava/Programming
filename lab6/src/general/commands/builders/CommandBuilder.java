@@ -14,11 +14,18 @@ import java.io.Serializable;
  */
 public interface CommandBuilder extends Serializable {
     /**
-     * @param args Value of arguments these need for command like key or id.
+     * Build the command
+     *
      * @return Built command
      */
     Command build();
 
+    /**
+     * Set arguments that contains in line with command or input after.
+     *
+     * @param args Array of strings
+     * @param input Value of input
+     */
     void setArguments(String[] args, Input input);
 
     /**

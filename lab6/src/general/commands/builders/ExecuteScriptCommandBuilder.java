@@ -5,8 +5,6 @@ import client.common.Input;
 import general.commands.Command;
 import general.commands.ExecuteScriptCommand;
 
-import java.util.Set;
-
 /**
  * Realisation of CommandBuilder.
  * Provide building execute script command.
@@ -21,7 +19,7 @@ public class ExecuteScriptCommandBuilder implements CommandBuilder {
     /**
      * Standard constructor.
      *
-     * @param data Value of data access object
+     * @param client Value of client
      */
     public ExecuteScriptCommandBuilder(Client client) {
         this.client = client;

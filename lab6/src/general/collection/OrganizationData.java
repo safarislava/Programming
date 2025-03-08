@@ -29,27 +29,27 @@ public interface OrganizationData {
     List<Organization> getOrganizations();
 
     /**
-     * Get all ids from general.collection
+     * Get all ids from collection
      *
-     * @return Array of ids
+     * @return List of ids
      */
     List<Integer> getIds();
 
     /**
      * @param id Value of id
-     * @return Organization by key from general.collection
+     * @return Organization by key from collection
      */
     Organization getOrganization(int id);
 
     /**
-     * Insert organization into general.collection by key.
+     * Insert organization into collection by key.
      *
      * @param organization Value of organization
      */
     void insert(Organization organization);
 
     /**
-     * Copy fields from param organization to one from general.collection by id.
+     * Copy fields from param organization to one from collection by id.
      *
      * @param id Value of id
      * @param organization Value of organization
@@ -57,7 +57,7 @@ public interface OrganizationData {
     void update(int id, Organization organization);
 
     /**
-     * Remove organization from general.collection by key.
+     * Remove organization from collection by key.
      *
      * @param id Value of key
      */

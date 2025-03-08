@@ -89,10 +89,6 @@ public class Organization implements Comparable<Organization>, Serializable {
         return ++countUniqueId;
     }
 
-    public void setUniqueId() {
-        setId(getUniqueId());
-    }
-
     /**
      * Method which counting max id
      *
@@ -101,7 +97,6 @@ public class Organization implements Comparable<Organization>, Serializable {
     private static void setMaxId(int id){
         countUniqueId = Math.max(countUniqueId, id);
     }
-
 
     /**
      * Getter of id

@@ -17,13 +17,6 @@ public class CountLessTypeCommandBuilder implements DataCommandBuilder {
     private OrganizationData data;
     private OrganizationType type;
 
-    /**
-     * Standard constructor.
-     *
-     * @param data    Value of data access object
-     * @param client
-     */
-
     @Override
     public Command build() {
         return new CountLessTypeCommand(type, data);

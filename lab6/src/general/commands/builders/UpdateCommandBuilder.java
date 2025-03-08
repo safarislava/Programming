@@ -18,13 +18,6 @@ public class UpdateCommandBuilder implements DataCommandBuilder {
     private int id;
     private Organization organization;
 
-    /**
-     * Standard constructor.
-     *
-     * @param data Value of data access object
-     * @param input Value of class asking missing info
-     */
-
     @Override
     public Command build() {
         return new UpdateCommand(data, id, organization);

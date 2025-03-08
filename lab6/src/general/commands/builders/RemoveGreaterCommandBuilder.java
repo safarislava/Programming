@@ -17,13 +17,6 @@ public class RemoveGreaterCommandBuilder implements DataCommandBuilder {
     private OrganizationData data;
     private Organization organization;
 
-    /**
-     * Standard constructor.
-     *
-     * @param input Value of input
-     * @param data Value of data access object
-     */
-
     @Override
     public Command build() {
         return new RemoveGreaterCommand(organization, data);

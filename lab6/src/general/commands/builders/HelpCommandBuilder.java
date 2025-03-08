@@ -4,7 +4,6 @@ import client.common.Input;
 import general.commands.Command;
 import client.common.CommandController;
 import general.commands.HelpCommand;
-import client.Client;
 
 /**
  * Realisation of CommandBuilder.
@@ -14,13 +13,12 @@ import client.Client;
  * @author safarislava
  */
 public class HelpCommandBuilder implements CommandBuilder {
-    private CommandController controller;
+    private final CommandController controller;
 
     /**
      * Standard constructor.
      *
      * @param controller Value of recognizing command controller
-     * @param client
      */
     public HelpCommandBuilder(CommandController controller) {
         this.controller = controller;

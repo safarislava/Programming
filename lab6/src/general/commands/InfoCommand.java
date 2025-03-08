@@ -15,8 +15,7 @@ public class InfoCommand implements Command {
     /**
      * Standard constructor.
      *
-     * @param data    Value of data access object
-     * @param client Value of program
+     * @param data Value of data access object
      */
     public InfoCommand(OrganizationData data) {
         this.data = data;

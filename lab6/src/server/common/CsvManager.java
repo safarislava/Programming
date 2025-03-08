@@ -16,7 +16,7 @@ import java.util.*;
  * @author safarislava
  */
 public class CsvManager {
-    private String fileName;
+    private final String fileName;
 
     public CsvManager(String fileName) {
         this.fileName = fileName;

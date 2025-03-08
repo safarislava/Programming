@@ -4,8 +4,6 @@ import client.Client;
 import client.common.Input;
 import client.common.ScriptManager;
 
-import java.util.Set;
-
 /**
  * Realisation of CommandBuilder.
  * Provide executing script.
@@ -21,7 +19,7 @@ public class ExecuteScriptCommand implements Command {
      * Standard constructor.
      *
      * @param fileName Value of file name
-     * @param data Value of data access object
+     * @param client Value of client
      */
     public ExecuteScriptCommand(String fileName, Client client) {
         this.fileName = fileName;

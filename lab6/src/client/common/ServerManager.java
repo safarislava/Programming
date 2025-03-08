@@ -1,6 +1,6 @@
 package client.common;
 
-import general.commands.builders.CommandBuilder;
+import general.commands.builders.interfaces.CommandBuilder;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -58,7 +58,7 @@ public class ServerManager {
 
     /**
      * Method to check status of connection.
-     * Maybe work uncorrectly, because socket doesn't return that information.
+     * Maybe work incorrectly, because socket doesn't return that information.
      *
      * @return True if connected
      */

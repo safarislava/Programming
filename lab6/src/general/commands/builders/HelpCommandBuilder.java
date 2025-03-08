@@ -4,6 +4,7 @@ import client.common.Input;
 import general.commands.Command;
 import client.common.CommandController;
 import general.commands.HelpCommand;
+import general.commands.builders.interfaces.CommandBuilder;
 
 /**
  * Realisation of CommandBuilder.
@@ -36,6 +37,6 @@ public class HelpCommandBuilder implements CommandBuilder {
 
     @Override
     public String description() {
-        return "Print all general.commands";
+        return "Print all commands";
     }
 }

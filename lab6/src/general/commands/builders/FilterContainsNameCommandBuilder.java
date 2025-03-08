@@ -4,6 +4,7 @@ import client.common.Input;
 import general.commands.Command;
 import general.commands.FilterContainsNameCommand;
 import general.collection.OrganizationData;
+import general.commands.builders.interfaces.DataCommandBuilder;
 
 public class FilterContainsNameCommandBuilder implements DataCommandBuilder {
     private OrganizationData data;

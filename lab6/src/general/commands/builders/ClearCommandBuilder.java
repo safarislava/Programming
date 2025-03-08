@@ -4,6 +4,7 @@ import client.common.Input;
 import general.commands.ClearCommand;
 import general.commands.Command;
 import general.collection.OrganizationData;
+import general.commands.builders.interfaces.DataCommandBuilder;
 
 /**
  * Realisation of CommandBuilder.

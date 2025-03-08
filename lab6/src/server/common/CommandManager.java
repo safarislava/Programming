@@ -2,9 +2,9 @@ package server.common;
 
 import general.collection.OrganizationData;
 import general.commands.Command;
-import general.commands.builders.CommandBuilder;
-import general.commands.builders.DataCommandBuilder;
-import general.commands.builders.IdSetterCommandBuilder;
+import general.commands.builders.interfaces.CommandBuilder;
+import general.commands.builders.interfaces.DataCommandBuilder;
+import general.commands.builders.interfaces.IdSetterCommandBuilder;
 import general.entities.Organization;
 
 /**

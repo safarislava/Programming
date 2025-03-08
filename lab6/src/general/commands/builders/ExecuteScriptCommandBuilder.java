@@ -4,6 +4,7 @@ import client.Client;
 import client.common.Input;
 import general.commands.Command;
 import general.commands.ExecuteScriptCommand;
+import general.commands.builders.interfaces.CommandBuilder;
 
 /**
  * Realisation of CommandBuilder.
@@ -39,6 +40,6 @@ public class ExecuteScriptCommandBuilder implements CommandBuilder {
 
     @Override
     public String description() {
-        return "Executes a script";
+        return "Execute a script";
     }
 }

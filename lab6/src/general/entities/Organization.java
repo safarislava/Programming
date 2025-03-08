@@ -35,7 +35,7 @@ public class Organization implements Comparable<Organization>, Serializable {
     public Organization() {}
 
     /**
-     * Constructor. Set all field. Id and creationDate set automatic.
+     * Constructor. Set all field. ID and creationDate set automatic.
      *
      * @param name Value of name field
      * @param coordinates Value of coordinates field

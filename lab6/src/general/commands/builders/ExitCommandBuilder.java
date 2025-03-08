@@ -4,6 +4,7 @@ import client.common.Input;
 import general.commands.Command;
 import general.commands.ExitCommand;
 import client.Client;
+import general.commands.builders.interfaces.CommandBuilder;
 
 /**
  * Realisation of CommandBuilder.
@@ -36,6 +37,6 @@ public class ExitCommandBuilder implements CommandBuilder {
 
     @Override
     public String description(){
-        return "Exits the program";
+        return "Exit the program";
     }
 }

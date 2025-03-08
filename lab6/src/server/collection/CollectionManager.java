@@ -81,7 +81,7 @@ public class CollectionManager implements OrganizationData {
     }
 
     /**
-     * Load or rewrite existed organizations into general.collection
+     * Load or rewrite existed organizations into collection
      *
      * @param organizations Array of organizations
      */

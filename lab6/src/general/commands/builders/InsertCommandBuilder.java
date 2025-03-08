@@ -4,6 +4,8 @@ import general.commands.Command;
 import general.commands.InsertCommand;
 import client.common.Input;
 import general.collection.OrganizationData;
+import general.commands.builders.interfaces.DataCommandBuilder;
+import general.commands.builders.interfaces.IdSetterCommandBuilder;
 import general.entities.Organization;
 
 /**

@@ -4,6 +4,7 @@ import general.commands.Command;
 import general.commands.RemoveGreaterCommand;
 import client.common.Input;
 import general.collection.OrganizationData;
+import general.commands.builders.interfaces.DataCommandBuilder;
 import general.entities.Organization;
 
 /**

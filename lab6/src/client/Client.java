@@ -4,7 +4,8 @@ import client.common.CommandController;
 import client.common.Input;
 import client.common.ServerManager;
 import general.commands.Command;
-import general.commands.builders.CommandBuilder;
+import general.commands.builders.interfaces.CommandBuilder;
+import general.commands.builders.interfaces.ServerNeededCommandBuilder;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -52,18 +53,17 @@ public class Client {
                 String[] args = Arrays.copyOfRange(commandArray, 1, commandArray.length);
 
                 CommandBuilder commandBuilder = commandController.prebuild(commandName, args);
-                String response = "";
-                try {
-                    Command command = commandBuilder.build();
-                    response = command.execute();
-                }
-                catch (NullPointerException e) {
+
+                String response;
+                if (commandBuilder instanceof ServerNeededCommandBuilder) {
                     serverManager.sendCommandBuilder(commandBuilder);
                     response = serverManager.receiveResponse();
                 }
-                finally {
-                    showText(response);
+                else {
+                    Command command = commandBuilder.build();
+                    response = command.execute();
                 }
+                showText(response);
             }
             catch (IOException e) {
                 serverManager.closeSocket();

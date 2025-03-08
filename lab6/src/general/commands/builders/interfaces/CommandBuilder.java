@@ -1,4 +1,4 @@
-package general.commands.builders;
+package general.commands.builders.interfaces;
 
 import client.common.Input;
 import general.commands.Command;

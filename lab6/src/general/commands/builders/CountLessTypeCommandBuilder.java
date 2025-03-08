@@ -4,6 +4,7 @@ import general.commands.Command;
 import general.commands.CountLessTypeCommand;
 import general.collection.OrganizationData;
 import client.common.Input;
+import general.commands.builders.interfaces.DataCommandBuilder;
 import general.entities.OrganizationType;
 
 /**

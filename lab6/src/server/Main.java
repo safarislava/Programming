@@ -24,8 +24,8 @@ public class Main {
         logger.info("Load collection from file");
         collectionManager.load(csvManager.load());
 
-        Server server = new Server(8012, collectionManager);
         logger.info("Starting server");
+        Server server = new Server(8012, collectionManager);
         server.start();
 
         logger.info("Save collection to file");

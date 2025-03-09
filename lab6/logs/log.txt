@@ -1,16 +1,12 @@
-[2025-03-08 09:39:51 PM] server.Main INFO:  Load collection from file 
-[2025-03-08 09:39:51 PM] server.Server INFO:  Server started 
-[2025-03-08 09:39:51 PM] server.Main INFO:  Starting server 
-[2025-03-08 09:39:51 PM] server.Server INFO:  Waiting for connection... 
-[2025-03-08 09:39:57 PM] server.Server INFO:  New connection established 
-[2025-03-08 09:39:57 PM] server.Server INFO:  Waiting for command... 
-[2025-03-08 09:39:58 PM] server.Server INFO:  New command established 
-[2025-03-08 09:39:58 PM] server.Server INFO:  Sending response: ... 
-[2025-03-08 09:39:58 PM] server.Server INFO:  Sent response : HashMap 10 
-[2025-03-08 09:39:58 PM] server.Server INFO:  Waiting for command... 
-[2025-03-08 09:40:04 PM] server.Server INFO:  New command established 
-[2025-03-08 09:40:04 PM] server.Server INFO:  Sending response: ... 
-[2025-03-08 09:40:04 PM] server.Server INFO:  Sent response : Id=1;	 Name=name;	 Coordinates=(2,00;2,00);	 Time=2025-02-09T10:37:06.575815+03:00[Europe/Moscow];	 Annual turnover=1;	 Full name - 1,	 Employees count=1;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=3.0;Town=(4,00;4;4,00))
+[2025-03-09 09:16:57 AM] server.Main INFO:  Load collection from file 
+[2025-03-09 09:16:57 AM] server.Main INFO:  Starting server 
+[2025-03-09 09:16:57 AM] server.Server INFO:  Server started 
+[2025-03-09 09:16:57 AM] server.Server INFO:  Waiting for connection... 
+[2025-03-09 09:16:57 AM] server.Server INFO:  New connection established 
+[2025-03-09 09:16:57 AM] server.Server INFO:  Waiting for command... 
+[2025-03-09 09:17:10 AM] server.Server INFO:  New command established 
+[2025-03-09 09:17:10 AM] server.Server INFO:  Sending response: ... 
+[2025-03-09 09:17:10 AM] server.Server INFO:  Sent response : Id=1;	 Name=name;	 Coordinates=(2,00;2,00);	 Time=2025-02-09T10:37:06.575815+03:00[Europe/Moscow];	 Annual turnover=1;	 Full name - 1,	 Employees count=1;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=3.0;Town=(4,00;4;4,00))
 Id=2;	 Name=name1;	 Coordinates=(3,00;3,00);	 Time=2025-02-09T11:31:23.884234+03:00[Europe/Moscow];	 Annual turnover=2;	 Full name - 2,	 Employees count=2;	 Type=TRUST;	 PostalAddress=(Zip code=3.0;Town=(3,00;3;3,00))
 Id=3;	 Name=name2;	 Coordinates=(5,00;5,00);	 Time=2025-02-09T11:32:03.678671+03:00[Europe/Moscow];	 Annual turnover=1;	 Full name - 1,	 Employees count=1;	 Type=TRUST;	 PostalAddress=(Zip code=5.0;Town=(56,00;56;52,00))
 Id=4;	 Name=namw;	 Coordinates=(2,00;2,00);	 Time=2025-02-09T11:40:16.473613+03:00[Europe/Moscow];	 Annual turnover=1;	 Full name - 1,	 Employees count=1;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=2.0;Town=(3,00;33;3,00))
@@ -19,5 +15,6 @@ Id=6;	 Name=9;	 Coordinates=(99,00;100,00);	 Time=2025-02-09T17:35:19.231848+03:
 Id=7;	 Name=NAME;	 Coordinates=(9,00;9,00);	 Time=2025-02-09T18:55:51.583637+03:00[Europe/Moscow];	 Annual turnover=100;	 Full name - GG,	 Employees count=100;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=666;Town=(5,00;5;5,00))
 Id=8;	 Name=1;	 Coordinates=(7,00;7,00);	 Time=2025-02-09T19:02:34.611841+03:00[Europe/Moscow];	 Annual turnover=2;	 Full name - 3,	 Employees count=4;	 Type=TRUST;	 PostalAddress=(Zip code=g;Town=(444,00;555;666,00))
 Id=9;	 Name=1;	 Coordinates=(2,00;2,00);	 Time=2025-02-10T00:18:31.848946+03:00[Europe/Moscow];	 Annual turnover=1;	 Full name - 1,	 Employees count=1;	 Type=TRUST;	 PostalAddress=(Zip code=7z;Town=(6,00;6;6,00))
-Id=10;	 Name=GG\;	 Coordinates=(34,00;23,00);	 Time=2025-02-11T21:33:54.677543+03:00[Europe/Moscow];	 Annual turnover=9;	 Full name - Last,	 Employees count=890;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=7zip;Town=(1,00;1;1,00)) 
-[2025-03-08 09:40:04 PM] server.Server INFO:  Waiting for command... 
+Id=10;	 Name=GG\;	 Coordinates=(34,00;23,00);	 Time=2025-02-11T21:33:54.677543+03:00[Europe/Moscow];	 Annual turnover=9;	 Full name - Last,	 Employees count=890;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=7zip;Town=(1,00;1;1,00))
+Id=11;	 Name=Walter;	 Coordinates=(9,40;1,10);	 Time=2025-03-09T09:10:25.982378+03:00[Europe/Moscow];	 Annual turnover=54;	 Full name - White,	 Employees count=2;	 Type=COMMERCIAL;	 PostalAddress=(Zip code=unzip;Town=(33,00;56;21,00)) 
+[2025-03-09 09:17:10 AM] server.Main INFO:  Save collection to file 

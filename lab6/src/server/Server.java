@@ -6,6 +6,7 @@ import server.common.ClientManager;
 import server.common.CommandManager;
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 /**
@@ -66,6 +67,7 @@ public class Server {
                     break;
                 }
 
+                tryStop();
             }
         }
     }
@@ -73,7 +75,16 @@ public class Server {
     /**
      * Stop lifecycle.
      */
-    public void stop() {
-        running = false;
+    public void tryStop() {
+        try{
+            if (System.in.available() > 0) {
+                Scanner sc = new Scanner(System.in);
+                if (sc.next().equals("exit")) {
+                    running = false;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

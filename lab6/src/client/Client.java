@@ -10,6 +10,7 @@ import general.commands.builders.interfaces.ServerNeededCommandBuilder;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -67,6 +68,9 @@ public class Client {
             }
             catch (IOException e) {
                 serverManager.closeSocket();
+            }
+            catch (NoSuchElementException e){
+                stop();
             }
         }
     }

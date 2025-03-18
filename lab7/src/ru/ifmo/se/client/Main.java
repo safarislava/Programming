@@ -1,0 +1,13 @@
+package ru.ifmo.se.client;
+
+import ru.ifmo.se.client.input.ConsoleManager;
+
+public class Main {
+    public static void main(String[] args) {
+        ConsoleManager console = new ConsoleManager();
+
+        Client client = new Client("127.0.0.1", 8012, console); // "185.239.141.48"
+
+        client.start();
+    }
+}

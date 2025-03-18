@@ -1,6 +1,7 @@
-package client.common;
+package ru.ifmo.se.client.connection;
 
-import general.commands.builders.interfaces.CommandBuilder;
+import ru.ifmo.se.general.contracts.Request;
+import ru.ifmo.se.general.contracts.Response;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -73,11 +74,11 @@ public class ServerManager {
      * @param builder Value of builder
      * @throws IOException Exception if socket problems.
      */
-    public void sendCommandBuilder(CommandBuilder builder) throws IOException {
+    public void sendRequest(Request request) throws IOException {
         OutputStream out = socketChannel.socket().getOutputStream();
         ObjectOutputStream serializer = new ObjectOutputStream(out);
 
-        serializer.writeObject(builder);
+        serializer.writeObject(request);
     }
 
     /**
@@ -87,19 +88,27 @@ public class ServerManager {
      * @return String of response.
      * @throws IOException Exception if socket problems.
      */
-    public String receiveResponse() throws IOException {
-        StringBuilder response = new StringBuilder();
+    public Response receiveResponse() throws IOException {
+        StringBuilder content = new StringBuilder();
 
-        do {
+        buffer.clear();
+        socketChannel.read(buffer);
+        buffer.flip();
+
+        int countBytes = buffer.getInt();
+        countBytes -= buffer.remaining();
+        content.append(StandardCharsets.UTF_8.decode(buffer));
+
+        while (countBytes > 0) {
             buffer.clear();
             socketChannel.read(buffer);
             buffer.flip();
 
-            response.append(StandardCharsets.UTF_8.decode(buffer));
+            countBytes -= buffer.remaining();
+            content.append(StandardCharsets.UTF_8.decode(buffer));
         }
-        while (buffer.position() == BUFFER_SIZE);
 
-        return response.toString();
+        return new Response(content.toString());
     }
 
     /**

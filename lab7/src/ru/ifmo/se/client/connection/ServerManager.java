@@ -71,7 +71,7 @@ public class ServerManager {
      * Method to send object implemented of CommandBuilder.
      * Can throw an exception.
      *
-     * @param builder Value of builder
+     * @param request Value of request
      * @throws IOException Exception if socket problems.
      */
     public void sendRequest(Request request) throws IOException {

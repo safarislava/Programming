@@ -77,8 +77,8 @@ public class ClientManager {
      * @throws IOException Exception if something wrong with socket
      */
     public void sendResponse(Response response) throws IOException {
-        ByteBuffer sendingBytes = ByteBuffer.allocate(4+response.countByte)
-                .putInt(response.countByte).put(response.content.getBytes());
+        ByteBuffer sendingBytes = ByteBuffer.allocate(4+response.getSize())
+                .putInt(response.getSize()).put(response.getContent().getBytes());
 
         socket.getOutputStream().write(sendingBytes.array());
     }

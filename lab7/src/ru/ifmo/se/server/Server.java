@@ -30,7 +30,8 @@ public class Server {
      * Standard constructor.
      *
      * @param port Value of port
-     * @param data Value of data access object
+     * @param organizationData Value of organizationData access object.
+     * @param userData Value of userData
      */
     public Server(int port, OrganizationData organizationData, UserData userData) {
         AuthOrganizationManager authOrganizationManager = new AuthOrganizationManager(organizationData, userData);
@@ -61,11 +62,11 @@ public class Server {
                     Request request = clientManager.receiveRequest();
                     logger.info("New command established");
 
-                    Response response = new Response(commandManager.execute(request));
+                    Response response = commandManager.execute(request);
 
                     logger.info("Sending response: ...");
                     clientManager.sendResponse(response);
-                    logger.info(String.format("Sent response : %s", response.content.trim()));
+                    logger.info(String.format("Sent response : %s", response.getContent()));
                 }
                 catch (IOException e) {
                     logger.info("Socket disconnected");

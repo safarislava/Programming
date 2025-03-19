@@ -237,22 +237,6 @@ public class Organization implements Comparable<Organization>, Serializable {
     }
 
     /**
-     * Copy all field from param organization without id and creationDate
-     *
-     * @param organization Organization from which coping fields
-     */
-    public void copy(Organization organization) {
-        setName(organization.getName());
-        setCoordinates(organization.getCoordinates());
-        setCreationDate(organization.getCreationDate());
-        setAnnualTurnover(organization.getAnnualTurnover());
-        setFullName(organization.getFullName());
-        setEmployeesCount(organization.getEmployeesCount());
-        setType(organization.getType());
-        setPostalAddress(organization.getPostalAddress());
-    }
-
-    /**
      * Validate field
      *
      * @return True if exist an error

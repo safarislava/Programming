@@ -45,7 +45,7 @@ public interface OrganizationData {
      * Insert organization into collection by key.
      *
      * @param organization Value of organization
-     * @param creator
+     * @param creator Username of creator
      */
     String insert(Organization organization, String creator);
 

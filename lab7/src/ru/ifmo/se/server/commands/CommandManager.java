@@ -6,6 +6,7 @@ import ru.ifmo.se.general.commands.Command;
 import ru.ifmo.se.general.commands.builders.interfaces.CommandBuilder;
 import ru.ifmo.se.general.commands.builders.interfaces.OrganizationDataCommandBuilder;
 import ru.ifmo.se.general.commands.builders.interfaces.CreatorSetterCommandBuilder;
+import ru.ifmo.se.general.contracts.Response;
 import ru.ifmo.se.general.interfaces.AuthOrganizationData;
 import ru.ifmo.se.general.interfaces.UserData;
 
@@ -22,7 +23,8 @@ public class CommandManager {
     /**
      * Standard constructor.
      *
-     * @param data Value of data access object.
+     * @param authOrganizationData Value of authOrganizationData access object.
+     * @param userData Value of userData
      */
     public CommandManager(AuthOrganizationData authOrganizationData, UserData userData) {
         this.authOrganizationData = authOrganizationData;
@@ -33,7 +35,7 @@ public class CommandManager {
      * Set different needing arguments for CommandBuilder.
      * Support DataCommandBuilder and IdSetterCommandBuilder.
      *
-     * @param builder Value of builder
+     * @param request Value of request
      */
     private void setArguments(Request request) {
         CommandBuilder builder = request.commandBuilder;
@@ -52,16 +54,18 @@ public class CommandManager {
     /**
      * Build and execute command.
      *
-     * @param builder Value of builder.
+     * @param request Value of request.
      * @return String of response.
      */
-    public String execute(Request request) {
+    public Response execute(Request request) {
         authOrganizationData.setUsername(request.username);
-        if (!authOrganizationData.checkPassword(request.password)) return "Incorrect login or password\n";
+        if (!authOrganizationData.checkPassword(request.password))
+            return new Response("Incorrect login or password\n");
 
         setArguments(request);
         Command command = request.commandBuilder.build();
+        String result = command.execute();
 
-        return command.execute();
+        return new Response(result);
     }
 }

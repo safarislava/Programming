@@ -61,13 +61,13 @@ public class Client {
                 CommandBuilder commandBuilder = commandManager.prebuild(commandName, args);
 
                 Request request = new Request(username, password, commandBuilder);
+
                 Response response;
                 if (commandBuilder instanceof ServerNeededCommandBuilder) {
                     if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
                         showText("You didn't login\n");
                         continue;
                     }
-
                     serverManager.sendRequest(request);
                     response = serverManager.receiveResponse();
                 }
@@ -75,7 +75,7 @@ public class Client {
                     Command command = commandBuilder.build();
                     response = new Response(command.execute());
                 }
-                showText(response.content);
+                showText(response.getContent());
             }
             catch (IOException e) {
                 serverManager.closeSocket();

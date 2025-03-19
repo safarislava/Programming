@@ -1,7 +1,7 @@
 package ru.ifmo.se.server.collection;
 
-import ru.ifmo.se.general.interfaces.OrganizationData;
-import ru.ifmo.se.general.entities.Organization;
+import ru.ifmo.se.general.data.OrganizationData;
+import ru.ifmo.se.general.entity.Organization;
 
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -1,9 +1,9 @@
 package ru.ifmo.se.server.collection;
 
-import ru.ifmo.se.general.entities.Organization;
-import ru.ifmo.se.general.interfaces.OrganizationData;
-import ru.ifmo.se.general.interfaces.AuthOrganizationData;
-import ru.ifmo.se.general.interfaces.UserData;
+import ru.ifmo.se.general.entity.Organization;
+import ru.ifmo.se.general.data.OrganizationData;
+import ru.ifmo.se.general.data.AuthOrganizationData;
+import ru.ifmo.se.general.data.UserData;
 
 import java.util.List;
 

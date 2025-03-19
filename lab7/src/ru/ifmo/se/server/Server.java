@@ -1,12 +1,12 @@
 package ru.ifmo.se.server;
 
-import ru.ifmo.se.general.contracts.Request;
-import ru.ifmo.se.general.contracts.Response;
-import ru.ifmo.se.general.interfaces.OrganizationData;
-import ru.ifmo.se.general.interfaces.UserData;
+import ru.ifmo.se.general.contract.Request;
+import ru.ifmo.se.general.contract.Response;
+import ru.ifmo.se.general.data.OrganizationData;
+import ru.ifmo.se.general.data.UserData;
 import ru.ifmo.se.server.collection.AuthOrganizationManager;
 import ru.ifmo.se.server.connection.ClientManager;
-import ru.ifmo.se.server.commands.CommandManager;
+import ru.ifmo.se.server.command.CommandManager;
 
 import java.io.IOException;
 import java.util.Scanner;

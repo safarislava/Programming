@@ -1,0 +1,33 @@
+package ru.ifmo.se.general.command.builder;
+
+import ru.ifmo.se.general.Parser;
+import ru.ifmo.se.general.command.Command;
+import ru.ifmo.se.general.command.FilterFullNameCommand;
+import ru.ifmo.se.general.data.OrganizationData;
+import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+
+public class FilterFullNameCommandBuilder implements OrganizationDataCommandBuilder {
+    private OrganizationData data;
+    private String fullName;
+
+    @Override
+    public Command build() {
+        return new FilterFullNameCommand(fullName, data);
+    }
+
+    @Override
+    public void setArguments(String[] args, Parser parser) {
+        if (args.length != 1) throw new IllegalArgumentException("Invalid number of arguments");
+        fullName = args[0];
+    }
+
+    @Override
+    public String description() {
+        return "Print organizations which contains string in name";
+    }
+
+    @Override
+    public void setOrganizationData(OrganizationData data) {
+        this.data = data;
+    }
+}

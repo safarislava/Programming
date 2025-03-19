@@ -1,7 +1,7 @@
 package ru.ifmo.se.client.connection;
 
-import ru.ifmo.se.general.contracts.Request;
-import ru.ifmo.se.general.contracts.Response;
+import ru.ifmo.se.general.contract.Request;
+import ru.ifmo.se.general.contract.Response;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

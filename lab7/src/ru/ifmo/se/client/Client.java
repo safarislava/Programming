@@ -1,13 +1,13 @@
 package ru.ifmo.se.client;
 
-import ru.ifmo.se.client.commands.CommandManager;
-import ru.ifmo.se.general.contracts.Request;
-import ru.ifmo.se.general.contracts.Response;
-import ru.ifmo.se.general.interfaces.Input;
+import ru.ifmo.se.client.command.CommandManager;
+import ru.ifmo.se.general.contract.Request;
+import ru.ifmo.se.general.contract.Response;
+import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.client.connection.ServerManager;
-import ru.ifmo.se.general.commands.Command;
-import ru.ifmo.se.general.commands.builders.interfaces.CommandBuilder;
-import ru.ifmo.se.general.commands.builders.interfaces.ServerNeededCommandBuilder;
+import ru.ifmo.se.general.command.Command;
+import ru.ifmo.se.general.command.builder.type.CommandBuilder;
+import ru.ifmo.se.general.command.builder.type.ServerNeededCommandBuilder;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class Client {
     private boolean running = false;
-    private Input input;
+    private Parser parser;
     private final CommandManager commandManager;
     private final ServerManager serverManager;
     private final Set<String> scriptCalls = new HashSet<>();
@@ -36,8 +36,8 @@ public class Client {
      * Standard constructor.
      *
      */
-    public Client(String host, int port, Input input) {
-        this.input = input;
+    public Client(String host, int port, Parser parser) {
+        this.parser = parser;
         commandManager = new CommandManager(this);
         serverManager = new ServerManager(host, port);
     }
@@ -48,13 +48,13 @@ public class Client {
     public void start() {
         running = true;
 
-        while (running && input.hasNext()) {
+        while (running && parser.hasNext()) {
             while (!serverManager.isConnected()) {
                 serverManager.tryConnectServer();
             }
 
             try {
-                String[] commandArray = input.getCommandArray();
+                String[] commandArray = parser.getCommandArray();
                 String commandName = commandArray[0];
                 String[] args = Arrays.copyOfRange(commandArray, 1, commandArray.length);
 
@@ -102,17 +102,17 @@ public class Client {
      *
      * @return Value of input
      */
-    public Input getInput() {
-        return input;
+    public Parser getInput() {
+        return parser;
     }
 
     /**
      * Setter of input field.
      *
-     * @param input Value of input
+     * @param parser Value of input
      */
-    public void setInput(Input input) {
-        this.input = input;
+    public void setInput(Parser parser) {
+        this.parser = parser;
     }
 
     /**

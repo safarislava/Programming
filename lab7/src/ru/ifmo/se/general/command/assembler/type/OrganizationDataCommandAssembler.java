@@ -1,14 +1,14 @@
-package ru.ifmo.se.general.command.builder.type;
+package ru.ifmo.se.general.command.assembler.type;
 
 import ru.ifmo.se.general.data.OrganizationData;
 
 /**
- * Interface of command builder.
+ * Interface of command assembler.
  * Allow to set data access object.
  *
  * @since 1.0
  * @author safarislava
  */
-public interface OrganizationDataCommandBuilder extends ServerNeededCommandBuilder {
+public interface OrganizationDataCommandAssembler extends ServerNeededCommandAssembler {
     void setOrganizationData(OrganizationData data);
 }

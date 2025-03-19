@@ -1,24 +1,24 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.RemoveCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building remove command.
+ * Realisation of CommandAssembler.
+ * Provide assembling remove command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class RemoveCommandBuilder implements OrganizationDataCommandBuilder {
+public class RemoveCommandAssembler implements OrganizationDataCommandAssembler {
     private OrganizationData data;
     private int id;
 
     @Override
-    public Command build() {
+    public Command assemble() {
 
         return new RemoveCommand(data, id);
     }

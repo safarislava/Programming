@@ -6,8 +6,8 @@ import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.client.connection.ServerManager;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
-import ru.ifmo.se.general.command.builder.type.ServerNeededCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.ServerNeededCommandAssembler;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -58,12 +58,12 @@ public class Client {
                 String commandName = commandArray[0];
                 String[] args = Arrays.copyOfRange(commandArray, 1, commandArray.length);
 
-                CommandBuilder commandBuilder = commandManager.prebuild(commandName, args);
+                CommandAssembler commandAssembler = commandManager.preassemble(commandName, args);
 
-                Request request = new Request(username, password, commandBuilder);
+                Request request = new Request(username, password, commandAssembler);
 
                 Response response;
-                if (commandBuilder instanceof ServerNeededCommandBuilder) {
+                if (commandAssembler instanceof ServerNeededCommandAssembler) {
                     if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
                         showText("You didn't login\n");
                         continue;
@@ -72,7 +72,7 @@ public class Client {
                     response = serverManager.receiveResponse();
                 }
                 else {
-                    Command command = commandBuilder.build();
+                    Command command = commandAssembler.assemble();
                     response = new Response(command.execute());
                 }
                 showText(response.getContent());

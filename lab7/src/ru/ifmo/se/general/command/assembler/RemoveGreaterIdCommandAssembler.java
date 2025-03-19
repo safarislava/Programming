@@ -1,24 +1,24 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.RemoveGreaterIdCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building remove greater key command.
+ * Realisation of CommandAssembler.
+ * Provide assembling remove greater key command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class RemoveGreaterIdCommandBuilder implements OrganizationDataCommandBuilder {
+public class RemoveGreaterIdCommandAssembler implements OrganizationDataCommandAssembler {
     private OrganizationData data;
     private int id;
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new RemoveGreaterIdCommand(id, data);
     }
 

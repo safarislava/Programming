@@ -1,22 +1,22 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.LoginCommand;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
 import ru.ifmo.se.general.Parser;
 
-public class LoginCommandBuilder implements CommandBuilder {
+public class LoginCommandAssembler implements CommandAssembler {
     private String username;
     private String password;
     private final Client client;
 
-    public LoginCommandBuilder(Client client) {
+    public LoginCommandAssembler(Client client) {
         this.client = client;
     }
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new LoginCommand(username, password, client);
     }
 

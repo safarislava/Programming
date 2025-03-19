@@ -1,25 +1,25 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.CountLessTypeCommand;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.Parser;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
 import ru.ifmo.se.general.entity.OrganizationType;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building count less type command.
+ * Realisation of CommandAssembler.
+ * Provide assembling count less type command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class CountLessTypeCommandBuilder implements OrganizationDataCommandBuilder {
+public class CountLessTypeCommandAssembler implements OrganizationDataCommandAssembler {
     private OrganizationData data;
     private OrganizationType type;
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new CountLessTypeCommand(type, data);
     }
 

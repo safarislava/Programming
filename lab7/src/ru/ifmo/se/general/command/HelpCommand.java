@@ -1,12 +1,12 @@
 package ru.ifmo.se.general.command;
 
 import ru.ifmo.se.client.command.CommandManager;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide printing all accessed general.commands.
  *
  * @since 1.0
@@ -26,12 +26,12 @@ public class HelpCommand implements Command {
 
     @Override
     public String execute() {
-        HashMap<String, CommandBuilder> commandBuilders =  controller.getCommandBuilders();
+        Map<String, CommandAssembler> commandAssemblers = controller.getCommandAssemblers();
 
         StringBuilder text = new StringBuilder();
 
-        commandBuilders.keySet().forEach(key ->
-                text.append(String.format("%-20s%s%n", key, commandBuilders.get(key).description())));
+        commandAssemblers.keySet().forEach(key ->
+                text.append(String.format("%-20s%s%n", key, commandAssemblers.get(key).description())));
 
         return text.toString();
     }

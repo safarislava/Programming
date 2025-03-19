@@ -1,4 +1,4 @@
-package ru.ifmo.se.general.command.builder.type;
+package ru.ifmo.se.general.command.assembler.type;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
@@ -6,19 +6,19 @@ import ru.ifmo.se.general.command.Command;
 import java.io.Serializable;
 
 /**
- * Interface of command builder.
+ * Interface of command assembler.
  * Allow to set description for command.
  *
  * @since 1.0
  * @author safarislava
  */
-public interface CommandBuilder extends Serializable {
+public interface CommandAssembler extends Serializable {
     /**
      * Build the command
      *
      * @return Built command
      */
-    Command build();
+    Command assemble();
 
     /**
      * Set arguments that contains in line with command or input after.

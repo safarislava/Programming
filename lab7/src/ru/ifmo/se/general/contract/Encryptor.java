@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class EncryptionManager {
+public class Encryptor {
     public static String encrypt(String secret) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

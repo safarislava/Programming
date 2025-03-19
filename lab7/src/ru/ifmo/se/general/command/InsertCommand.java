@@ -4,7 +4,7 @@ import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.entity.Organization;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide insertion of organization into data access object
  *
  * @since 1.0

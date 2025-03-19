@@ -7,7 +7,7 @@ import ru.ifmo.se.general.entity.OrganizationType;
 import java.util.List;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide counting organization that has lower type than entered.
  *
  * @since 1.0

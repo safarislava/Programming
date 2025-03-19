@@ -6,7 +6,7 @@ import ru.ifmo.se.general.entity.Organization;
 import java.util.List;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide removing organizations that lower than entered.
  *
  * @since 1.0

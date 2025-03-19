@@ -1,24 +1,24 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
+import ru.ifmo.se.general.command.ClearCommand;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.ShowCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building show command.
+ * Realisation of CommandAssembler.
+ * Provide assembling clear command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class ShowCommandBuilder implements OrganizationDataCommandBuilder {
+public class ClearCommandAssembler implements OrganizationDataCommandAssembler {
     private OrganizationData data;
 
     @Override
-    public Command build() {
-        return new ShowCommand(data);
+    public Command assemble() {
+        return new ClearCommand(data);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ShowCommandBuilder implements OrganizationDataCommandBuilder {
 
     @Override
     public String description() {
-        return "Show all elements in the general.collection";
+        return "Clear general.collection";
     }
 
     @Override

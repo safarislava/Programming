@@ -4,7 +4,7 @@ import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.entity.Organization;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide updating(editing) current organization.
  *
  * @since 1.0

@@ -3,7 +3,7 @@ package ru.ifmo.se.general.command;
 import ru.ifmo.se.client.Client;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide stopping lifecycle of program.
  *
  * @since 1.0

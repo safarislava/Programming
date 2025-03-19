@@ -1,6 +1,6 @@
 package ru.ifmo.se.server.database;
 
-import ru.ifmo.se.general.contract.EncryptionManager;
+import ru.ifmo.se.general.contract.Encryptor;
 import ru.ifmo.se.general.entity.*;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.data.UserData;
@@ -225,7 +225,7 @@ public class DatabaseManager implements OrganizationData, UserData {
 
     @Override
     public void register(String username, String password) {
-        String passwordHash = EncryptionManager.encrypt(password);
+        String passwordHash = Encryptor.encrypt(password);
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO users(username, password) VALUES (?, ?)");
@@ -242,7 +242,7 @@ public class DatabaseManager implements OrganizationData, UserData {
 
     @Override
     public boolean checkUserPassword(String username, String password) {
-        String passwordHash = EncryptionManager.encrypt(password);
+        String passwordHash = Encryptor.encrypt(password);
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT password FROM users WHERE username = ?");

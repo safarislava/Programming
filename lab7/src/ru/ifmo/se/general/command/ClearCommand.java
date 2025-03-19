@@ -5,7 +5,7 @@ import ru.ifmo.se.general.data.OrganizationData;
 import java.util.List;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide clearing data access object.
  *
  * @since 1.0

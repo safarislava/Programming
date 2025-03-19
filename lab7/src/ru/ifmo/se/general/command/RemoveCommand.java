@@ -3,7 +3,7 @@ package ru.ifmo.se.general.command;
 import ru.ifmo.se.general.data.OrganizationData;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide removing organization from data access object.
  *
  * @since 1.0

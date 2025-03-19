@@ -1,7 +1,7 @@
 package ru.ifmo.se.general.command;
 
 /**
- * Interface of command. Command must be executing without arguments (see CommandBuilder).
+ * Interface of command. Command must be executing without arguments (see CommandAssembler).
  *
  * @since 1.0
  * @author safarislava

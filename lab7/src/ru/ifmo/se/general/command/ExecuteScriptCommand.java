@@ -5,7 +5,7 @@ import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.client.parser.ScriptParser;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide executing script.
  *
  * @since 1.0

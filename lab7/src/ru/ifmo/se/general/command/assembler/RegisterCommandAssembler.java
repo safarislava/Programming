@@ -1,18 +1,18 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.RegisterCommand;
-import ru.ifmo.se.general.command.builder.type.UserDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.UserDataCommandAssembler;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.data.UserData;
 
-public class RegisterCommandBuilder implements UserDataCommandBuilder {
+public class RegisterCommandAssembler implements UserDataCommandAssembler {
     private String username;
     private String password;
     private UserData data;
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new RegisterCommand(username, password, data);
     }
 

@@ -6,7 +6,7 @@ import ru.ifmo.se.general.entity.Organization;
 import java.util.List;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide printing organizations that contains in name entered string.
  *
  * @since 1.0

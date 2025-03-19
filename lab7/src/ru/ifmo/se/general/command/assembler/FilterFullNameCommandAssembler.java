@@ -1,29 +1,29 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.FilterContainsNameCommand;
+import ru.ifmo.se.general.command.FilterFullNameCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
 
-public class FilterContainsNameCommandBuilder implements OrganizationDataCommandBuilder {
+public class FilterFullNameCommandAssembler implements OrganizationDataCommandAssembler {
     private OrganizationData data;
-    private String name;
+    private String fullName;
 
     @Override
-    public Command build() {
-        return new FilterContainsNameCommand(name, data);
+    public Command assemble() {
+        return new FilterFullNameCommand(fullName, data);
     }
 
     @Override
     public void setArguments(String[] args, Parser parser) {
         if (args.length != 1) throw new IllegalArgumentException("Invalid number of arguments");
-        name = args[0];
+        fullName = args[0];
     }
 
     @Override
     public String description() {
-        return "Print organizations which have same full name";
+        return "Print organizations which contains string in name";
     }
 
     @Override

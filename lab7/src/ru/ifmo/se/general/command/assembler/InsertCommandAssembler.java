@@ -1,42 +1,48 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.RemoveLowerCommand;
+import ru.ifmo.se.general.command.InsertCommand;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.CreatorSetterCommandAssembler;
 import ru.ifmo.se.general.entity.Organization;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building remove lower command.
+ * Realisation of CommandAssembler.
+ * Provide assembling insert command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class RemoveLowerCommandBuilder implements OrganizationDataCommandBuilder {
+public class InsertCommandAssembler implements OrganizationDataCommandAssembler, CreatorSetterCommandAssembler {
     private OrganizationData data;
     private Organization organization;
+    private String creator;
 
     @Override
-    public Command build() {
-        return new RemoveLowerCommand(organization, data);
+    public Command assemble() {
+        return new InsertCommand(data, organization, creator);
     }
 
     @Override
     public void setArguments(String[] args, Parser parser) {
         if (args.length != 0) throw new IllegalArgumentException("Invalid number of arguments");
-
         organization = parser.getOrganization();
     }
 
     @Override
     public String description() {
-        return "Remove all lower organizations";
+        return "Add new organization";
     }
 
     @Override
     public void setOrganizationData(OrganizationData data) {
         this.data = data;
+    }
+
+    @Override
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }

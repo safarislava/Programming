@@ -1,24 +1,24 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.InfoCommand;
+import ru.ifmo.se.general.command.ShowCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building info command.
+ * Realisation of CommandAssembler.
+ * Provide assembling show command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class InfoCommandBuilder implements OrganizationDataCommandBuilder {
+public class ShowCommandAssembler implements OrganizationDataCommandAssembler {
     private OrganizationData data;
 
     @Override
-    public Command build() {
-        return new InfoCommand(data);
+    public Command assemble() {
+        return new ShowCommand(data);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class InfoCommandBuilder implements OrganizationDataCommandBuilder {
 
     @Override
     public String description() {
-        return "Displays information type of general.collection and count of elements";
+        return "Show all elements in the general.collection";
     }
 
     @Override

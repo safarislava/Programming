@@ -1,19 +1,19 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.client.command.CommandManager;
 import ru.ifmo.se.general.command.HelpCommand;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building help command.
+ * Realisation of CommandAssembler.
+ * Provide assembling help command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class HelpCommandBuilder implements CommandBuilder {
+public class HelpCommandAssembler implements CommandAssembler {
     private final CommandManager controller;
 
     /**
@@ -21,12 +21,12 @@ public class HelpCommandBuilder implements CommandBuilder {
      *
      * @param controller Value of recognizing command controller
      */
-    public HelpCommandBuilder(CommandManager controller) {
+    public HelpCommandAssembler(CommandManager controller) {
         this.controller = controller;
     }
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new HelpCommand(controller);
     }
 

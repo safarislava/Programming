@@ -1,19 +1,19 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExecuteScriptCommand;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building execute script command.
+ * Realisation of CommandAssembler.
+ * Provide assembling execute script command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class ExecuteScriptCommandBuilder implements CommandBuilder {
+public class ExecuteScriptCommandAssembler implements CommandAssembler {
     private final Client client;
     private String fileName;
 
@@ -22,12 +22,12 @@ public class ExecuteScriptCommandBuilder implements CommandBuilder {
      *
      * @param client Value of client
      */
-    public ExecuteScriptCommandBuilder(Client client) {
+    public ExecuteScriptCommandAssembler(Client client) {
         this.client = client;
     }
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new ExecuteScriptCommand(fileName, client);
     }
 

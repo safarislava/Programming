@@ -5,7 +5,7 @@ import ru.ifmo.se.general.data.OrganizationData;
 import java.util.List;
 
 /**
- * Realisation of CommandBuilder.
+ * Realisation of CommandAssembler.
  * Provide removing organizations that key greater than entered.
  *
  * @since 1.0

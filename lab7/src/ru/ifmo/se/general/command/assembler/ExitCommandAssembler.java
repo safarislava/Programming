@@ -1,19 +1,19 @@
-package ru.ifmo.se.general.command.builder;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExitCommand;
 import ru.ifmo.se.client.Client;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
 
 /**
- * Realisation of CommandBuilder.
- * Provide building exit command.
+ * Realisation of CommandAssembler.
+ * Provide assembling exit command.
  *
  * @since 1.0
  * @author safarislava
  */
-public class ExitCommandBuilder implements CommandBuilder {
+public class ExitCommandAssembler implements CommandAssembler {
     private final Client client;
 
     /**
@@ -21,12 +21,12 @@ public class ExitCommandBuilder implements CommandBuilder {
      *
      * @param client Value of lifecycle class
      */
-    public ExitCommandBuilder(Client client) {
+    public ExitCommandAssembler(Client client) {
         this.client = client;
     }
 
     @Override
-    public Command build() {
+    public Command assemble() {
         return new ExitCommand(client);
     }
 

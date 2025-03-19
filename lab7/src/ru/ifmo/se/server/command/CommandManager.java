@@ -1,11 +1,11 @@
 package ru.ifmo.se.server.command;
 
-import ru.ifmo.se.general.command.builder.type.UserDataCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.UserDataCommandAssembler;
 import ru.ifmo.se.general.contract.Request;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.builder.type.CommandBuilder;
-import ru.ifmo.se.general.command.builder.type.OrganizationDataCommandBuilder;
-import ru.ifmo.se.general.command.builder.type.CreatorSetterCommandBuilder;
+import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.CreatorSetterCommandAssembler;
 import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.data.AuthOrganizationData;
 import ru.ifmo.se.general.data.UserData;
@@ -38,16 +38,16 @@ public class CommandManager {
      * @param request Value of request
      */
     private void setArguments(Request request) {
-        CommandBuilder builder = request.commandBuilder;
+        CommandAssembler assembler = request.commandAssembler;
 
-        if (builder instanceof OrganizationDataCommandBuilder) {
-            ((OrganizationDataCommandBuilder) builder).setOrganizationData(authOrganizationData);
+        if (assembler instanceof OrganizationDataCommandAssembler) {
+            ((OrganizationDataCommandAssembler) assembler).setOrganizationData(authOrganizationData);
         }
-        if (builder instanceof CreatorSetterCommandBuilder) {
-            ((CreatorSetterCommandBuilder) builder).setCreator(request.username);
+        if (assembler instanceof CreatorSetterCommandAssembler) {
+            ((CreatorSetterCommandAssembler) assembler).setCreator(request.username);
         }
-        if (builder instanceof UserDataCommandBuilder) {
-            ((UserDataCommandBuilder) builder).setUserData(userData);
+        if (assembler instanceof UserDataCommandAssembler) {
+            ((UserDataCommandAssembler) assembler).setUserData(userData);
         }
     }
 
@@ -63,7 +63,7 @@ public class CommandManager {
             return new Response("Incorrect login or password\n");
 
         setArguments(request);
-        Command command = request.commandBuilder.build();
+        Command command = request.commandAssembler.assemble();
         String result = command.execute();
 
         return new Response(result);

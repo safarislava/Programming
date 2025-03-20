@@ -4,7 +4,7 @@ import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ShowCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 
 /**
  * Realisation of CommandAssembler.
@@ -13,7 +13,7 @@ import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssemble
  * @since 1.0
  * @author safarislava
  */
-public class ShowCommandAssembler implements OrganizationDataCommandAssembler {
+public class ShowCommandAssembler implements OrganizationDataRequired {
     private OrganizationData data;
 
     @Override

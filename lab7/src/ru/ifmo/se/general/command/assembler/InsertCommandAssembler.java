@@ -4,8 +4,8 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.InsertCommand;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
-import ru.ifmo.se.general.command.assembler.type.CreatorSetterCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
+import ru.ifmo.se.general.command.assembler.type.CreatorRequired;
 import ru.ifmo.se.general.entity.Organization;
 
 /**
@@ -15,7 +15,7 @@ import ru.ifmo.se.general.entity.Organization;
  * @since 1.0
  * @author safarislava
  */
-public class InsertCommandAssembler implements OrganizationDataCommandAssembler, CreatorSetterCommandAssembler {
+public class InsertCommandAssembler implements OrganizationDataRequired, CreatorRequired {
     private OrganizationData data;
     private Organization organization;
     private String creator;

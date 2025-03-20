@@ -4,7 +4,7 @@ import ru.ifmo.se.client.Client;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExecuteScriptCommand;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.ClientRequired;
 
 /**
  * Realisation of CommandAssembler.
@@ -13,18 +13,9 @@ import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
  * @since 1.0
  * @author safarislava
  */
-public class ExecuteScriptCommandAssembler implements CommandAssembler {
-    private final Client client;
+public class ExecuteScriptCommandAssembler implements CommandAssembler, ClientRequired {
+    private Client client;
     private String fileName;
-
-    /**
-     * Standard constructor.
-     *
-     * @param client Value of client
-     */
-    public ExecuteScriptCommandAssembler(Client client) {
-        this.client = client;
-    }
 
     @Override
     public Command assemble() {
@@ -41,5 +32,10 @@ public class ExecuteScriptCommandAssembler implements CommandAssembler {
     @Override
     public String description() {
         return "Execute a script";
+    }
+
+    @Override
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

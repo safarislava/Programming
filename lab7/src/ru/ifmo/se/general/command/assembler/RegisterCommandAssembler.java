@@ -2,11 +2,11 @@ package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.RegisterCommand;
-import ru.ifmo.se.general.command.assembler.type.UserDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.UserDataRequired;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.data.UserData;
 
-public class RegisterCommandAssembler implements UserDataCommandAssembler {
+public class RegisterCommandAssembler implements UserDataRequired {
     private String username;
     private String password;
     private UserData data;

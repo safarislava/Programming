@@ -1,4 +1,4 @@
-package ru.ifmo.se.general.command.assembler.type;
+package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;

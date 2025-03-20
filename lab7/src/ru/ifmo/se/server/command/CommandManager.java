@@ -1,11 +1,11 @@
 package ru.ifmo.se.server.command;
 
-import ru.ifmo.se.general.command.assembler.type.UserDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.UserDataRequired;
 import ru.ifmo.se.general.contract.Request;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
-import ru.ifmo.se.general.command.assembler.type.CreatorSetterCommandAssembler;
+import ru.ifmo.se.general.command.assembler.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
+import ru.ifmo.se.general.command.assembler.type.CreatorRequired;
 import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.data.AuthOrganizationData;
 import ru.ifmo.se.general.data.UserData;
@@ -40,14 +40,14 @@ public class CommandManager {
     private void setArguments(Request request) {
         CommandAssembler assembler = request.commandAssembler;
 
-        if (assembler instanceof OrganizationDataCommandAssembler) {
-            ((OrganizationDataCommandAssembler) assembler).setOrganizationData(authOrganizationData);
+        if (assembler instanceof OrganizationDataRequired) {
+            ((OrganizationDataRequired) assembler).setOrganizationData(authOrganizationData);
         }
-        if (assembler instanceof CreatorSetterCommandAssembler) {
-            ((CreatorSetterCommandAssembler) assembler).setCreator(request.username);
+        if (assembler instanceof CreatorRequired) {
+            ((CreatorRequired) assembler).setCreator(request.username);
         }
-        if (assembler instanceof UserDataCommandAssembler) {
-            ((UserDataCommandAssembler) assembler).setUserData(userData);
+        if (assembler instanceof UserDataRequired) {
+            ((UserDataRequired) assembler).setUserData(userData);
         }
     }
 

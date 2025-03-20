@@ -6,8 +6,8 @@ import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.client.connection.ServerManager;
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
-import ru.ifmo.se.general.command.assembler.type.ServerNeededCommandAssembler;
+import ru.ifmo.se.general.command.assembler.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.ServerRequired;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class Client {
                 Request request = new Request(username, password, commandAssembler);
 
                 Response response;
-                if (commandAssembler instanceof ServerNeededCommandAssembler) {
+                if (commandAssembler instanceof ServerRequired) {
                     if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
                         showText("You didn't login\n");
                         continue;

@@ -4,7 +4,7 @@ import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.client.command.CommandManager;
 import ru.ifmo.se.general.command.HelpCommand;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.CommandManagerRequired;
 
 /**
  * Realisation of CommandAssembler.
@@ -13,21 +13,12 @@ import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
  * @since 1.0
  * @author safarislava
  */
-public class HelpCommandAssembler implements CommandAssembler {
-    private final CommandManager controller;
-
-    /**
-     * Standard constructor.
-     *
-     * @param controller Value of recognizing command controller
-     */
-    public HelpCommandAssembler(CommandManager controller) {
-        this.controller = controller;
-    }
+public class HelpCommandAssembler implements CommandAssembler, CommandManagerRequired {
+    private CommandManager commandManager;
 
     @Override
     public Command assemble() {
-        return new HelpCommand(controller);
+        return new HelpCommand(commandManager);
     }
 
     @Override
@@ -38,5 +29,10 @@ public class HelpCommandAssembler implements CommandAssembler {
     @Override
     public String description() {
         return "Print all commands";
+    }
+
+    @Override
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
     }
 }

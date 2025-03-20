@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.UpdateCommand;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 import ru.ifmo.se.general.entity.Organization;
 
 /**
@@ -14,7 +14,7 @@ import ru.ifmo.se.general.entity.Organization;
  * @since 1.0
  * @author safarislava
  */
-public class UpdateCommandAssembler implements OrganizationDataCommandAssembler {
+public class UpdateCommandAssembler implements OrganizationDataRequired {
     private OrganizationData data;
     private int id;
     private Organization organization;

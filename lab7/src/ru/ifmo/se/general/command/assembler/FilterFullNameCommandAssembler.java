@@ -4,9 +4,9 @@ import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.FilterFullNameCommand;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 
-public class FilterFullNameCommandAssembler implements OrganizationDataCommandAssembler {
+public class FilterFullNameCommandAssembler implements OrganizationDataRequired {
     private OrganizationData data;
     private String fullName;
 

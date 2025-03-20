@@ -9,6 +9,6 @@ import ru.ifmo.se.general.data.OrganizationData;
  * @since 1.0
  * @author safarislava
  */
-public interface OrganizationDataCommandAssembler extends ServerNeededCommandAssembler {
+public interface OrganizationDataRequired extends ServerRequired {
     void setOrganizationData(OrganizationData data);
 }

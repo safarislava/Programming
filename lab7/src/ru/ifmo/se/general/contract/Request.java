@@ -1,6 +1,6 @@
 package ru.ifmo.se.general.contract;
 
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.CommandAssembler;
 
 import java.io.Serializable;
 

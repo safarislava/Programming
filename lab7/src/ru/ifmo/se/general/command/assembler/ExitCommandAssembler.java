@@ -4,7 +4,7 @@ import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExitCommand;
 import ru.ifmo.se.client.Client;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.ClientRequired;
 
 /**
  * Realisation of CommandAssembler.
@@ -13,17 +13,8 @@ import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
  * @since 1.0
  * @author safarislava
  */
-public class ExitCommandAssembler implements CommandAssembler {
-    private final Client client;
-
-    /**
-     * Standard constructor.
-     *
-     * @param client Value of lifecycle class
-     */
-    public ExitCommandAssembler(Client client) {
-        this.client = client;
-    }
+public class ExitCommandAssembler implements CommandAssembler, ClientRequired {
+    private Client client;
 
     @Override
     public Command assemble() {
@@ -38,5 +29,10 @@ public class ExitCommandAssembler implements CommandAssembler {
     @Override
     public String description(){
         return "Exit the program";
+    }
+
+    @Override
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

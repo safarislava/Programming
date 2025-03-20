@@ -1,7 +1,7 @@
 package ru.ifmo.se.general.command;
 
 import ru.ifmo.se.client.command.CommandManager;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.CommandAssembler;
 
 import java.util.Map;
 

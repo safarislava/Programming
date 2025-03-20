@@ -2,7 +2,9 @@ package ru.ifmo.se.client.command;
 
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.general.command.assembler.*;
-import ru.ifmo.se.general.command.assembler.type.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.ClientRequired;
+import ru.ifmo.se.general.command.assembler.CommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.CommandManagerRequired;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,24 +28,24 @@ public class CommandManager {
     public CommandManager(Client client) {
         this.client = client;
         this.assemblerBuilders = new HashMap<>(){{
-            put("info", new AssemblerBuilder(InfoCommandAssembler.class));
-            put("show", new AssemblerBuilder(ShowCommandAssembler.class));
-            put("insert", new AssemblerBuilder(InsertCommandAssembler.class));
-            put("update", new AssemblerBuilder(UpdateCommandAssembler.class));
-            put("remove_id", new AssemblerBuilder(RemoveCommandAssembler.class));
-            put("exit", new AssemblerBuilder(ExitCommandAssembler.class, client));
             put("clear", new AssemblerBuilder(ClearCommandAssembler.class));
-            put("execute_script", new AssemblerBuilder(ExecuteScriptCommandAssembler.class, client));
-            put("remove_greater", new AssemblerBuilder(RemoveGreaterCommandAssembler.class));
-            put("remove_lower", new AssemblerBuilder(RemoveLowerCommandAssembler.class));
-            put("remove_greater_id", new AssemblerBuilder(RemoveGreaterIdCommandAssembler.class));
             put("count_less_than_type", new AssemblerBuilder(CountLessTypeCommandAssembler.class));
-            put("filter_by_full_name", new AssemblerBuilder(FilterFullNameCommandAssembler.class));
+            put("execute_script", new AssemblerBuilder(ExecuteScriptCommandAssembler.class));
+            put("exit", new AssemblerBuilder(ExitCommandAssembler.class));
             put("filter_contains_name", new AssemblerBuilder(FilterContainsNameCommandAssembler.class));
-            put("login", new AssemblerBuilder(LoginCommandAssembler.class, client));
+            put("filter_by_full_name", new AssemblerBuilder(FilterFullNameCommandAssembler.class));
+            put("help", new AssemblerBuilder(HelpCommandAssembler.class));
+            put("info", new AssemblerBuilder(InfoCommandAssembler.class));
+            put("insert", new AssemblerBuilder(InsertCommandAssembler.class));
+            put("login", new AssemblerBuilder(LoginCommandAssembler.class));
             put("register", new AssemblerBuilder(RegisterCommandAssembler.class));
+            put("remove_id", new AssemblerBuilder(RemoveCommandAssembler.class));
+            put("remove_greater", new AssemblerBuilder(RemoveGreaterCommandAssembler.class));
+            put("remove_greater_id", new AssemblerBuilder(RemoveGreaterIdCommandAssembler.class));
+            put("remove_lower", new AssemblerBuilder(RemoveLowerCommandAssembler.class));
+            put("show", new AssemblerBuilder(ShowCommandAssembler.class));
+            put("update", new AssemblerBuilder(UpdateCommandAssembler.class));
         }};
-        this.assemblerBuilders.put("help", new AssemblerBuilder(HelpCommandAssembler.class, this));
     }
 
     /**
@@ -54,12 +56,18 @@ public class CommandManager {
      */
     public CommandAssembler preassemble(String name, String[] args) {
         AssemblerBuilder builder = assemblerBuilders.get(name);
-
         if (builder == null) {
             throw new RuntimeException("No command found for name : " + name);
         }
 
         CommandAssembler assembler = builder.build();
+
+        if (assembler instanceof ClientRequired) {
+            ((ClientRequired) assembler).setClient(client);
+        }
+        if (assembler instanceof CommandManagerRequired) {
+            ((CommandManagerRequired) assembler).setCommandManager(this);
+        }
         assembler.setArguments(args, client.getInput());
 
         return assembler;

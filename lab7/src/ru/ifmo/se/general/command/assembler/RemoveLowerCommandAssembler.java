@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.RemoveLowerCommand;
 import ru.ifmo.se.general.Parser;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 import ru.ifmo.se.general.entity.Organization;
 
 /**
@@ -14,7 +14,7 @@ import ru.ifmo.se.general.entity.Organization;
  * @since 1.0
  * @author safarislava
  */
-public class RemoveLowerCommandAssembler implements OrganizationDataCommandAssembler {
+public class RemoveLowerCommandAssembler implements OrganizationDataRequired {
     private OrganizationData data;
     private Organization organization;
 

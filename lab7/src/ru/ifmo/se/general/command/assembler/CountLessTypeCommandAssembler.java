@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.CountLessTypeCommand;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.Parser;
-import ru.ifmo.se.general.command.assembler.type.OrganizationDataCommandAssembler;
+import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 import ru.ifmo.se.general.entity.OrganizationType;
 
 /**
@@ -14,7 +14,7 @@ import ru.ifmo.se.general.entity.OrganizationType;
  * @since 1.0
  * @author safarislava
  */
-public class CountLessTypeCommandAssembler implements OrganizationDataCommandAssembler {
+public class CountLessTypeCommandAssembler implements OrganizationDataRequired {
     private OrganizationData data;
     private OrganizationType type;
 

@@ -1,6 +1,6 @@
 package ru.ifmo.se.server.database;
 
-import ru.ifmo.se.general.contract.Encryptor;
+import ru.ifmo.se.general.contract.Hashing;
 import ru.ifmo.se.general.entity.*;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.data.UserData;
@@ -12,10 +12,24 @@ import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
+/**
+ * Class provide database access. Implemented OrganizationData and UserData.
+ *
+ * @since 3.0
+ * @author safarislava
+ */
 public class DatabaseManager implements OrganizationData, UserData {
     private Connection connection;
+    private final Logger logger = Logger.getLogger(DatabaseManager.class.getName());
 
+    /**
+     * Method for database connection. Needed path to config file.
+     *
+     * @param host Value of host address
+     * @param config Value of path to config
+     */
     public void connect(String host, String config) {
         Properties properties = new Properties();
 
@@ -23,6 +37,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             properties.load(new FileInputStream(config));
         }
         catch (IOException e) {
+            logger.severe("Can't load properties file: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -30,6 +45,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             connection = DriverManager.getConnection(host, properties);
         }
         catch (SQLException e) {
+            logger.severe("Can't connect to the database: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -51,6 +67,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             count = resultSet.getInt(1);
         }
         catch (SQLException e) {
+            logger.severe("Can't get count: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -70,6 +87,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             }
         }
         catch (SQLException e) {
+            logger.severe("Can't get organizations: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -89,6 +107,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             }
         }
         catch (SQLException e) {
+            logger.severe("Can't get ids: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -106,6 +125,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             return getOrganization(resultSet);
         }
         catch (SQLException e) {
+            logger.severe("Can't get organization: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -125,6 +145,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             return String.format("Organization %s successfully inserted%n", organization.getName());
         }
         catch (SQLException e) {
+            logger.severe("Can't insert organization: " + e.getMessage());
             return String.format("Failed insert organization %s%n", organization.getName());
         }
     }
@@ -145,6 +166,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             return String.format("Organization %d successfully updated%n", id);
         }
         catch (SQLException e) {
+            logger.severe("Can't update organization: " + e.getMessage());
             return String.format("Failed update organization %d%n", id);
         }
     }
@@ -159,6 +181,7 @@ public class DatabaseManager implements OrganizationData, UserData {
             return String.format("Organization %d successfully removed%n", id);
         }
         catch (SQLException e) {
+            logger.severe("Can't remove organization: " + e.getMessage());
             return String.format("Failed remove organization %d%n", id);
         }
     }
@@ -175,10 +198,18 @@ public class DatabaseManager implements OrganizationData, UserData {
             return resultSet.getString(1);
         }
         catch (SQLException e) {
+            logger.severe("Can't get creator: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Method for parsing organization from ResultSet.
+     *
+     * @param resultSet Value of ResultSet
+     * @return Parsed organization
+     * @throws SQLException If something wrong with database connection
+     */
     private Organization getOrganization(ResultSet resultSet) throws SQLException {
         Organization organization = new Organization();
         Coordinates coordinates = new Coordinates();
@@ -209,6 +240,13 @@ public class DatabaseManager implements OrganizationData, UserData {
         return organization;
     }
 
+    /**
+     * Method for setting arguments that doesn't set automatically
+     *
+     * @param organization Value of organization
+     * @param statement Value of PreparedStatement
+     * @throws SQLException If something wrong with database connection
+     */
     private void setUpdatableOrganizationFields(Organization organization, PreparedStatement statement) throws SQLException {
         statement.setString(1, organization.getName());
         statement.setDouble(2, organization.getCoordinates().getX());
@@ -224,16 +262,39 @@ public class DatabaseManager implements OrganizationData, UserData {
     }
 
     @Override
-    public void register(String username, String password) {
-        String passwordHash = Encryptor.encrypt(password);
+    public String register(String username, String password) {
         try {
+            if (!checkUniqueUsername(username)) return "Username is already in use\n";
+
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users(username, password) VALUES (?, ?)");
+                    "INSERT INTO users(username, password, salt) VALUES (?, ?, ?)");
 
             statement.setString(1, username);
+
+            String salt = Hashing.getSalt();
+            String passwordHash = Hashing.getHash(password + salt);
             statement.setString(2, passwordHash);
+            statement.setString(3, salt);
 
             statement.executeUpdate();
+
+            return String.format("User %s successfully registered%n", username);
+        }
+        catch (SQLException e) {
+            logger.severe("Can't register user: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean checkUniqueUsername(String username) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM users WHERE username = ?");
+
+            statement.setString(1, username);
+
+            ResultSet resultSet = statement.executeQuery();
+            return !resultSet.next();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -242,19 +303,38 @@ public class DatabaseManager implements OrganizationData, UserData {
 
     @Override
     public boolean checkUserPassword(String username, String password) {
-        String passwordHash = Encryptor.encrypt(password);
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT password FROM users WHERE username = ?");
 
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
 
+            String salt = getSalt(username);
+            String passwordHash = Hashing.getHash(password + salt);
+
+            if (!resultSet.next()) return false;
             return resultSet.getString(1).equals(passwordHash);
         }
         catch (SQLException e) {
+            logger.severe("Can't check user password: " + e.getMessage());
             return false;
+        }
+    }
+
+    private String getSalt(String username) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT salt FROM users WHERE username = ?");
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (!resultSet.next()) return null;
+            return resultSet.getString(1);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

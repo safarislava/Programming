@@ -3,10 +3,10 @@ package ru.ifmo.se.server.collection;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.entity.Organization;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author safarislava
  */
 public class CollectionManager implements OrganizationData {
-    private final Map<Integer, Organization> collection = new HashMap<>();
+    private final Map<Integer, Organization> collection = new ConcurrentHashMap<>();
     private final OrganizationData database;
     private final Logger logger = Logger.getLogger(CollectionManager.class.getName());
 

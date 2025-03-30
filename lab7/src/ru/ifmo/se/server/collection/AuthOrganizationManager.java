@@ -7,20 +7,34 @@ import ru.ifmo.se.general.data.UserData;
 
 import java.util.List;
 
+/**
+ * Class provides accessing permissions for OrganizationData. Implemented AuthOrganizationData.
+ *
+ * @since 3.0
+ * @author safarislava
+ */
 public class AuthOrganizationManager implements AuthOrganizationData {
     private final OrganizationData organizationData;
     private final UserData userData;
     private String username;
 
+    /**
+     * Standard constructor/
+     *
+     * @param organizationData Value of OrganizationData
+     * @param userData Value of UserData
+     */
     public AuthOrganizationManager(OrganizationData organizationData, UserData userData) {
         this.organizationData = organizationData;
         this.userData = userData;
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @Override
     public boolean checkPassword(String password) {
         return userData.checkUserPassword(username, password);
     }

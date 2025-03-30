@@ -5,11 +5,15 @@ import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.data.UserData;
 import ru.ifmo.se.server.collection.AuthOrganizationManager;
-import ru.ifmo.se.server.connection.ClientManager;
+import ru.ifmo.se.server.connection.*;
 import ru.ifmo.se.server.command.CommandManager;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 /**
@@ -19,10 +23,16 @@ import java.util.logging.Logger;
  * @author safarislava
  */
 public class Server {
+    private static final int MAX_CONNECTIONS = 5;
+
     private boolean running = false;
 
-    private ClientManager clientManager;
+    private final ConnectionTask connectionTask;
     private final CommandManager commandManager;
+
+    private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    private final ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
+    private final Set<Thread> connectionThreads = new HashSet<>();
 
     private final Logger logger = Logger.getLogger(Server.class.getName());
 
@@ -37,12 +47,8 @@ public class Server {
         AuthOrganizationManager authOrganizationManager = new AuthOrganizationManager(organizationData, userData);
         commandManager = new CommandManager(authOrganizationManager, userData);
 
-        try {
-            clientManager = new ClientManager(port);
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        connectionTask = new ConnectionTask(port);
+
         logger.info("Server started");
     }
 
@@ -51,33 +57,34 @@ public class Server {
      */
     public void start() {
         running = true;
-        while (running) {
-            logger.info("Waiting for connection...");
-            clientManager.waitConnecting();
-            logger.info("New connection established");
 
-            while (running) {
-                try {
-                    logger.info("Waiting for command...");
-                    Request request = clientManager.receiveRequest();
-                    logger.info("New command established");
+        Thread stoppingThread = new Thread(this::tryStop);
+        stoppingThread.start();
 
-                    Response response = commandManager.execute(request);
+        while (running && connectionThreads.size() < MAX_CONNECTIONS) {
+            logger.info("Waiting for connection");
+            Socket socket = connectionTask.connect();
+            ClientManager clientManager = new ClientManager(socket);
+            logger.info("Client connected");
 
-                    logger.info("Sending response: ...");
-                    clientManager.sendResponse(response);
-                    logger.info(String.format("Sent response : %s", response.getContent()));
+            Thread connectionThread = new Thread(() -> {
+                while (running) {
+                    try {
+                        Future<Request> request = cachedThreadPool.submit(new RequestTask(clientManager));
+                        Future<Response> response = forkJoinPool.submit(new ExecuteTask(request, commandManager));
+                        Thread responseThread = new Thread(new ResponseTask(response, clientManager));
+                        responseThread.start();
+                        responseThread.join();
+                    } catch (Exception e) {
+                        logger.warning(e.getMessage());
+                        connectionThreads.remove(Thread.currentThread());
+                        Thread.currentThread().interrupt();
+                    }
                 }
-                catch (IOException e) {
-                    logger.info("Socket disconnected");
-                    break;
-                }
-                catch (Exception e) {
-                    logger.warning(e.getMessage());
-                }
-
-                tryStop();
-            }
+            });
+            logger.info("Starting client thread");
+            connectionThread.start();
+            connectionThreads.add(connectionThread);
         }
     }
 
@@ -85,15 +92,31 @@ public class Server {
      * Stop lifecycle.
      */
     public void tryStop() {
-        try {
-            if (System.in.available() > 0) {
-                Scanner scanner = new Scanner(System.in);
-                if (scanner.next().equals("exit")) {
-                    running = false;
+        while (running) {
+            try {
+                Thread.sleep(1000);
+                if (System.in.available() > 0) {
+
+                    Scanner scanner = new Scanner(System.in);
+                    if (scanner.next().equals("exit")) {
+                        logger.info("Server stopped");
+                        running = false;
+
+                        for (Thread thread : connectionThreads) {
+                            thread.interrupt();
+                        }
+
+                        cachedThreadPool.shutdownNow();
+                        forkJoinPool.shutdownNow();
+                    }
                 }
             }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            catch (IOException e) {
+                System.out.println(e.getMessage());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+        Thread.currentThread().interrupt();
     }
 }

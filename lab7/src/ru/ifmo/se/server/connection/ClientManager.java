@@ -6,7 +6,6 @@ import ru.ifmo.se.general.contract.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.logging.Logger;
@@ -20,34 +19,17 @@ import java.util.logging.Logger;
  * @author safarislava
  */
 public class ClientManager {
-    private ServerSocket serverSocket;
-    private Socket socket;
+    private final Socket socket;
 
     private final Logger logger = Logger.getLogger(ClientManager.class.getName());
 
     /**
      * Standard constructor.
      *
-     * @param port Value of port
+     * @param socket Value of socket
      */
-    public ClientManager(int port) {
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            logger.severe("Could not listen on port: " + port);
-        }
-    }
-
-    /**
-     * Method for accepting connecting. Block program.
-     */
-    public void waitConnecting() {
-        try {
-            socket = serverSocket.accept();
-        }
-        catch (IOException e) {
-            logger.warning("Accept failed");
-        }
+    public ClientManager(Socket socket) {
+        this.socket = socket;
     }
 
     /**
@@ -55,18 +37,21 @@ public class ClientManager {
      * Block program.
      *
      * @return CommandBuilder
-     * @throws IOException Exception if something wrong with socket
      */
-    public Request receiveRequest() throws IOException {
+    public Request receiveRequest() {
         try {
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream deserializer = new ObjectInputStream(inputStream);
             return (Request) deserializer.readObject();
         }
         catch (ClassNotFoundException e) {
-            logger.warning("Class not found");
+            logger.warning("ClassNotFoundException: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-        return null;
+        catch (IOException e) {
+            logger.warning("IOException: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -74,12 +59,17 @@ public class ClientManager {
      * Block program.
      *
      * @param response String of response.
-     * @throws IOException Exception if something wrong with socket
      */
-    public void sendResponse(Response response) throws IOException {
-        ByteBuffer sendingBytes = ByteBuffer.allocate(4+response.getSize())
-                .putInt(response.getSize()).put(response.getContent().getBytes());
+    public void sendResponse(Response response) {
+        try {
+            ByteBuffer sendingBytes = ByteBuffer.allocate(4+response.getSize())
+                    .putInt(response.getSize()).put(response.getContent().getBytes());
 
-        socket.getOutputStream().write(sendingBytes.array());
+            socket.getOutputStream().write(sendingBytes.array());
+        }
+        catch (IOException e) {
+            logger.warning("IOException: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

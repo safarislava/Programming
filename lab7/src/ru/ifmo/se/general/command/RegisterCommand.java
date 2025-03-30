@@ -15,13 +15,6 @@ public class RegisterCommand implements Command {
 
     @Override
     public String execute() {
-        try {
-            data.register(username, password);
-        }
-        catch (Exception e) {
-            return "This username already exists.\n";
-        }
-
-        return "Successfully registered new user!\n";
+        return data.register(username, password);
     }
 }

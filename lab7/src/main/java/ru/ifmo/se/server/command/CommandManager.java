@@ -58,6 +58,8 @@ public class CommandManager {
      * @return String of response.
      */
     public Response execute(Request request) {
+        if (request.commandAssembler == null) return new Response();
+
         authOrganizationData.setUsername(request.username);
         if (!authOrganizationData.checkPassword(request.password))
             return new Response("Incorrect login or password\n");

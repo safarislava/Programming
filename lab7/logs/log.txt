@@ -1,7 +1,0 @@
-[2025-03-29 10:15:59 AM] ru.ifmo.se.server.collection.CollectionManager INFO:  Updating collection 
-[2025-03-29 10:15:59 AM] ru.ifmo.se.server.Main INFO:  Starting server 
-[2025-03-29 10:15:59 AM] ru.ifmo.se.server.Server INFO:  Server started 
-[2025-03-29 10:15:59 AM] ru.ifmo.se.server.Server INFO:  Waiting for connection 
-[2025-03-29 10:16:01 AM] ru.ifmo.se.server.Server INFO:  Client connected 
-[2025-03-29 10:16:01 AM] ru.ifmo.se.server.Server INFO:  Starting client thread 
-[2025-03-29 10:16:01 AM] ru.ifmo.se.server.Server INFO:  Waiting for connection 

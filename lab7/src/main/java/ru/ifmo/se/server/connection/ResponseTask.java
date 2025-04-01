@@ -14,29 +14,30 @@ import java.util.logging.Logger;
  */
 public class ResponseTask implements Runnable {
     private final ClientManager clientManager;
-    private final Future<Response> response;
+    private final Future<Response> responseFuture;
     private final Logger logger = Logger.getLogger(ResponseTask.class.getName());
 
     /**
      * Standard constructor.
      *
-     * @param response Value of future sending response.
+     * @param responseFuture Value of future sending response.
      * @param clientManager Value of clientManager
      */
-    public ResponseTask(Future<Response> response, ClientManager clientManager) {
+    public ResponseTask(Future<Response> responseFuture, ClientManager clientManager) {
         this.clientManager = clientManager;
-        this.response = response;
+        this.responseFuture = responseFuture;
     }
 
     @Override
     public void run() {
         try {
-           clientManager.sendResponse(response.get());
-        } catch (ExecutionException | InterruptedException e) {
+            Response response = responseFuture.get();
+            logger.info(response.getContent().trim());
+            if (response.getContent() == null) throw new NullPointerException("Response content is null");
+            clientManager.sendResponse(response);
+        } catch (InterruptedException | ExecutionException e) {
             clientManager.sendResponse(new Response("Failed\n"));
-
             logger.warning("Future exception: " + e.getMessage());
-            throw new RuntimeException(e);
         }
     }
 }

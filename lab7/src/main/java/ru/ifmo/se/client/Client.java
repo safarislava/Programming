@@ -9,7 +9,6 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.assembler.CommandAssembler;
 import ru.ifmo.se.general.command.assembler.type.ServerRequired;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -47,21 +46,15 @@ public class Client {
      */
     public void start() {
         running = true;
-
         while (running && parser.hasNext()) {
-            while (!serverManager.isConnected()) {
-                serverManager.tryConnectServer();
-            }
-
+            serverManager.guarantyConnection();
             try {
                 String[] commandArray = parser.getCommandArray();
                 String commandName = commandArray[0];
                 String[] args = Arrays.copyOfRange(commandArray, 1, commandArray.length);
-
                 CommandAssembler commandAssembler = commandManager.preassemble(commandName, args);
 
                 Request request = new Request(username, password, commandAssembler);
-
                 Response response;
                 if (commandAssembler instanceof ServerRequired) {
                     if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
@@ -76,15 +69,11 @@ public class Client {
                     response = new Response(command.execute());
                 }
                 showText(response.getContent());
-            }
-            catch (IOException e) {
-                serverManager.closeSocket();
-            }
-            catch (NoSuchElementException e){
+
+            } catch (NoSuchElementException e){
                 stop();
-            }
-            catch (Exception e) {
-                showText(e.getMessage() + "\n");
+            } catch (Exception e) {
+                showText(String.format("Exception: %s\n", e));
             }
         }
     }
@@ -153,10 +142,20 @@ public class Client {
         scriptCalls.remove(call);
     }
 
+    /**
+     * Setter of username.
+     *
+     * @param username Value of username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Setter of password.
+     *
+     * @param password Value of password
+     */
     public void setPassword(String password) {
         this.password = password;
     }

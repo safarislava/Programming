@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 /**
@@ -23,7 +24,8 @@ import java.util.logging.Logger;
  * @author safarislava
  */
 public class Server {
-    private static final int MAX_CONNECTIONS = 5;
+    private static final int MAX_CONNECTIONS = 2;
+    private static final int WAITING_TIME = 1000;
 
     private boolean running = false;
 
@@ -32,7 +34,7 @@ public class Server {
 
     private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
     private final ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
-    private final Set<Thread> connectionThreads = new HashSet<>();
+    private final Set<Socket> sockets = new HashSet<>();
 
     private final Logger logger = Logger.getLogger(Server.class.getName());
 
@@ -57,13 +59,18 @@ public class Server {
      */
     public void start() {
         running = true;
+        startStoppingThread();
 
-        Thread stoppingThread = new Thread(this::tryStop);
-        stoppingThread.start();
-
-        while (running && connectionThreads.size() < MAX_CONNECTIONS) {
+        while (running) {
+            if (sockets.size() >= MAX_CONNECTIONS) {
+                try {
+                    Thread.sleep(WAITING_TIME);
+                } catch (InterruptedException ignored) {}
+                continue;
+            }
             logger.info("Waiting for connection");
             Socket socket = connectionTask.connect();
+            sockets.add(socket);
             ClientManager clientManager = new ClientManager(socket);
             logger.info("Client connected");
 
@@ -72,51 +79,59 @@ public class Server {
                     try {
                         Future<Request> request = cachedThreadPool.submit(new RequestTask(clientManager));
                         Future<Response> response = forkJoinPool.submit(new ExecuteTask(request, commandManager));
+
+                        AtomicInteger countExceptions = new AtomicInteger();
                         Thread responseThread = new Thread(new ResponseTask(response, clientManager));
+                        responseThread.setUncaughtExceptionHandler(
+                                (t, e) -> countExceptions.getAndIncrement());
                         responseThread.start();
                         responseThread.join();
+
+                        if (countExceptions.get() > 0) {
+                            logger.info("Client disconnected");
+                            sockets.remove(clientManager.getSocket());
+                            break;
+                        }
                     } catch (Exception e) {
-                        logger.warning(e.getMessage());
-                        connectionThreads.remove(Thread.currentThread());
-                        Thread.currentThread().interrupt();
+                        logger.warning(e.toString());
+                        break;
                     }
                 }
             });
             logger.info("Starting client thread");
             connectionThread.start();
-            connectionThreads.add(connectionThread);
         }
     }
 
     /**
      * Stop lifecycle.
      */
-    public void tryStop() {
-        while (running) {
-            try {
-                Thread.sleep(1000);
-                if (System.in.available() > 0) {
+    public void startStoppingThread() {
+        Thread stoppingThread = new Thread(() -> {
+            while (running) {
+                try {
+                    Thread.sleep(WAITING_TIME);
+                    if (System.in.available() > 0) {
+                        Scanner scanner = new Scanner(System.in);
+                        if (scanner.next().equals("exit")) {
+                            logger.info("Server stopped");
+                            running = false;
 
-                    Scanner scanner = new Scanner(System.in);
-                    if (scanner.next().equals("exit")) {
-                        logger.info("Server stopped");
-                        running = false;
+                            connectionTask.close();
+                            for (Socket socket : sockets) {
+                                socket.close();
+                            }
 
-                        for (Thread thread : connectionThreads) {
-                            thread.interrupt();
+                            cachedThreadPool.shutdownNow();
+                            forkJoinPool.shutdownNow();
                         }
-
-                        cachedThreadPool.shutdownNow();
-                        forkJoinPool.shutdownNow();
                     }
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
-            catch (IOException e) {
-                System.out.println(e.getMessage());
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();
+        });
+        stoppingThread.start();
     }
 }

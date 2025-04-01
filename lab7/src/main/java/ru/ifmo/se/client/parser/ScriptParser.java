@@ -99,6 +99,6 @@ public class ScriptParser implements Parser {
                  return organizationType;
              }
          }
-         throw new RuntimeException("OrganizationType not found");
+         throw new RuntimeException("Exception: OrganizationType not found");
     }
 }

@@ -15,29 +15,29 @@ import java.util.logging.Logger;
  * @author safarislava
  */
 public class ExecuteTask implements Callable<Response> {
-    private final Future<Request> request;
+    private final Future<Request> requestFuture;
     private final CommandManager commandManager;
     private final Logger logger = Logger.getLogger(ExecuteTask.class.getName());
 
     /**
      * Standard constructor.
      *
-     * @param request Value of future request
+     * @param requestFuture Value of future request
      * @param commandManager Value of commandManager
      */
-    public ExecuteTask(Future<Request> request, CommandManager commandManager) {
-        this.request = request;
+    public ExecuteTask(Future<Request> requestFuture, CommandManager commandManager) {
+        this.requestFuture = requestFuture;
         this.commandManager = commandManager;
     }
 
     @Override
     public Response call() {
         try {
-            return commandManager.execute(request.get());
+            return commandManager.execute(requestFuture.get());
         }
         catch (Exception e) {
             logger.warning("Error while executing command: " + e.getMessage());
-            throw new RuntimeException(e);
+            return new Response();
         }
     }
 }

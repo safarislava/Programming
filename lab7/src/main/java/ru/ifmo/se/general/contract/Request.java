@@ -16,6 +16,11 @@ public class Request implements Serializable {
     public CommandAssembler commandAssembler;
 
     /**
+     * Standard constructor
+     */
+    public Request() {}
+
+    /**
      * Standard constructor.
      *
      * @param username Value of username

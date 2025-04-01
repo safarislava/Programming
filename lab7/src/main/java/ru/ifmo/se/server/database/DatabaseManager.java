@@ -32,19 +32,15 @@ public class DatabaseManager implements OrganizationData, UserData {
      */
     public void connect(String host, String config) {
         Properties properties = new Properties();
-
         try {
             properties.load(new FileInputStream(config));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.severe("Can't load properties file: " + e.getMessage());
             throw new RuntimeException(e);
         }
-
         try {
             connection = DriverManager.getConnection(host, properties);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             logger.severe("Can't connect to the database: " + e.getMessage());
             throw new RuntimeException(e);
         }
@@ -58,26 +54,22 @@ public class DatabaseManager implements OrganizationData, UserData {
     @Override
     public int count() {
         int count;
-
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT count(id) FROM organizations");
 
             resultSet.next();
             count = resultSet.getInt(1);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             logger.severe("Can't get count: " + e.getMessage());
             throw new RuntimeException(e);
         }
-
         return count;
     }
 
     @Override
     public List<Organization> getOrganizations() {
         List<Organization> organizations = new LinkedList<>();
-
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM organizations");
@@ -85,19 +77,16 @@ public class DatabaseManager implements OrganizationData, UserData {
             while (resultSet.next()) {
                 organizations.add(getOrganization(resultSet));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             logger.severe("Can't get organizations: " + e.getMessage());
             throw new RuntimeException(e);
         }
-
         return organizations;
     }
 
     @Override
     public List<Integer> getIds() {
         List<Integer> ids = new LinkedList<>();
-
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT id FROM organizations");
@@ -105,12 +94,10 @@ public class DatabaseManager implements OrganizationData, UserData {
             while (resultSet.next()) {
                 ids.add(resultSet.getInt("id"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             logger.severe("Can't get ids: " + e.getMessage());
             throw new RuntimeException(e);
         }
-
         return ids;
     }
 
@@ -123,8 +110,8 @@ public class DatabaseManager implements OrganizationData, UserData {
 
             resultSet.next();
             return getOrganization(resultSet);
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             logger.severe("Can't get organization: " + e.getMessage());
             throw new RuntimeException(e);
         }
@@ -143,8 +130,8 @@ public class DatabaseManager implements OrganizationData, UserData {
             statement.executeUpdate();
 
             return String.format("Organization %s successfully inserted%n", organization.getName());
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             logger.severe("Can't insert organization: " + e.getMessage());
             return String.format("Failed insert organization %s%n", organization.getName());
         }
@@ -164,8 +151,8 @@ public class DatabaseManager implements OrganizationData, UserData {
             statement.executeUpdate();
 
             return String.format("Organization %d successfully updated%n", id);
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             logger.severe("Can't update organization: " + e.getMessage());
             return String.format("Failed update organization %d%n", id);
         }
@@ -179,8 +166,8 @@ public class DatabaseManager implements OrganizationData, UserData {
             statement.executeUpdate();
 
             return String.format("Organization %d successfully removed%n", id);
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             logger.severe("Can't remove organization: " + e.getMessage());
             return String.format("Failed remove organization %d%n", id);
         }
@@ -196,8 +183,8 @@ public class DatabaseManager implements OrganizationData, UserData {
             resultSet.next();
 
             return resultSet.getString(1);
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             logger.severe("Can't get creator: " + e.getMessage());
             throw new RuntimeException(e);
         }
@@ -270,14 +257,12 @@ public class DatabaseManager implements OrganizationData, UserData {
                     "INSERT INTO users(username, password, salt) VALUES (?, ?, ?)");
 
             statement.setString(1, username);
-
             String salt = Hashing.getSalt();
             String passwordHash = Hashing.getHash(password + salt);
             statement.setString(2, passwordHash);
             statement.setString(3, salt);
 
             statement.executeUpdate();
-
             return String.format("User %s successfully registered%n", username);
         }
         catch (SQLException e) {
@@ -315,13 +300,19 @@ public class DatabaseManager implements OrganizationData, UserData {
 
             if (!resultSet.next()) return false;
             return resultSet.getString(1).equals(passwordHash);
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             logger.severe("Can't check user password: " + e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Method for getting salt from users database.
+     *
+     * @param username Value of username
+     * @return Value of salt
+     */
     private String getSalt(String username) {
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -332,8 +323,8 @@ public class DatabaseManager implements OrganizationData, UserData {
 
             if (!resultSet.next()) return null;
             return resultSet.getString(1);
-        }
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

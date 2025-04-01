@@ -72,4 +72,13 @@ public class ClientManager {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Getter of socket.
+     *
+     * @return Value of socket
+     */
+    public Socket getSocket() {
+        return socket;
+    }
 }

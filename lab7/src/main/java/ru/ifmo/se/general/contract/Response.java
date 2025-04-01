@@ -9,8 +9,13 @@ import java.io.Serializable;
  * @author safarislava
  */
 public class Response implements Serializable {
-    private final int size;
-    private final String content;
+    private int size;
+    private String content;
+
+    /**
+     * Standard constructor.
+     */
+    public Response() {}
 
     /**
      * Standard constructor.

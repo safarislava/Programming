@@ -29,13 +29,29 @@ public class ConnectionTask {
         }
     }
 
-
+    /**
+     * Method provides building new client socket.
+     *
+     * @return Value of socket
+     */
     public Socket connect () {
         try {
             return serverSocket.accept();
         } catch (IOException e) {
             logger.warning("Could not accept connection");
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Method provides closing server socket.
+     */
+    public void close() {
+        try {
+            serverSocket.close();
+        }
+        catch (IOException e) {
+            logger.warning("Could not close server socket");
         }
     }
 }

@@ -25,7 +25,6 @@ import java.util.logging.Logger;
  */
 public class Server {
     private static final int MAX_CONNECTIONS = 2;
-    private static final int WAITING_TIME = 1000;
 
     private boolean running = false;
 
@@ -64,7 +63,7 @@ public class Server {
         while (running) {
             if (sockets.size() >= MAX_CONNECTIONS) {
                 try {
-                    Thread.sleep(WAITING_TIME);
+                    Thread.sleep(100);
                 } catch (InterruptedException ignored) {}
                 continue;
             }
@@ -72,24 +71,25 @@ public class Server {
             Socket socket = connectionTask.connect();
             sockets.add(socket);
             ClientManager clientManager = new ClientManager(socket);
-            logger.info("Client connected");
+            logger.info(String.format("Client connected, connected %d sockets", sockets.size()));
 
             Thread connectionThread = new Thread(() -> {
                 while (running) {
                     try {
+                        AtomicInteger countExceptions = new AtomicInteger();
+
                         Future<Request> request = cachedThreadPool.submit(new RequestTask(clientManager));
                         Future<Response> response = forkJoinPool.submit(new ExecuteTask(request, commandManager));
-
-                        AtomicInteger countExceptions = new AtomicInteger();
                         Thread responseThread = new Thread(new ResponseTask(response, clientManager));
                         responseThread.setUncaughtExceptionHandler(
                                 (t, e) -> countExceptions.getAndIncrement());
+
                         responseThread.start();
                         responseThread.join();
 
                         if (countExceptions.get() > 0) {
-                            logger.info("Client disconnected");
                             sockets.remove(clientManager.getSocket());
+                            logger.info(String.format("Client disconnected, connected %d sockets", sockets.size()));
                             break;
                         }
                     } catch (Exception e) {
@@ -110,7 +110,6 @@ public class Server {
         Thread stoppingThread = new Thread(() -> {
             while (running) {
                 try {
-                    Thread.sleep(WAITING_TIME);
                     if (System.in.available() > 0) {
                         Scanner scanner = new Scanner(System.in);
                         if (scanner.next().equals("exit")) {
@@ -120,17 +119,17 @@ public class Server {
                             connectionTask.close();
                             for (Socket socket : sockets) {
                                 socket.close();
+                                sockets.remove(socket);
                             }
 
                             cachedThreadPool.shutdownNow();
                             forkJoinPool.shutdownNow();
                         }
                     }
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    break;
                 }
             }
-            Thread.currentThread().interrupt();
         });
         stoppingThread.start();
     }

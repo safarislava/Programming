@@ -44,12 +44,8 @@ public class ClientManager {
             ObjectInputStream deserializer = new ObjectInputStream(inputStream);
             return (Request) deserializer.readObject();
         }
-        catch (ClassNotFoundException e) {
-            logger.warning("ClassNotFoundException: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
-        catch (IOException e) {
-            logger.warning("IOException: " + e.getMessage());
+        catch (ClassNotFoundException | IOException e) {
+            logger.warning(e.getMessage());
             throw new RuntimeException(e);
         }
     }

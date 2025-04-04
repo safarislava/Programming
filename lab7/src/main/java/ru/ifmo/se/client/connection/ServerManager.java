@@ -10,6 +10,7 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 
 /**
  * Class for managing server connection.
@@ -27,6 +28,7 @@ public class ServerManager {
 
     private SocketChannel socketChannel;
     private final ByteBuffer buffer;
+    private final Selector selector;
 
     private boolean connected = false;
 
@@ -40,6 +42,12 @@ public class ServerManager {
         this.host = host;
         this.port = port;
         buffer = ByteBuffer.allocate(BUFFER_SIZE);
+
+        try {
+            selector = Selector.open();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean isConnected() {
@@ -55,6 +63,8 @@ public class ServerManager {
                 Thread.sleep(WAIT_TIME);
                 socketChannel = SocketChannel.open(new InetSocketAddress(host, port));
                 socketChannel.configureBlocking(false);
+
+                socketChannel.register(selector, SelectionKey.OP_READ);
 
                 connected = true;
                 break;
@@ -93,21 +103,35 @@ public class ServerManager {
      */
     public Response receiveResponse() {
         try {
-            StringBuilder content = new StringBuilder();
-            int countBytes = 0;
-            boolean done;
-            do {
-                buffer.clear();
-                socketChannel.read(buffer);
-                buffer.flip();
-                try {
-                    countBytes = buffer.getInt();
-                    done = countBytes > 0;
-                } catch (RuntimeException e) {
-                    done = false;
-                }
-            } while (!done);
+            while (true) {
+                selector.select();
+                Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
 
+                while (keys.hasNext()) {
+                    SelectionKey key = keys.next();
+                    keys.remove();
+                    if (key.isReadable()) return readResponse();
+                }
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Helpful method for exactly channel read logic.
+     *
+     * @return Value of response
+     */
+    private Response readResponse() {
+        try {
+            StringBuilder content = new StringBuilder();
+
+            buffer.clear();
+            socketChannel.read(buffer);
+            buffer.flip();
+
+            int countBytes = buffer.getInt();
             countBytes -= buffer.remaining();
             content.append(StandardCharsets.UTF_8.decode(buffer));
 
@@ -120,8 +144,7 @@ public class ServerManager {
             }
             return new Response(content.toString());
 
-        } catch (IOException e) {
-            connected = false;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

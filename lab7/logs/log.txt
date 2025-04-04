@@ -1,0 +1,12 @@
+[2025-04-03 09:05:56 PM] ru.ifmo.se.server.collection.CollectionManager INFO:  Updating collection 
+[2025-04-03 09:05:57 PM] ru.ifmo.se.server.Main INFO:  Starting server 
+[2025-04-03 09:05:57 PM] ru.ifmo.se.server.Server INFO:  Server started 
+[2025-04-03 09:05:57 PM] ru.ifmo.se.server.Server INFO:  Waiting for connection 
+[2025-04-03 09:06:02 PM] ru.ifmo.se.server.Server INFO:  Client connected, connected 1 sockets 
+[2025-04-03 09:06:02 PM] ru.ifmo.se.server.Server INFO:  Starting client thread 
+[2025-04-03 09:06:02 PM] ru.ifmo.se.server.Server INFO:  Waiting for connection 
+[2025-04-03 09:06:05 PM] ru.ifmo.se.server.Server INFO:  Server stopped 
+[2025-04-03 09:06:05 PM] ConnectionTask WARNING:  Could not accept connection 
+[2025-04-03 09:06:05 PM] ru.ifmo.se.server.connection.ClientManager WARNING:  IOException: null 
+[2025-04-03 09:06:05 PM] ru.ifmo.se.server.connection.RequestTask WARNING:  Error receiving request: java.net.SocketException: Socket closed 
+[2025-04-03 09:06:05 PM] ru.ifmo.se.server.Server INFO:  Client disconnected, connected 0 sockets 

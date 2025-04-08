@@ -38,13 +38,13 @@ public class ClientManager {
      *
      * @return CommandBuilder
      */
-    public Request receiveRequest() {
+    public Request receiveRequest() throws IOException {
         try {
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream deserializer = new ObjectInputStream(inputStream);
             return (Request) deserializer.readObject();
         }
-        catch (ClassNotFoundException | IOException e) {
+        catch (ClassNotFoundException e) {
             logger.warning(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -56,17 +56,11 @@ public class ClientManager {
      *
      * @param response String of response.
      */
-    public void sendResponse(Response response) {
-        try {
-            ByteBuffer sendingBytes = ByteBuffer.allocate(4+response.getSize())
-                    .putInt(response.getSize()).put(response.getContent().getBytes());
+    public void sendResponse(Response response) throws IOException {
+        ByteBuffer sendingBytes = ByteBuffer.allocate(4 + response.getSize())
+                .putInt(response.getSize()).put(response.getContent().getBytes());
 
-            socket.getOutputStream().write(sendingBytes.array());
-        }
-        catch (IOException e) {
-            logger.warning("IOException: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        socket.getOutputStream().write(sendingBytes.array());
     }
 
     /**

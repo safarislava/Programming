@@ -18,6 +18,5 @@ public class Main {
 
         Client client = new Client(collectionManager, console, new HashSet<>());
         client.start();
-
     }
 }

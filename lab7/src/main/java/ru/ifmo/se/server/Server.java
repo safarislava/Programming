@@ -98,6 +98,7 @@ public class Server {
                     }
                 }
             });
+
             logger.info("Starting client thread");
             connectionThread.start();
         }
@@ -114,20 +115,11 @@ public class Server {
                         Scanner scanner = new Scanner(System.in);
                         if (scanner.next().equals("exit")) {
                             logger.info("Server stopped");
-                            running = false;
-
-                            connectionTask.close();
-                            for (Socket socket : sockets) {
-                                socket.close();
-                                sockets.remove(socket);
-                            }
-
-                            cachedThreadPool.shutdownNow();
-                            forkJoinPool.shutdownNow();
+                            System.exit(0);
                         }
                     }
                 } catch (IOException e) {
-                    break;
+                    logger.warning(e.toString());
                 }
             }
         });

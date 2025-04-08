@@ -9,6 +9,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.assembler.CommandAssembler;
 import ru.ifmo.se.general.command.assembler.type.ServerRequired;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -70,8 +71,6 @@ public class Client {
                 }
                 showText(response.getContent());
 
-            } catch (NoSuchElementException e){
-                stop();
             } catch (Exception e) {
                 showText(String.format("Exception: %s\n", e));
             }

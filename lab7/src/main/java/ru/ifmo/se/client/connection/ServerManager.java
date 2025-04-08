@@ -68,7 +68,7 @@ public class ServerManager {
 
                 connected = true;
                 break;
-            } catch (Exception ignored) {
+            } catch (IOException | InterruptedException e) {
                 System.out.println("Exception: Connection failed");
             }
         }
@@ -114,6 +114,7 @@ public class ServerManager {
                 }
             }
         } catch (Exception e){
+            connected = false;
             throw new RuntimeException(e);
         }
     }

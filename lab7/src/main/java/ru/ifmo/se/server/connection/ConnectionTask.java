@@ -39,7 +39,7 @@ public class ConnectionTask {
             return serverSocket.accept();
         } catch (IOException e) {
             logger.warning("Could not accept connection");
-            throw new RuntimeException(e);
+            return null;
         }
     }
 

@@ -2,6 +2,7 @@ package ru.ifmo.se.server.connection;
 
 import ru.ifmo.se.general.contract.Request;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
@@ -25,13 +26,7 @@ public class RequestTask implements Callable<Request> {
     }
 
     @Override
-    public Request call() {
-        try {
-            return clientManager.receiveRequest();
-        }
-        catch (Exception e) {
-            logger.warning("Error receiving request: " + e.getMessage());
-            return new Request();
-        }
+    public Request call() throws IOException {
+        return clientManager.receiveRequest();
     }
 }

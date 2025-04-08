@@ -2,6 +2,7 @@ package ru.ifmo.se.server.connection;
 
 import ru.ifmo.se.general.contract.Response;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
@@ -33,11 +34,10 @@ public class ResponseTask implements Runnable {
         try {
             Response response = responseFuture.get();
             logger.info(response.getContent().trim());
-            if (response.getContent() == null) throw new NullPointerException("Response content is null");
             clientManager.sendResponse(response);
-        } catch (InterruptedException | ExecutionException e) {
-            clientManager.sendResponse(new Response("Failed\n"));
-            logger.warning("Future exception: " + e.getMessage());
+        } catch (Exception e) {
+            logger.warning("Exception occurred while sending response");
+            throw new RuntimeException(e);
         }
     }
 }

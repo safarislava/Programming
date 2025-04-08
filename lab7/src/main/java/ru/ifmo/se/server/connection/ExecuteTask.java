@@ -31,13 +31,7 @@ public class ExecuteTask implements Callable<Response> {
     }
 
     @Override
-    public Response call() {
-        try {
-            return commandManager.execute(requestFuture.get());
-        }
-        catch (Exception e) {
-            logger.warning("Error while executing command: " + e.getMessage());
-            return new Response();
-        }
+    public Response call() throws Exception {
+        return commandManager.execute(requestFuture.get());
     }
 }

@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Class for managing server connection.
+ * Class for managing ru.ifmo.se.server connection.
  * Provides connecting, receiving and sending information.
  *
  * @since 2.0
@@ -56,7 +56,7 @@ public class ServerManager {
     }
 
     /**
-     * Method that trying to connect server while it has done.
+     * Method that trying to connect ru.ifmo.se.server while it has done.
      */
     public void guarantyConnection() {
         while (!isConnected()) {

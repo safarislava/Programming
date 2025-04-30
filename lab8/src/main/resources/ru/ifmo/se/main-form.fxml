@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.se.client.gui.MainController">
+   <HBox alignment="CENTER">
+      <padding>
+         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+      </padding>
+      <Label text="Organization Control" />
+      <Pane HBox.hgrow="ALWAYS" />
+      <MenuButton fx:id="usernameButton" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log out" />
+         </items>
+      </MenuButton>
+   </HBox>
+   <TabPane tabClosingPolicy="UNAVAILABLE">
+      <Tab text="Table">
+         <VBox xmlns="http://javafx.com/javafx/23.0.1">
+            <MenuBar>
+               <Menu mnemonicParsing="false" text="Edit">
+                  <MenuItem mnemonicParsing="false" onAction="#insert" text="Insert" />
+                  <MenuItem mnemonicParsing="false" onAction="#update" text="Update" />
+                  <MenuItem mnemonicParsing="false" onAction="#removeId" text="Remove By ID" />
+                  <MenuItem mnemonicParsing="false" onAction="#removeGreaterId" text="Remove Greater ID " />
+                  <MenuItem mnemonicParsing="false" onAction="#removeGreater" text="Remove Greater " />
+                  <MenuItem mnemonicParsing="false" onAction="#removeLower" text="Remove Lower" />
+               </Menu>
+               <Menu mnemonicParsing="false" text="Filter">
+                  <MenuItem mnemonicParsing="false" onAction="#setDefaultFilter" text="Default" />
+                  <MenuItem mnemonicParsing="false" onAction="#setFilterContainsName" text="Contains Name" />
+                  <MenuItem mnemonicParsing="false" onAction="#setFilterFullName" text="Full Name" />
+               </Menu>
+               <Menu mnemonicParsing="false" text="Execute">
+                  <MenuItem mnemonicParsing="false" onAction="#countLessType" text="Count Less Type"/>
+                  <MenuItem mnemonicParsing="false" onAction="#executeScript" text="Execute Script"/>
+                  <MenuItem mnemonicParsing="false" onAction="#info" text="Info"/>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Help">
+                  <MenuItem mnemonicParsing="false" text="About" onAction="#help" />
+               </Menu>
+            </MenuBar>
+            <TableView fx:id="mainTable">
+               <columns>
+                  <TableColumn prefWidth="100.0" text="ID" />
+                  <TableColumn prefWidth="100.0" text="Name" />
+                  <TableColumn prefWidth="100.0" text="Coordinate X" />
+                  <TableColumn prefWidth="100.0" text="Coordinate Y" />
+                  <TableColumn prefWidth="100.0" text="Creation Time" />
+                  <TableColumn prefWidth="100.0" text="Annual Turnover" />
+                  <TableColumn prefWidth="100.0" text="Full Name" />
+                  <TableColumn prefWidth="100.0" text="Employees Count" />
+                  <TableColumn prefWidth="100.0" text="Type" />
+                  <TableColumn prefWidth="100.0" text="Postal Zipcode" />
+                  <TableColumn prefWidth="100.0" text="Postal Town X" />
+                  <TableColumn prefWidth="100.0" text="Postal Town Y" />
+                  <TableColumn prefWidth="100.0" text="Postal Town Z" />
+                  <TableColumn prefWidth="100.0" text="Creator" />
+               </columns>
+            </TableView>
+         </VBox>
+      </Tab>
+      <Tab text="Map">
+         <HBox alignment="CENTER">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+               <ScrollPane prefHeight="400.0" prefWidth="600.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="644.0" prefWidth="893.0">
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="76.0" layoutX="27.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="44.0" />
+                  </AnchorPane>
+               </ScrollPane>
+            </Pane>
+         </HBox>
+      </Tab>
+   </TabPane>
+</VBox>

@@ -7,18 +7,14 @@ import ru.ifmo.se.general.data.UserData;
 import ru.ifmo.se.server.collection.AuthOrganizationManager;
 import ru.ifmo.se.server.connection.*;
 import ru.ifmo.se.server.command.CommandManager;
-
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 /**
- * Major class. Provides life cycle of server side program.
+ * Major class. Provides life cycle of ru.ifmo.se.server side program.
  *
  * @since 2.0
  * @author safarislava
@@ -31,7 +27,9 @@ public class Server {
 
     private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
     private final ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
-    private final Set<Socket> sockets = new HashSet<>();
+    private final ConcurrentHashMap.KeySetView<ClientManager, Boolean> clients = ConcurrentHashMap.newKeySet();
+
+    private static final int WAIT_TIME = 1000;
 
     private final Logger logger = Logger.getLogger(Server.class.getName());
 
@@ -58,40 +56,33 @@ public class Server {
         running = true;
         startStoppingThread();
 
+        Thread updateThread = new Thread(() -> {
+            while (running) {
+                for (ClientManager client : clients) {
+                    if (client.isBusy()) continue;
+                    client.setBusy(true);
+
+                    Future<Request> request = cachedThreadPool.submit(new RequestTask(client));
+                    Future<Response> response = forkJoinPool.submit(new ExecuteTask(request, commandManager));
+                    Thread responseThread = new Thread(new ResponseTask(response, client));
+                    Thread endpointThread = new Thread(new EndpointTask(this, client, responseThread));
+                    endpointThread.start();
+                }
+
+                try {
+                    Thread.sleep(WAIT_TIME);
+                }
+                catch (Exception ignored) {}
+            }
+        });
+        updateThread.start();
+
         while (running) {
             logger.info("Waiting for connection");
             Socket socket = connectionTask.connect();
-            sockets.add(socket);
-            ClientManager clientManager = new ClientManager(socket);
-            logger.info(String.format("Client connected, connected %d sockets", sockets.size()));
-
-            Thread connectionThread = new Thread(() -> {
-                while (running) {
-                    try {
-                        AtomicInteger countExceptions = new AtomicInteger();
-
-                        Future<Request> request = cachedThreadPool.submit(new RequestTask(clientManager));
-                        Future<Response> response = forkJoinPool.submit(new ExecuteTask(request, commandManager));
-                        Thread responseThread = new Thread(new ResponseTask(response, clientManager));
-                        responseThread.setUncaughtExceptionHandler(
-                                (t, e) -> countExceptions.getAndIncrement());
-
-                        responseThread.start();
-                        responseThread.join();
-
-                        if (countExceptions.get() > 0) {
-                            sockets.remove(clientManager.getSocket());
-                            logger.info(String.format("Client disconnected, connected %d sockets", sockets.size()));
-                            break;
-                        }
-                    } catch (Exception e) {
-                        logger.warning(e.toString());
-                        break;
-                    }
-                }
-            });
-            logger.info("Starting client thread");
-            connectionThread.start();
+            ClientManager client = new ClientManager(socket);
+            clients.add(client);
+            logger.info(String.format("Client connected, connected %d sockets", clients.size()));
         }
     }
 
@@ -102,6 +93,7 @@ public class Server {
         Thread stoppingThread = new Thread(() -> {
             while (running) {
                 try {
+                    Thread.sleep(WAIT_TIME);
                     if (System.in.available() > 0) {
                         Scanner scanner = new Scanner(System.in);
                         if (scanner.next().equals("exit")) {
@@ -111,9 +103,15 @@ public class Server {
                     }
                 } catch (IOException e) {
                     logger.warning(e.toString());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
         stoppingThread.start();
+    }
+
+    public void removeClient(ClientManager client) {
+        clients.remove(client);
     }
 }

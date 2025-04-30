@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.se.client.gui.AskOrganizationController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <GridPane fx:id="idGrid" hgap="5.0" vgap="5.0">
+      <columnConstraints>
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+      <Label text="ID" GridPane.rowIndex="0" />
+      <TextField fx:id="id" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+   </GridPane>
+   <GridPane fx:id="mainGrid" hgap="5.0" vgap="5.0">
+      <columnConstraints>
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints />
+      </rowConstraints>
+      <Label text="Name" />
+      <Label text="Coordinate X" GridPane.rowIndex="1" />
+      <Label text="Coordinate Y" GridPane.rowIndex="2" />
+      <Label text="Annual Turnover" GridPane.rowIndex="3" />
+      <Label text="Full Name" GridPane.rowIndex="4" />
+      <Label text="Empoyees Count" GridPane.rowIndex="5" />
+      <TextField fx:id="name" GridPane.columnIndex="1" />
+      <TextField fx:id="coordinateX" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="coordinateY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="annualTurnover" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="fullName" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="employeesCount" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+   </GridPane>
+   <GridPane fx:id="typeGrid">
+      <columnConstraints>
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+      </rowConstraints>
+      <ChoiceBox fx:id="type" prefWidth="150.0" GridPane.columnIndex="1"/>
+      <Label text="Full Name"/>
+   </GridPane>
+   <GridPane fx:id="locationGrid" hgap="5.0" vgap="5.0">
+      <columnConstraints>
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+      <Label text="Zipcode" />
+      <Label text="Town X" GridPane.rowIndex="1" />
+      <Label text="Town Y" GridPane.rowIndex="2" />
+      <Label text="Town Z" GridPane.rowIndex="3" />
+      <TextField fx:id="zipcode" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      <TextField fx:id="townX" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="townY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="townZ" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   </GridPane>
+   <Button mnemonicParsing="false" onAction="#onConfirmButtonClicked" text="Done" />
+</VBox>

@@ -26,57 +26,60 @@
       <Pane HBox.hgrow="ALWAYS" />
       <MenuButton fx:id="usernameButton" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT">
          <items>
-            <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log out" />
+            <MenuItem fx:id="logOutButton" mnemonicParsing="false" onAction="#logOut" text="Log out" />
          </items>
       </MenuButton>
    </HBox>
    <TabPane tabClosingPolicy="UNAVAILABLE">
-      <Tab text="Table">
+      <Tab fx:id="tableTab" text="Table">
          <VBox xmlns="http://javafx.com/javafx/23.0.1">
             <MenuBar>
-               <Menu mnemonicParsing="false" text="Edit">
-                  <MenuItem mnemonicParsing="false" onAction="#insert" text="Insert" />
-                  <MenuItem mnemonicParsing="false" onAction="#update" text="Update" />
-                  <MenuItem mnemonicParsing="false" onAction="#removeId" text="Remove By ID" />
-                  <MenuItem mnemonicParsing="false" onAction="#removeGreaterId" text="Remove Greater ID " />
-                  <MenuItem mnemonicParsing="false" onAction="#removeGreater" text="Remove Greater " />
-                  <MenuItem mnemonicParsing="false" onAction="#removeLower" text="Remove Lower" />
+               <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
+                  <MenuItem fx:id="insertItem" mnemonicParsing="false" onAction="#insert" text="Insert" />
+                  <MenuItem fx:id="updateItem" mnemonicParsing="false" onAction="#update" text="Update" />
+                  <MenuItem fx:id="removeIdItem" mnemonicParsing="false" onAction="#removeId" text="Remove By ID" />
+                  <MenuItem fx:id="removeGreaterIdItem" mnemonicParsing="false" onAction="#removeGreaterId" text="Remove Greater ID " />
+                  <MenuItem fx:id="removeGreaterItem" mnemonicParsing="false" onAction="#removeGreater" text="Remove Greater " />
+                  <MenuItem fx:id="removeLowerItem" mnemonicParsing="false" onAction="#removeLower" text="Remove Lower" />
                </Menu>
-               <Menu mnemonicParsing="false" text="Filter">
-                  <MenuItem mnemonicParsing="false" onAction="#setDefaultFilter" text="Default" />
-                  <MenuItem mnemonicParsing="false" onAction="#setFilterContainsName" text="Contains Name" />
-                  <MenuItem mnemonicParsing="false" onAction="#setFilterFullName" text="Full Name" />
+               <Menu fx:id="filterMenu" mnemonicParsing="false" text="Filter">
+                  <MenuItem fx:id="defaultItem" mnemonicParsing="false" onAction="#setDefaultFilter" text="Default" />
+                  <MenuItem fx:id="containsNameItem" mnemonicParsing="false" onAction="#setFilterContainsName" text="Contains Name" />
+                  <MenuItem fx:id="fullNameItem" mnemonicParsing="false" onAction="#setFilterFullName" text="Full Name" />
                </Menu>
-               <Menu mnemonicParsing="false" text="Execute">
-                  <MenuItem mnemonicParsing="false" onAction="#countLessType" text="Count Less Type"/>
-                  <MenuItem mnemonicParsing="false" onAction="#executeScript" text="Execute Script"/>
-                  <MenuItem mnemonicParsing="false" onAction="#info" text="Info"/>
+               <Menu fx:id="executeMenu" mnemonicParsing="false" text="Execute">
+                  <MenuItem fx:id="countLessTypeItem" mnemonicParsing="false" onAction="#countLessType" text="Count Less Type"/>
+                  <MenuItem fx:id="executeScriptItem" mnemonicParsing="false" onAction="#executeScript" text="Execute Script"/>
+                  <MenuItem fx:id="infoItem" mnemonicParsing="false" onAction="#info" text="Info"/>
                </Menu>
-               <Menu mnemonicParsing="false" text="Help">
-                  <MenuItem mnemonicParsing="false" text="About" onAction="#help" />
+               <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
+                  <MenuItem fx:id="ruItem" mnemonicParsing="false" onAction="#setRuLocale" text="Set RU"/>
+                  <MenuItem fx:id="enItem" mnemonicParsing="false" onAction="#setEnLocale" text="Set EN"/>
+                  <MenuItem fx:id="geItem" mnemonicParsing="false" onAction="#setGeLocale" text="Set GE"/>
+                  <MenuItem fx:id="huItem" mnemonicParsing="false" onAction="#setHuLocale" text="Set HU"/>
                </Menu>
             </MenuBar>
             <TableView fx:id="mainTable">
                <columns>
-                  <TableColumn prefWidth="100.0" text="ID" />
-                  <TableColumn prefWidth="100.0" text="Name" />
-                  <TableColumn prefWidth="100.0" text="Coordinate X" />
-                  <TableColumn prefWidth="100.0" text="Coordinate Y" />
-                  <TableColumn prefWidth="100.0" text="Creation Time" />
-                  <TableColumn prefWidth="100.0" text="Annual Turnover" />
-                  <TableColumn prefWidth="100.0" text="Full Name" />
-                  <TableColumn prefWidth="100.0" text="Employees Count" />
-                  <TableColumn prefWidth="100.0" text="Type" />
-                  <TableColumn prefWidth="100.0" text="Postal Zipcode" />
-                  <TableColumn prefWidth="100.0" text="Postal Town X" />
-                  <TableColumn prefWidth="100.0" text="Postal Town Y" />
-                  <TableColumn prefWidth="100.0" text="Postal Town Z" />
-                  <TableColumn prefWidth="100.0" text="Creator" />
+                  <TableColumn fx:id="idColumn" minWidth="100.0" text="ID" />
+                  <TableColumn fx:id="nameColumn" minWidth="100.0" text="Name" />
+                  <TableColumn fx:id="coordinateXColumn" minWidth="100.0" text="Coordinate X" />
+                  <TableColumn fx:id="coordinateYColumn" minWidth="100.0" text="Coordinate Y" />
+                  <TableColumn fx:id="creationTimeColumn" minWidth="100.0" text="Creation Time" />
+                  <TableColumn fx:id="annualTurnoverColumn" minWidth="100.0" text="Annual Turnover" />
+                  <TableColumn fx:id="fullNameColumn" minWidth="100.0" text="Full Name" />
+                  <TableColumn fx:id="employeesCountColumn" minWidth="100.0" text="Employees Count" />
+                  <TableColumn fx:id="typeColumn" minWidth="100.0" text="Type" />
+                  <TableColumn fx:id="zipcodeColumn" minWidth="100.0" text="Zipcode" />
+                  <TableColumn fx:id="townXColumn" minWidth="100.0" text="Town X" />
+                  <TableColumn fx:id="townYColumn" minWidth="100.0" text="Town Y" />
+                  <TableColumn fx:id="townZColumn" minWidth="100.0" text="Town Z" />
+                  <TableColumn fx:id="creatorColumn" minWidth="100.0" text="Creator" />
                </columns>
             </TableView>
          </VBox>
       </Tab>
-      <Tab text="Map">
+      <Tab fx:id="mapTab" text="Map">
          <HBox alignment="CENTER">
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
                <ScrollPane prefHeight="400.0" prefWidth="600.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">

@@ -12,6 +12,7 @@ import ru.ifmo.se.client.parser.GuiParser;
 import ru.ifmo.se.general.parser.Parser;
 
 import java.io.File;
+import java.util.Locale;
 
 public class App extends Application {
     private Client client;
@@ -21,6 +22,8 @@ public class App extends Application {
     private Stage askStringStage;
     private Stage resultStage;
 
+    private Locale locale;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -28,6 +31,8 @@ public class App extends Application {
     private void initialize() {
         Parser parser = new GuiParser(this);
         client = new Client("127.0.0.1", 8012, parser); // "185.239.141.48"
+
+        locale = Locale.getDefault();
 
         askOrganizationStage = new Stage();
         askOrganizationStage.initOwner(primaryStage);
@@ -60,6 +65,7 @@ public class App extends Application {
 
         loginController.setClient(client);
         loginController.setApp(this);
+        loginController.setLocalizeLabels(locale);
 
         primaryStage.setScene(loginWindowScene);
     }
@@ -71,6 +77,7 @@ public class App extends Application {
 
         mainController.setClient(client);
         mainController.setApp(this);
+        mainController.setLocalizeLabels(locale);
         mainController.prepare();
 
         primaryStage.setScene(mainWindowScene);
@@ -91,6 +98,7 @@ public class App extends Application {
         AskOrganizationController askOrganizationController = askOrganizationWindowLoader.getController();
         askOrganizationController.setStage(askOrganizationStage);
 
+        askOrganizationController.setLocalizeLabels(locale);
         switch (type) {
             case ID -> askOrganizationController.setIdConfig();
             case ORGANIZATION -> askOrganizationController.setOrganizationConfig();
@@ -134,5 +142,9 @@ public class App extends Application {
     public void showError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.show();
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }

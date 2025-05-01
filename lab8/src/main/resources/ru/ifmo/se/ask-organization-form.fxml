@@ -25,7 +25,7 @@
       <rowConstraints>
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <Label text="ID" GridPane.rowIndex="0" />
+      <Label fx:id="idLabel" text="ID" GridPane.rowIndex="0" />
       <TextField fx:id="id" GridPane.columnIndex="1" GridPane.rowIndex="0" />
    </GridPane>
    <GridPane fx:id="mainGrid" hgap="5.0" vgap="5.0">
@@ -41,12 +41,12 @@
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          <RowConstraints />
       </rowConstraints>
-      <Label text="Name" />
-      <Label text="Coordinate X" GridPane.rowIndex="1" />
-      <Label text="Coordinate Y" GridPane.rowIndex="2" />
-      <Label text="Annual Turnover" GridPane.rowIndex="3" />
-      <Label text="Full Name" GridPane.rowIndex="4" />
-      <Label text="Empoyees Count" GridPane.rowIndex="5" />
+      <Label fx:id="nameLabel" text="Name" />
+      <Label fx:id="coordinateXLabel" text="Coordinate X" GridPane.rowIndex="1" />
+      <Label fx:id="coordinateYLabel" text="Coordinate Y" GridPane.rowIndex="2" />
+      <Label fx:id="annualTurnoverLabel" text="Annual Turnover" GridPane.rowIndex="3" />
+      <Label fx:id="fullNameLabel" text="Full Name" GridPane.rowIndex="4" />
+      <Label fx:id="employeesCountLabel" text="Empoyees Count" GridPane.rowIndex="5" />
       <TextField fx:id="name" GridPane.columnIndex="1" />
       <TextField fx:id="coordinateX" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="coordinateY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -56,14 +56,14 @@
    </GridPane>
    <GridPane fx:id="typeGrid">
       <columnConstraints>
-         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
-         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
       <rowConstraints>
-         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <ChoiceBox fx:id="type" prefWidth="150.0" GridPane.columnIndex="1"/>
-      <Label text="Full Name"/>
+      <ChoiceBox fx:id="type" prefWidth="150.0" GridPane.columnIndex="1" />
+      <Label fx:id="typeLabel" text="Type"/>
    </GridPane>
    <GridPane fx:id="locationGrid" hgap="5.0" vgap="5.0">
       <columnConstraints>
@@ -76,14 +76,14 @@
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <Label text="Zipcode" />
-      <Label text="Town X" GridPane.rowIndex="1" />
-      <Label text="Town Y" GridPane.rowIndex="2" />
-      <Label text="Town Z" GridPane.rowIndex="3" />
+      <Label fx:id="zipcodeLabel" text="Zipcode" />
+      <Label fx:id="townXLabel" text="Town X" GridPane.rowIndex="1" />
+      <Label fx:id="townYLabel" text="Town Y" GridPane.rowIndex="2" />
+      <Label fx:id="townZLabel" text="Town Z" GridPane.rowIndex="3" />
       <TextField fx:id="zipcode" GridPane.columnIndex="1" GridPane.rowIndex="0" />
       <TextField fx:id="townX" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="townY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <TextField fx:id="townZ" GridPane.columnIndex="1" GridPane.rowIndex="3" />
    </GridPane>
-   <Button mnemonicParsing="false" onAction="#onConfirmButtonClicked" text="Done" />
+   <Button mnemonicParsing="false" onAction="#onConfirmButtonClicked" text="OK" />
 </VBox>

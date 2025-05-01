@@ -1,21 +1,46 @@
 package ru.ifmo.se.client.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ru.ifmo.se.client.App;
 import ru.ifmo.se.client.Client;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class LoginController {
     private Client client;
     private App app;
 
+    private String wrongUsername;
+    private String usernameUsed;
+
     @FXML
-    private Label warning;
+    private Label loginLabel;
+    @FXML
+    private Label passwordLabel;
+    @FXML
+    private Label warningLabel;
     @FXML
     private TextField username;
     @FXML
     private TextField password;
+    @FXML
+    private Button enterButton;
+    @FXML
+    private Button registerButton;
+
+    public void setLocalizeLabels(Locale locale) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("ru.ifmo.se.client.gui.localization.Labels", locale);
+        loginLabel.setText(resourceBundle.getString("username"));
+        passwordLabel.setText(resourceBundle.getString("password"));
+        enterButton.setText(resourceBundle.getString("enter"));
+        registerButton.setText(resourceBundle.getString("register"));
+        wrongUsername = resourceBundle.getString("wrong username");
+        usernameUsed = resourceBundle.getString("username used");
+    }
 
     @FXML
     protected void onLoginButtonClick() throws Exception {
@@ -25,24 +50,24 @@ public class LoginController {
         client.start();
 
         if (client.isCorrectLogin()) {
-            warning.setText("");
+            warningLabel.setText("");
             app.setMainScene();
         }
         else {
-            warning.setText("Wrong username or password");
+            warningLabel.setText(wrongUsername);
         }
     }
 
     @FXML
     protected void onRegisterButtonClick() throws Exception {
         if (client.register(username.getText(), password.getText())) {
-            warning.setText("");
+            warningLabel.setText("");
             client.setUsername(username.getText());
             client.setPassword(password.getText());
             app.setMainScene();
         }
         else {
-            warning.setText("This username is already used");
+            warningLabel.setText(usernameUsed);
         }
     }
 

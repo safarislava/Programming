@@ -4,9 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import ru.ifmo.se.client.App;
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.client.command.Action;
@@ -15,7 +13,10 @@ import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.entity.OrganizationDto;
 
 import java.io.File;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainController {
     private Client client;
@@ -25,9 +26,123 @@ public class MainController {
     private final ArrayList<String> filterArgs = new ArrayList<>();
 
     @FXML
+    private MenuItem logOutButton;
+    @FXML
+    private Tab tableTab;
+    @FXML
+    private Menu editMenu;
+    @FXML
+    private MenuItem insertItem;
+    @FXML
+    private MenuItem updateItem;
+    @FXML
+    private MenuItem removeIdItem;
+    @FXML
+    private MenuItem removeGreaterIdItem;
+    @FXML
+    private MenuItem removeGreaterItem;
+    @FXML
+    private MenuItem removeLowerItem;
+    @FXML
+    private Menu filterMenu;
+    @FXML
+    private MenuItem defaultItem;
+    @FXML
+    private MenuItem containsNameItem;
+    @FXML
+    private MenuItem fullNameItem;
+    @FXML
+    private Menu executeMenu;
+    @FXML
+    private MenuItem countLessTypeItem;
+    @FXML
+    private MenuItem executeScriptItem;
+    @FXML
+    private MenuItem infoItem;
+    @FXML
+    private Menu helpMenu;
+    @FXML
+    private TableColumn<OrganizationDto, Integer> idColumn;
+    @FXML
+    private TableColumn<OrganizationDto, String> nameColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Double> coordinateXColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Double> coordinateYColumn;
+    @FXML
+    private TableColumn<OrganizationDto, String> creationTimeColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Long> annualTurnoverColumn;
+    @FXML
+    private TableColumn<OrganizationDto, String> fullNameColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Integer> employeesCountColumn;
+    @FXML
+    private TableColumn<OrganizationDto, String> typeColumn;
+    @FXML
+    private TableColumn<OrganizationDto, String> zipcodeColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Double> townXColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Double> townYColumn;
+    @FXML
+    private TableColumn<OrganizationDto, Float> townZColumn;
+    @FXML
+    private TableColumn<OrganizationDto, String> creatorColumn;
+    @FXML
+    private Tab mapTab;
+    @FXML
     private TableView<OrganizationDto> mainTable;
     @FXML
     private MenuButton usernameButton;
+    @FXML
+    private MenuItem ruItem;
+    @FXML
+    private MenuItem enItem;
+    @FXML
+    private MenuItem geItem;
+    @FXML
+    private MenuItem huItem;
+
+    public void setLocalizeLabels(Locale locale) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("ru.ifmo.se.client.gui.localization.Labels", locale);
+        logOutButton.setText(resourceBundle.getString("log out"));
+        tableTab.setText(resourceBundle.getString("table"));
+        editMenu.setText(resourceBundle.getString("edit"));
+        insertItem.setText(resourceBundle.getString("insert"));
+        updateItem.setText(resourceBundle.getString("update"));
+        removeIdItem.setText(resourceBundle.getString("remove id"));
+        removeGreaterIdItem.setText(resourceBundle.getString("remove greater id"));
+        removeGreaterItem.setText(resourceBundle.getString("remove greater"));
+        removeLowerItem.setText(resourceBundle.getString("remove lower"));
+        filterMenu.setText(resourceBundle.getString("filter"));
+        defaultItem.setText(resourceBundle.getString("default"));
+        containsNameItem.setText(resourceBundle.getString("contains name"));
+        fullNameItem.setText(resourceBundle.getString("full name"));
+        executeMenu.setText(resourceBundle.getString("execute"));
+        countLessTypeItem.setText(resourceBundle.getString("count less type"));
+        executeScriptItem.setText(resourceBundle.getString("execute script"));
+        infoItem.setText(resourceBundle.getString("info"));
+        helpMenu.setText(resourceBundle.getString("help"));
+        idColumn.setText(resourceBundle.getString("id"));
+        nameColumn.setText(resourceBundle.getString("name"));
+        coordinateXColumn.setText(resourceBundle.getString("coordinate x"));
+        coordinateYColumn.setText(resourceBundle.getString("coordinate y"));
+        creationTimeColumn.setText(resourceBundle.getString("creation time"));
+        annualTurnoverColumn.setText(resourceBundle.getString("annual turnover"));
+        fullNameColumn.setText(resourceBundle.getString("full name"));
+        typeColumn.setText(resourceBundle.getString("type"));
+        employeesCountColumn.setText(resourceBundle.getString("employees count"));
+        zipcodeColumn.setText(resourceBundle.getString("zipcode"));
+        townXColumn.setText(resourceBundle.getString("town x"));
+        townYColumn.setText(resourceBundle.getString("town y"));
+        townZColumn.setText(resourceBundle.getString("town z"));
+        mapTab.setText(resourceBundle.getString("map"));
+        ruItem.setText(resourceBundle.getString("set ru"));
+        enItem.setText(resourceBundle.getString("set en"));
+        geItem.setText(resourceBundle.getString("set ge"));
+        huItem.setText(resourceBundle.getString("set hu"));
+    }
 
     public void setClient(Client client) {
         this.client = client;
@@ -55,56 +170,28 @@ public class MainController {
 
     public void updateTable() {
         String text = client.execute(filterAction, filterArgs.toArray(new String[0])).getContent();
-
         ObservableList<OrganizationDto> items = FXCollections.observableArrayList(OrganizationConverter.decode(text));
 
         mainTable.getColumns().clear();
 
-        TableColumn<OrganizationDto, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().organization.getId()).asObject());
-
-        TableColumn<OrganizationDto, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getName()));
-
-        TableColumn<OrganizationDto, Double> coordinateXColumn = new TableColumn<>("Coordinate X");
         coordinateXColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getCoordinates().getX()).asObject());
-
-        TableColumn<OrganizationDto, Double> coordinateYColumn = new TableColumn<>("Coordinate Y");
         coordinateYColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getCoordinates().getY()).asObject());
-
-        TableColumn<OrganizationDto, String> creationDateColumn = new TableColumn<>("Creation Time");
-        creationDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getCreationDate().toString()));
-
-        TableColumn<OrganizationDto, Long> turnoverColumn = new TableColumn<>("Annual Turnover");
-        turnoverColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().organization.getAnnualTurnover()).asObject());
-
-        TableColumn<OrganizationDto, String> fullNameColumn = new TableColumn<>("Full Name");
+        creationTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getCreationDate().withZoneSameInstant(ZoneId.systemDefault()).toString()));
+        annualTurnoverColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().organization.getAnnualTurnover()).asObject());
         fullNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getFullName()));
-
-        TableColumn<OrganizationDto, Integer> employeesColumn = new TableColumn<>("Employees Count");
-        employeesColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().organization.getEmployeesCount()).asObject());
-
-        TableColumn<OrganizationDto, String> typeColumn = new TableColumn<>("Type");
+        employeesCountColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().organization.getEmployeesCount()).asObject());
         typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getType().toString()));
-
-        TableColumn<OrganizationDto, String> zipcodeColumn = new TableColumn<>("Postal Zipcode");
         zipcodeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getPostalAddress().getZipCode()));
-
-        TableColumn<OrganizationDto, Double> townXColumn = new TableColumn<>("Postal Town X");
         townXColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getPostalAddress().getTown().getX()).asObject());
-
-        TableColumn<OrganizationDto, Double> townYColumn = new TableColumn<>("Postal Town Y");
         townYColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getPostalAddress().getTown().getY()).asObject());
-
-        TableColumn<OrganizationDto, Float> townZColumn = new TableColumn<>("Postal Town Z");
         townZColumn.setCellValueFactory(cellData -> new SimpleFloatProperty(cellData.getValue().organization.getPostalAddress().getTown().getZ()).asObject());
-
-        TableColumn<OrganizationDto, String> creatorColumn = new TableColumn<>("Creator");
         creatorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().creator));
 
         mainTable.getColumns().addAll(
-                idColumn, nameColumn, coordinateXColumn, coordinateYColumn, creationDateColumn,
-                turnoverColumn, fullNameColumn, employeesColumn, typeColumn,
+                idColumn, nameColumn, coordinateXColumn, coordinateYColumn, creationTimeColumn,
+                annualTurnoverColumn, fullNameColumn, employeesCountColumn, typeColumn,
                 zipcodeColumn, townXColumn, townYColumn, townZColumn, creatorColumn);
 
         mainTable.setItems(items);
@@ -182,12 +269,37 @@ public class MainController {
         }
     }
 
-    public void help() {
-        String result = client.execute(Action.HELP, new String[0]).getContent();
-        if (result.equals(CodePhrase.FAILED)) {app.showError();}
-
+    public void setRuLocale() {
+        app.setLocale(new Locale("ru"));
         try {
-            app.openResultScene(String.format(result));
+            app.setMainScene();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setEnLocale() {
+        app.setLocale(new Locale("en"));
+        try {
+            app.setMainScene();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setGeLocale() {
+        app.setLocale(new Locale("ge"));
+        try {
+            app.setMainScene();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setHuLocale() {
+        app.setLocale(new Locale("hu"));
+        try {
+            app.setMainScene();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

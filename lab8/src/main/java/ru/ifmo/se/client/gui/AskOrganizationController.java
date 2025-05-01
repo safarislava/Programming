@@ -5,10 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import ru.ifmo.se.general.entity.*;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class AskOrganizationController {
     private Stage stage;
@@ -49,6 +53,46 @@ public class AskOrganizationController {
     private GridPane typeGrid;
     @FXML
     private GridPane locationGrid;
+    @FXML
+    private Label idLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label coordinateXLabel;
+    @FXML
+    private Label coordinateYLabel;
+    @FXML
+    private Label annualTurnoverLabel;
+    @FXML
+    private Label fullNameLabel;
+    @FXML
+    private Label employeesCountLabel;
+    @FXML
+    private Label typeLabel;
+    @FXML
+    private Label zipcodeLabel;
+    @FXML
+    private Label townXLabel;
+    @FXML
+    private Label townYLabel;
+    @FXML
+    private Label townZLabel;
+
+    public void setLocalizeLabels(Locale locale) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("ru.ifmo.se.client.gui.localization.Labels", locale);
+        idLabel.setText(resourceBundle.getString("id"));
+        nameLabel.setText(resourceBundle.getString("name"));
+        coordinateXLabel.setText(resourceBundle.getString("coordinate x"));
+        coordinateYLabel.setText(resourceBundle.getString("coordinate y"));
+        annualTurnoverLabel.setText(resourceBundle.getString("annual turnover"));
+        fullNameLabel.setText(resourceBundle.getString("full name"));
+        employeesCountLabel.setText(resourceBundle.getString("employees count"));
+        typeLabel.setText(resourceBundle.getString("type"));
+        zipcodeLabel.setText(resourceBundle.getString("zipcode"));
+        townXLabel.setText(resourceBundle.getString("town x"));
+        townYLabel.setText(resourceBundle.getString("town y"));
+        townZLabel.setText(resourceBundle.getString("town z"));
+    }
 
     private Organization setOrganization() {
         Organization organization = new Organization();

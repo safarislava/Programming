@@ -4,7 +4,7 @@ import java.util.ListResourceBundle;
 
 public class Labels_ru extends ListResourceBundle {
     private final Object[][] contents = {
-            {"username", "Имя пользователя"},
+            {"username", "Пользователь"},
             {"password", "Пароль"},
             {"enter", "Вход"},
             {"register", "Регистрация"},

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.se.client.gui.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ifmo.se.client.gui.MainController">
    <HBox alignment="CENTER">
       <padding>
          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -32,7 +32,7 @@
    </HBox>
    <TabPane tabClosingPolicy="UNAVAILABLE">
       <Tab fx:id="tableTab" text="Table">
-         <VBox xmlns="http://javafx.com/javafx/23.0.1">
+         <VBox>
             <MenuBar>
                <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
                   <MenuItem fx:id="insertItem" mnemonicParsing="false" onAction="#insert" text="Insert" />

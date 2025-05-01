@@ -50,6 +50,7 @@ public class LoginController {
         client.start();
 
         if (client.isCorrectLogin()) {
+            client.startSync();
             warningLabel.setText("");
             app.setMainScene();
         }

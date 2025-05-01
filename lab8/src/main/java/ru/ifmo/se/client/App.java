@@ -80,6 +80,9 @@ public class App extends Application {
         mainController.setLocalizeLabels(locale);
         mainController.prepare();
 
+        client.syncServer();
+        mainController.updateTable();
+
         primaryStage.setScene(mainWindowScene);
     }
 

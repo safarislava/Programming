@@ -2,9 +2,12 @@ package ru.ifmo.se.client;
 
 import ru.ifmo.se.client.command.CommandManager;
 import ru.ifmo.se.client.command.Action;
+import ru.ifmo.se.client.gui.FilterType;
 import ru.ifmo.se.general.contract.CodePhrase;
+import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.contract.Request;
 import ru.ifmo.se.general.contract.Response;
+import ru.ifmo.se.general.entity.OrganizationDto;
 import ru.ifmo.se.general.exeption.ClosedWindow;
 import ru.ifmo.se.general.parser.Parser;
 import ru.ifmo.se.client.connection.ServerManager;
@@ -12,9 +15,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.assembler.CommandAssembler;
 import ru.ifmo.se.general.command.assembler.type.ServerRequired;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Major class. Provides life cycle of client side program.
@@ -31,6 +32,14 @@ public class Client {
 
     private String username;
     private String password;
+
+    private Action filterAction = FilterType.getAction(FilterType.DEFAULT);
+    private final ArrayList<String> filterArgs = new ArrayList<>();
+
+    private List<OrganizationDto> organizations = new LinkedList<>();
+
+    private static final int SYNC_THRESHOLD = 5000;
+    private Thread syncServerThread;
 
     /**
      * Standard constructor.
@@ -49,6 +58,30 @@ public class Client {
         serverManager.guarantyConnection();
     }
 
+    public void syncServer() {
+        Response response = execute(filterAction, filterArgs.toArray(new String[0]));
+        organizations = OrganizationConverter.decode(response.getContent());
+    }
+
+    public void startSync() {
+        syncServerThread = new Thread(() -> {
+            while (true) {
+                syncServer();
+                try {
+                    Thread.sleep(SYNC_THRESHOLD);
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+        syncServerThread.start();
+    }
+
+    public void stopSync() {
+        if (syncServerThread != null) syncServerThread.interrupt();
+    }
+
     /**
      * Stop listening
      */
@@ -60,7 +93,7 @@ public class Client {
         return execute(name.get(), args);
     }
 
-    public Response execute(String name, String[] args) {
+    public synchronized Response execute(String name, String[] args) {
         try {
             CommandAssembler commandAssembler = commandManager.getAssembler(name, args);
 
@@ -102,9 +135,8 @@ public class Client {
         return response.getContent().equals(CodePhrase.SUCCESSFUL);
     }
 
-    public String getOrganizations() {
-        Response response = execute(Action.SHOW, new String[0]);
-        return response.getContent();
+    public List<OrganizationDto> getOrganizations() {
+        return organizations;
     }
 
     /**
@@ -174,5 +206,11 @@ public class Client {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setFilter(Action filterAction, String[] filterArgs) {
+        this.filterAction = filterAction;
+        this.filterArgs.clear();
+        this.filterArgs.addAll(Arrays.asList(filterArgs));
     }
 }

@@ -1,20 +1,22 @@
 package ru.ifmo.se.client.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Duration;
 import ru.ifmo.se.client.App;
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.client.command.Action;
 import ru.ifmo.se.general.contract.CodePhrase;
-import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.entity.OrganizationDto;
 
 import java.io.File;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -22,8 +24,8 @@ public class MainController {
     private Client client;
     private App app;
 
-    private Action filterAction = FilterType.getAction(FilterType.DEFAULT);
-    private final ArrayList<String> filterArgs = new ArrayList<>();
+    private Timeline updateTimeline;
+    private static final int UPDATE_THRESHOLD = 5;
 
     @FXML
     private MenuItem logOutButton;
@@ -154,23 +156,45 @@ public class MainController {
 
     public void prepare() {
         setUsernameButton();
-        updateTable();
+        setupAutoUpdate();
+    }
+
+    private void setupAutoUpdate() {
+        if (updateTimeline != null) {
+            updateTimeline.stop();
+        }
+
+        updateTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(UPDATE_THRESHOLD), e -> updateTable())
+        );
+
+        updateTimeline.setCycleCount(Timeline.INDEFINITE);
+        updateTimeline.play();
     }
 
     public void setUsernameButton() {
         usernameButton.setText(client.getUsername());
     }
 
-    @FXML
-    protected void logOut() throws Exception {
+    public void logOut() {
+        client.stopSync();
         client.setUsername(null);
         client.setPassword(null);
-        app.setLoginScene();
+
+        if (updateTimeline != null) {
+            updateTimeline.stop();
+        }
+
+        try {
+            app.setLoginScene();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void updateTable() {
-        String text = client.execute(filterAction, filterArgs.toArray(new String[0])).getContent();
-        ObservableList<OrganizationDto> items = FXCollections.observableArrayList(OrganizationConverter.decode(text));
+    public synchronized void updateTable() {
+        List<OrganizationDto> organizations = client.getOrganizations();
+        ObservableList<OrganizationDto> items = FXCollections.observableArrayList(organizations);
 
         mainTable.getColumns().clear();
 
@@ -306,17 +330,14 @@ public class MainController {
     }
 
     public void setDefaultFilter() {
-        filterAction = FilterType.getAction(FilterType.DEFAULT);
-        filterArgs.clear();
+        client.setFilter(FilterType.getAction(FilterType.DEFAULT), new String[0]);
         updateTable();
     }
 
     public void setFilterContainsName() {
         try {
-            filterAction = FilterType.getAction(FilterType.FILTER_CONTAINS_NAME);
             AskStringController askStringController = app.openAskStringScene("Name");
-            filterArgs.clear();
-            filterArgs.add(askStringController.getString());
+            client.setFilter(FilterType.getAction(FilterType.FILTER_CONTAINS_NAME), new String[]{askStringController.getString()});
             updateTable();
         } catch (Exception e) {
             app.showError();
@@ -326,10 +347,8 @@ public class MainController {
 
     public void setFilterFullName() {
         try {
-            filterAction = FilterType.getAction(FilterType.FILTER_FULL_NAME);
             AskStringController askStringController = app.openAskStringScene("Full Name");
-            filterArgs.clear();
-            filterArgs.add(askStringController.getString());
+            client.setFilter(FilterType.getAction(FilterType.FILTER_FULL_NAME), new String[]{askStringController.getString()});
             updateTable();
         } catch (Exception e) {
             app.showError();

@@ -6,6 +6,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 import ru.ifmo.se.client.App;
@@ -105,6 +106,8 @@ public class MainController {
     private MenuItem geItem;
     @FXML
     private MenuItem huItem;
+    @FXML
+    private Canvas visualisationCanvas;
 
     public void setLocalizeLabels(Locale locale) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("ru.ifmo.se.client.gui.localization.Labels", locale);
@@ -165,7 +168,7 @@ public class MainController {
         }
 
         updateTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(UPDATE_THRESHOLD), e -> updateTable())
+                new KeyFrame(Duration.seconds(UPDATE_THRESHOLD), e -> updateOrganization())
         );
 
         updateTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -192,8 +195,13 @@ public class MainController {
         }
     }
 
-    public synchronized void updateTable() {
+    public void updateOrganization() {
         List<OrganizationDto> organizations = client.getOrganizations();
+        updateTable(organizations);
+        updateVisualisation(organizations);
+    }
+
+    public synchronized void updateTable(List<OrganizationDto> organizations) {
         ObservableList<OrganizationDto> items = FXCollections.observableArrayList(organizations);
 
         mainTable.getColumns().clear();
@@ -224,37 +232,37 @@ public class MainController {
     public void insert() {
         String result = client.execute(Action.INSERT, new String[0]).getContent();
         if (result.equals(CodePhrase.FAILED)) {app.showError();}
-        updateTable();
+        updateOrganization();
     }
 
     public void update() {
         String result = client.execute(Action.UPDATE, new String[0]).getContent();
         if (result.equals(CodePhrase.FAILED)) {app.showError();}
-        updateTable();
+        updateOrganization();
     }
 
     public void removeId() {
         String result = client.execute(Action.REMOVE_ID, new String[0]).getContent();
         if (result.equals(CodePhrase.FAILED)) {app.showError();}
-        updateTable();
+        updateOrganization();
     }
 
     public void removeGreaterId() {
         String result = client.execute(Action.REMOVE_GREATER_ID, new String[0]).getContent();
         if (result.equals(CodePhrase.FAILED)) {app.showError();}
-        updateTable();
+        updateOrganization();
     }
 
     public void removeGreater() {
         String result = client.execute(Action.REMOVE_GREATER, new String[0]).getContent();
         if (result.equals(CodePhrase.FAILED)) {app.showError();}
-        updateTable();
+        updateOrganization();
     }
 
     public void removeLower() {
         String result = client.execute(Action.REMOVE_LOWER, new String[0]).getContent();
         if (result.equals(CodePhrase.FAILED)) {app.showError();}
-        updateTable();
+        updateOrganization();
     }
 
     public void countLessType() {
@@ -276,7 +284,7 @@ public class MainController {
                     new String[]{script.getAbsoluteFile().toString()}).getContent();
             if (result.equals(CodePhrase.FAILED)) {app.showError();}
 
-            updateTable();
+            updateOrganization();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -331,14 +339,14 @@ public class MainController {
 
     public void setDefaultFilter() {
         client.setFilter(FilterType.getAction(FilterType.DEFAULT), new String[0]);
-        updateTable();
+        updateOrganization();
     }
 
     public void setFilterContainsName() {
         try {
             AskStringController askStringController = app.openAskStringScene("Name");
             client.setFilter(FilterType.getAction(FilterType.FILTER_CONTAINS_NAME), new String[]{askStringController.getString()});
-            updateTable();
+            updateOrganization();
         } catch (Exception e) {
             app.showError();
             throw new RuntimeException(e);
@@ -349,10 +357,14 @@ public class MainController {
         try {
             AskStringController askStringController = app.openAskStringScene("Full Name");
             client.setFilter(FilterType.getAction(FilterType.FILTER_FULL_NAME), new String[]{askStringController.getString()});
-            updateTable();
+            updateOrganization();
         } catch (Exception e) {
             app.showError();
             throw new RuntimeException(e);
         }
+    }
+
+    private synchronized void updateVisualisation(List<OrganizationDto> organizations) {
+
     }
 }

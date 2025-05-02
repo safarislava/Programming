@@ -81,7 +81,7 @@ public class App extends Application {
         mainController.prepare();
 
         client.syncServer();
-        mainController.updateTable();
+        mainController.updateOrganization();
 
         primaryStage.setScene(mainWindowScene);
     }

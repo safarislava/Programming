@@ -8,7 +8,6 @@ import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.contract.Request;
 import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.entity.OrganizationDto;
-import ru.ifmo.se.general.exeption.ClosedWindow;
 import ru.ifmo.se.general.parser.Parser;
 import ru.ifmo.se.client.connection.ServerManager;
 import ru.ifmo.se.general.command.Command;
@@ -16,6 +15,9 @@ import ru.ifmo.se.general.command.assembler.CommandAssembler;
 import ru.ifmo.se.general.command.assembler.type.ServerRequired;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Major class. Provides life cycle of client side program.
@@ -38,8 +40,8 @@ public class Client {
 
     private List<OrganizationDto> organizations = new LinkedList<>();
 
-    private static final int SYNC_THRESHOLD = 5000;
-    private Thread syncServerThread;
+    private static final int SYNC_THRESHOLD = 5;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     /**
      * Standard constructor.
@@ -64,22 +66,11 @@ public class Client {
     }
 
     public void startSync() {
-        syncServerThread = new Thread(() -> {
-            while (true) {
-                syncServer();
-                try {
-                    Thread.sleep(SYNC_THRESHOLD);
-                }
-                catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        });
-        syncServerThread.start();
+        scheduler.scheduleWithFixedDelay(this::syncServer, 0, SYNC_THRESHOLD, TimeUnit.SECONDS);
     }
 
     public void stopSync() {
-        if (syncServerThread != null) syncServerThread.interrupt();
+        scheduler.shutdown();
     }
 
     /**
@@ -110,7 +101,7 @@ public class Client {
             }
             return response;
         }
-        catch (NullPointerException | ClosedWindow e) {
+        catch (NullPointerException e) {
             return new Response(CodePhrase.SKIP);
         }
         catch (Exception e) {

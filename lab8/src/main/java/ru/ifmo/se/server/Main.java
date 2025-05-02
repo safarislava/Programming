@@ -27,7 +27,5 @@ public class Main {
         logger.info("Starting ru.ifmo.se.server");
         Server server = new Server(8012, collectionManager, databaseManager);
         server.start();
-
-        logger.info("Stop ru.ifmo.se.server");
     }
 }

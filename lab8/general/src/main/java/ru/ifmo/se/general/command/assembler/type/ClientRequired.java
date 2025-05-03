@@ -1,7 +1,7 @@
 package ru.ifmo.se.general.command.assembler.type;
 
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 
 public interface ClientRequired {
-    void setClient(ClientInterface client);
+    void setClient(AbstractClient client);
 }

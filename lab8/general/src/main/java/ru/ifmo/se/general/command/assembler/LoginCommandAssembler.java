@@ -3,13 +3,13 @@ package ru.ifmo.se.general.command.assembler;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.LoginCommand;
 import ru.ifmo.se.general.command.assembler.type.ClientRequired;
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 import ru.ifmo.se.general.parser.Parser;
 
 public class LoginCommandAssembler implements CommandAssembler, ClientRequired {
     private String username;
     private String password;
-    private ClientInterface client;
+    private AbstractClient client;
 
     @Override
     public Command assemble() {
@@ -30,7 +30,7 @@ public class LoginCommandAssembler implements CommandAssembler, ClientRequired {
     }
 
     @Override
-    public void setClient(ClientInterface client) {
+    public void setClient(AbstractClient client) {
         this.client = client;
     }
 }

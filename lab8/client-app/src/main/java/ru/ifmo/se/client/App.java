@@ -62,7 +62,7 @@ public class App extends Application {
     }
 
     public void setLoginScene() throws Exception {
-        FXMLLoader loginWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/login-form.fxml"));
+        FXMLLoader loginWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/client/login-form.fxml"));
         Scene loginWindowScene = new Scene(loginWindowLoader.load(), 800, 600);
         LoginController loginController = loginWindowLoader.getController();
 
@@ -74,14 +74,14 @@ public class App extends Application {
     }
 
     public void setMainScene() throws Exception {
-        FXMLLoader mainWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/main-form.fxml"));
+        FXMLLoader mainWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/client/main-form.fxml"));
         Scene mainWindowScene = new Scene(mainWindowLoader.load(), 800, 600);
         MainController mainController = mainWindowLoader.getController();
 
         mainController.setClient(client);
         mainController.setApp(this);
-        mainController.setLocalizeLabels(locale);
         mainController.prepare();
+        mainController.setLocalizeLabels(locale);
 
         client.syncServer();
         mainController.updateOrganization();
@@ -90,7 +90,7 @@ public class App extends Application {
     }
 
     public AskOrganizationController openAskOrganizationScene(AskWindowType type) throws Exception {
-        FXMLLoader askOrganizationWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/ask-organization-form.fxml"));
+        FXMLLoader askOrganizationWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/client/ask-organization-form.fxml"));
         Scene askOrganizationWindowScene = new Scene(askOrganizationWindowLoader.load(), 225, 460);
         AskOrganizationController askOrganizationController = getAskOrganizationController(type, askOrganizationWindowLoader);
 
@@ -115,7 +115,7 @@ public class App extends Application {
     }
 
     public AskStringController openAskStringScene(String prompt) throws Exception {
-        FXMLLoader askStringWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/ask-string-form.fxml"));
+        FXMLLoader askStringWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/client/ask-string-form.fxml"));
         Scene askWindowScene = new Scene(askStringWindowLoader.load(), 300, 100);
         AskStringController askStringController = askStringWindowLoader.getController();
 
@@ -129,7 +129,7 @@ public class App extends Application {
     }
 
     public void openResultScene(String text) throws Exception {
-        FXMLLoader resultWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/result-form.fxml"));
+        FXMLLoader resultWindowLoader = new FXMLLoader(getClass().getResource("/ru/ifmo/se/client/result-form.fxml"));
         Scene resultWindowScene = new Scene(resultWindowLoader.load());
         ResultController resultController = resultWindowLoader.getController();
 

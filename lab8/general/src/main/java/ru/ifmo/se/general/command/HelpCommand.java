@@ -1,7 +1,7 @@
 package ru.ifmo.se.general.command;
 
 import ru.ifmo.se.general.command.assembler.CommandAssembler;
-import ru.ifmo.se.general.common.CommandManagerInterface;
+import ru.ifmo.se.general.common.AbstractCommandManager;
 
 import java.util.Map;
 
@@ -13,14 +13,14 @@ import java.util.Map;
  * @author safarislava
  */
 public class HelpCommand implements Command {
-    private final CommandManagerInterface controller;
+    private final AbstractCommandManager controller;
 
     /**
      * Standard constructor.
      *
      * @param controller Value of recognizing command controller
      */
-    public HelpCommand(CommandManagerInterface controller) {
+    public HelpCommand(AbstractCommandManager controller) {
         this.controller = controller;
     }
 

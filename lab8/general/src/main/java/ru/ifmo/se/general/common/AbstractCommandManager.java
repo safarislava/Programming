@@ -4,6 +4,6 @@ import ru.ifmo.se.general.command.assembler.CommandAssembler;
 
 import java.util.Map;
 
-public interface CommandManagerInterface {
+public interface AbstractCommandManager {
     Map<String, CommandAssembler> getCommandAssemblers();
 }

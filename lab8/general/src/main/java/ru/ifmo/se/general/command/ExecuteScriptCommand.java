@@ -1,6 +1,6 @@
 package ru.ifmo.se.general.command;
 
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 import ru.ifmo.se.general.contract.CodePhrase;
 import ru.ifmo.se.general.parser.Parser;
 
@@ -16,8 +16,7 @@ import java.util.Arrays;
  */
 public class ExecuteScriptCommand implements Command {
     private final Path file;
-    private final ClientInterface client;
-    private final Parser parser;
+    private final AbstractClient client;
 
     /**
      * Standard constructor.
@@ -25,10 +24,9 @@ public class ExecuteScriptCommand implements Command {
      * @param file Path of script
      * @param client Value of client
      */
-    public ExecuteScriptCommand(Path file, ClientInterface client, Parser parser) {
+    public ExecuteScriptCommand(Path file, AbstractClient client) {
         this.file = file;
         this.client = client;
-        this.parser = parser;
     }
 
     @Override
@@ -36,10 +34,11 @@ public class ExecuteScriptCommand implements Command {
         client.addCall(file.getFileName().toString());
 
         Parser previousParser = client.getInput();
-        client.setInput(parser);
+        Parser newParser = client.getInput(file);
+        client.setInput(newParser);
 
-        while (parser.hasNext()) {
-            String[] commandArray = parser.getCommandArray();
+        while (newParser.hasNext()) {
+            String[] commandArray = newParser.getCommandArray();
             String command = commandArray[0];
             String[] args = Arrays.copyOfRange(commandArray, 1, commandArray.length);
 

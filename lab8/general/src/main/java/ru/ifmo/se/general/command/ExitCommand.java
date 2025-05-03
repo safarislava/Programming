@@ -1,6 +1,6 @@
 package ru.ifmo.se.general.command;
 
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 
 /**
  * Realisation of CommandAssembler.
@@ -10,14 +10,14 @@ import ru.ifmo.se.general.common.ClientInterface;
  * @author safarislava
  */
 public class ExitCommand implements Command {
-    private final ClientInterface client;
+    private final AbstractClient client;
 
     /**
      * Standard constructor.
      *
      * @param client Value of lifecycle class
      */
-    public ExitCommand(ClientInterface client) {
+    public ExitCommand(AbstractClient client) {
         this.client = client;
     }
 

@@ -3,7 +3,7 @@ package ru.ifmo.se.general.command.assembler;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExecuteScriptCommand;
 import ru.ifmo.se.general.command.assembler.type.ClientRequired;
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 import ru.ifmo.se.general.parser.Parser;
 
 
@@ -19,13 +19,12 @@ import java.nio.file.Paths;
  * @author safarislava
  */
 public class ExecuteScriptCommandAssembler implements CommandAssembler, ClientRequired {
-    private ClientInterface client;
+    private AbstractClient client;
     private Path file;
-    private Parser parser;
 
     @Override
     public Command assemble() {
-        return new ExecuteScriptCommand(file, client, parser);
+        return new ExecuteScriptCommand(file, client);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class ExecuteScriptCommandAssembler implements CommandAssembler, ClientRe
     }
 
     @Override
-    public void setClient(ClientInterface client) {
+    public void setClient(AbstractClient client) {
         this.client = client;
     }
 }

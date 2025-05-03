@@ -1,7 +1,7 @@
 package ru.ifmo.se.general.command.assembler.type;
 
-import ru.ifmo.se.general.common.CommandManagerInterface;
+import ru.ifmo.se.general.common.AbstractCommandManager;
 
 public interface CommandManagerRequired {
-    void setCommandManager(CommandManagerInterface commandManager);
+    void setCommandManager(AbstractCommandManager commandManager);
 }

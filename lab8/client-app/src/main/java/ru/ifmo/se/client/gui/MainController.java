@@ -6,23 +6,23 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import ru.ifmo.se.client.App;
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.client.command.Action;
 import ru.ifmo.se.general.contract.CodePhrase;
+import ru.ifmo.se.general.entity.Coordinates;
+import ru.ifmo.se.general.entity.Organization;
 import ru.ifmo.se.general.entity.OrganizationDto;
 
 import java.io.File;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.ResourceBundle; 
 
 public class MainController {
     private Client client;
@@ -30,6 +30,8 @@ public class MainController {
 
     private Timeline updateTimeline;
     private static final int UPDATE_THRESHOLD = 5;
+
+    private VisualizationController visualizationController;
 
     @FXML
     private MenuItem logOutButton;
@@ -110,9 +112,9 @@ public class MainController {
     @FXML
     private MenuItem huItem;
     @FXML
-    private HBox visualizationLayout;
+    private ScrollPane visualizationLayout;
     @FXML
-    private Canvas visualisationCanvas;
+    private Canvas visualizationCanvas;
 
     public void setLocalizeLabels(Locale locale) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("ru.ifmo.se.client.gui.localization.Labels", locale);
@@ -166,12 +168,7 @@ public class MainController {
         setUsernameButton();
         setupAutoUpdate();
 
-        visualisationCanvas.setWidth(500);
-        visualisationCanvas.setHeight(500);
-
-
-        //visualisationCanvas.widthProperty().bind(visualizationLayout.widthProperty());
-        //visualisationCanvas.heightProperty().bind(visualizationLayout.heightProperty());
+        visualizationController = new VisualizationController(visualizationCanvas, visualizationLayout, client);
     }
 
     private void setupAutoUpdate() {
@@ -210,7 +207,7 @@ public class MainController {
     public void updateOrganization() {
         List<OrganizationDto> organizations = client.getOrganizations();
         updateTable(organizations);
-        updateVisualisation(organizations);
+        visualizationController.updateVisualisation(organizations);
     }
 
     private synchronized void updateTable(List<OrganizationDto> organizations) {
@@ -373,20 +370,6 @@ public class MainController {
         } catch (Exception e) {
             app.showError();
             throw new RuntimeException(e);
-        }
-    }
-
-    private synchronized void drawOrganization(GraphicsContext context) {
-        context.setFill(Color.BLUE);
-        context.setLineWidth(5);
-        context.setStroke(Color.BLACK);
-        context.rect(0, 0, 200, 200);
-    }
-
-    private void updateVisualisation(List<OrganizationDto> organizations) {
-        GraphicsContext context = visualisationCanvas.getGraphicsContext2D();
-        for (OrganizationDto organization : organizations) {
-            drawOrganization(context);
         }
     }
 }

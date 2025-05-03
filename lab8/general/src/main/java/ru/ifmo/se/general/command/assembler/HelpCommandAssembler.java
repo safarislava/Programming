@@ -3,7 +3,7 @@ package ru.ifmo.se.general.command.assembler;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.HelpCommand;
 import ru.ifmo.se.general.command.assembler.type.CommandManagerRequired;
-import ru.ifmo.se.general.common.CommandManagerInterface;
+import ru.ifmo.se.general.common.AbstractCommandManager;
 import ru.ifmo.se.general.parser.Parser;
 
 /**
@@ -14,7 +14,7 @@ import ru.ifmo.se.general.parser.Parser;
  * @author safarislava
  */
 public class HelpCommandAssembler implements CommandAssembler, CommandManagerRequired {
-    private CommandManagerInterface commandManager;
+    private AbstractCommandManager commandManager;
 
     @Override
     public Command assemble() {
@@ -32,7 +32,7 @@ public class HelpCommandAssembler implements CommandAssembler, CommandManagerReq
     }
 
     @Override
-    public void setCommandManager(CommandManagerInterface commandManager) {
+    public void setCommandManager(AbstractCommandManager commandManager) {
         this.commandManager = commandManager;
     }
 }

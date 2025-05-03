@@ -1,13 +1,13 @@
 package ru.ifmo.se.general.command;
 
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 
 public class LoginCommand implements Command {
     private final String username;
     private final String password;
-    private final ClientInterface client;
+    private final AbstractClient client;
 
-    public LoginCommand(String username, String password, ClientInterface client) {
+    public LoginCommand(String username, String password, AbstractClient client) {
         this.username = username;
         this.password = password;
         this.client = client;

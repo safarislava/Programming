@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import ru.ifmo.se.client.App;
@@ -22,7 +21,7 @@ import java.io.File;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.ResourceBundle; 
 
 public class MainController {
     private Client client;
@@ -30,6 +29,11 @@ public class MainController {
 
     private Timeline updateTimeline;
     private static final int UPDATE_THRESHOLD = 5;
+
+    private double offsetX = 0;
+    private double offsetY = 0;
+    private static final double MAX_ORGANIZATION_SIZE = 100;
+    private static final double MIN_ORGANIZATION_SIZE = 50;
 
     @FXML
     private MenuItem logOutButton;
@@ -110,9 +114,9 @@ public class MainController {
     @FXML
     private MenuItem huItem;
     @FXML
-    private HBox visualizationLayout;
+    private ScrollPane visualizationLayout;
     @FXML
-    private Canvas visualisationCanvas;
+    private Canvas visualizationCanvas;
 
     public void setLocalizeLabels(Locale locale) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("ru.ifmo.se.client.gui.localization.Labels", locale);
@@ -166,12 +170,14 @@ public class MainController {
         setUsernameButton();
         setupAutoUpdate();
 
-        visualisationCanvas.setWidth(500);
-        visualisationCanvas.setHeight(500);
+        visualizationLayout.fitToWidthProperty().set(true);
+        visualizationLayout.fitToHeightProperty().set(true);
 
+        visualizationCanvas.setWidth(100);
+        visualizationCanvas.setHeight(100);
 
-        //visualisationCanvas.widthProperty().bind(visualizationLayout.widthProperty());
-        //visualisationCanvas.heightProperty().bind(visualizationLayout.heightProperty());
+        offsetX = 0;
+        offsetY = 0;
     }
 
     private void setupAutoUpdate() {
@@ -376,17 +382,71 @@ public class MainController {
         }
     }
 
-    private synchronized void drawOrganization(GraphicsContext context) {
+    private synchronized void drawOrganization(GraphicsContext context, double x, double y, double size) {
         context.setFill(Color.BLUE);
-        context.setLineWidth(5);
         context.setStroke(Color.BLACK);
-        context.rect(0, 0, 200, 200);
+        context.setLineWidth(2);
+
+        context.fillRect(x - 0.5 * size, y - 0.5 * size, size, size);
+        context.strokeRect(x - 0.5 * size, y - 0.5 * size, size, size);
+        context.fillPolygon(new double[]{x - 0.7 * size, x + 0.7 * size, x},
+                new double[]{y - 0.5 * size, y - 0.5 * size, y - 0.9 * size}, 3);
+        context.strokePolygon(new double[]{x - 0.7 * size, x + 0.7 * size, x},
+                new double[]{y - 0.5 * size, y - 0.5 * size, y - 0.9 * size}, 3);
+        context.fillRect(x - 0.6 * size, y + 0.5 * size, 1.2 * size, 0.05 * size);
+        context.strokeRect(x - 0.6 * size, y + 0.5 * size, 1.2 * size, 0.05 * size);
+
+        context.setFill(Color.BLUE);
+        context.strokeRect(x - 0.4 * size, y - 0.4 * size, 0.3 * size, 0.3 * size);
+        context.strokeRect(x + 0.1 * size, y - 0.4 * size, 0.3 * size, 0.3 * size);
+        context.strokeRect(x - 0.4 * size, y + 0.1 * size, 0.3 * size, 0.3 * size);
+        context.strokeRect(x + 0.1 * size, y + 0.1 * size, 0.3 * size, 0.3 * size);
+    }
+
+    private void resizeCanvas(List<OrganizationDto> organizations) {
+        double leftBorder = organizations.stream()
+                .map(o -> o.organization.getCoordinates().getX())
+                .min(Double::compare).orElse(0d) - MAX_ORGANIZATION_SIZE + offsetX;
+        double rightBorder = organizations.stream()
+                .map(o -> o.organization.getCoordinates().getX())
+                .max(Double::compare).orElse(0d) + MAX_ORGANIZATION_SIZE + offsetX;
+        double topBorder = organizations.stream()
+                .map(o -> o.organization.getCoordinates().getY())
+                .min(Float::compare).orElse(0f) - MAX_ORGANIZATION_SIZE + offsetY;
+        double bottomBorder = organizations.stream()
+                .map(o -> o.organization.getCoordinates().getY())
+                .max(Float::compare).orElse(0f) + MAX_ORGANIZATION_SIZE + offsetY;
+
+        if (leftBorder < 0){
+            visualizationCanvas.setWidth(visualizationCanvas.getWidth() - leftBorder);
+            offsetX -= leftBorder;
+        }
+        if (rightBorder > visualizationCanvas.getWidth()) {
+            visualizationCanvas.setWidth(rightBorder);
+        }
+        if (topBorder < 0){
+            visualizationCanvas.setHeight(visualizationCanvas.getWidth() - topBorder);
+            offsetY -= topBorder;
+        }
+        if (bottomBorder > visualizationCanvas.getHeight()) {
+            visualizationCanvas.setHeight(bottomBorder);
+        }
     }
 
     private void updateVisualisation(List<OrganizationDto> organizations) {
-        GraphicsContext context = visualisationCanvas.getGraphicsContext2D();
+        GraphicsContext context = visualizationCanvas.getGraphicsContext2D();
+
+        context.clearRect(0, 0, visualizationCanvas.getWidth(), visualizationCanvas.getHeight());
+
+        resizeCanvas(organizations);
+
         for (OrganizationDto organization : organizations) {
-            drawOrganization(context);
+            double x = organization.organization.getCoordinates().getX(),
+                    y = organization.organization.getCoordinates().getY(),
+                    size = organization.organization.getEmployeesCount();
+
+            size = Math.min(Math.max(MIN_ORGANIZATION_SIZE, size), MAX_ORGANIZATION_SIZE);
+            drawOrganization(context, x + offsetX, y + offsetY, size);
         }
     }
 }

@@ -3,7 +3,8 @@ package ru.ifmo.se.client;
 import ru.ifmo.se.client.command.CommandManager;
 import ru.ifmo.se.client.command.Action;
 import ru.ifmo.se.client.gui.FilterType;
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.client.parser.ScriptParser;
+import ru.ifmo.se.general.common.AbstractClient;
 import ru.ifmo.se.general.contract.CodePhrase;
 import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.contract.Request;
@@ -15,6 +16,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.assembler.CommandAssembler;
 import ru.ifmo.se.general.command.assembler.type.ServerRequired;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  * @author safarislava
  */
-public class Client implements ClientInterface {
+public class Client implements AbstractClient {
     private Parser parser;
     private final CommandManager commandManager;
     private final ServerManager serverManager;
@@ -54,9 +56,7 @@ public class Client implements ClientInterface {
         serverManager = new ServerManager(host, port);
     }
 
-    /**
-     * Start listening input for command
-     */
+    @Override
     public void start() {
         serverManager.guarantyConnection();
     }
@@ -71,12 +71,10 @@ public class Client implements ClientInterface {
     }
 
     public void stopSync() {
-        scheduler.shutdown();
+        scheduler.shutdownNow();
     }
 
-    /**
-     * Stop listening
-     */
+    @Override
     public void stop() {
         serverManager.closeSocket();
     }
@@ -85,6 +83,7 @@ public class Client implements ClientInterface {
         return execute(name.get(), args);
     }
 
+    @Override
     public synchronized Response execute(String name, String[] args) {
         try {
             CommandAssembler commandAssembler = commandManager.getAssembler(name, args);
@@ -131,22 +130,19 @@ public class Client implements ClientInterface {
         return organizations;
     }
 
-    /**
-     * Getter of input field.
-     *
-     * @return Value of input
-     */
+    @Override
     public Parser getInput() {
         return parser;
     }
 
-    /**
-     * Setter of input field.
-     *
-     * @param parser Value of input
-     */
+    @Override
     public void setInput(Parser parser) {
         this.parser = parser;
+    }
+
+    @Override
+    public Parser getInput(Path script) {
+        return new ScriptParser(script);
     }
 
     /**
@@ -159,30 +155,18 @@ public class Client implements ClientInterface {
         return scriptCalls.contains(call);
     }
 
-    /**
-     * Add call. Checking valid.
-     *
-     * @param call Name of call
-     */
+    @Override
     public void addCall(String call) {
         if (containCall(call)) throw new RuntimeException("Recursive call");
         scriptCalls.add(call);
     }
 
-    /**
-     * Remove call.
-     *
-     * @param call Name of call
-     */
+    @Override
     public void removeCall(String call) {
         scriptCalls.remove(call);
     }
 
-    /**
-     * Setter of username.
-     *
-     * @param username Value of username
-     */
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
@@ -191,11 +175,7 @@ public class Client implements ClientInterface {
         return username;
     }
 
-    /**
-     * Setter of password.
-     *
-     * @param password Value of password
-     */
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }

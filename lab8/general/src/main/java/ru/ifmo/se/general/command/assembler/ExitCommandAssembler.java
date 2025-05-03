@@ -3,7 +3,7 @@ package ru.ifmo.se.general.command.assembler;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExitCommand;
 import ru.ifmo.se.general.command.assembler.type.ClientRequired;
-import ru.ifmo.se.general.common.ClientInterface;
+import ru.ifmo.se.general.common.AbstractClient;
 import ru.ifmo.se.general.parser.Parser;
 
 /**
@@ -14,7 +14,7 @@ import ru.ifmo.se.general.parser.Parser;
  * @author safarislava
  */
 public class ExitCommandAssembler implements CommandAssembler, ClientRequired {
-    private ClientInterface client;
+    private AbstractClient client;
 
     @Override
     public Command assemble() {
@@ -32,7 +32,7 @@ public class ExitCommandAssembler implements CommandAssembler, ClientRequired {
     }
 
     @Override
-    public void setClient(ClientInterface client) {
+    public void setClient(AbstractClient client) {
         this.client = client;
     }
 }

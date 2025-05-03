@@ -5,7 +5,7 @@ import ru.ifmo.se.general.command.assembler.*;
 import ru.ifmo.se.general.command.assembler.type.ClientRequired;
 import ru.ifmo.se.general.command.assembler.CommandAssembler;
 import ru.ifmo.se.general.command.assembler.type.CommandManagerRequired;
-import ru.ifmo.se.general.common.CommandManagerInterface;
+import ru.ifmo.se.general.common.AbstractCommandManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 1.0
  * @author safarislava
  */
-public class CommandManager implements CommandManagerInterface {
+public class CommandManager implements AbstractCommandManager {
     private final Map<String, AssemblerFactory> assemblerFactories;
     private final Client client;
 

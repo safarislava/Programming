@@ -18,7 +18,8 @@ public enum Action {
     REMOVE_GREATER_ID("remove_greater_id"),
     REMOVE_LOWER("remove_lower"),
     SHOW("show"),
-    UPDATE("update");
+    UPDATE("update"),
+    UPDATE_FIELD("update_field"),;
 
     private final String name;
     Action(String name) {

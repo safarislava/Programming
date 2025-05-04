@@ -10,7 +10,7 @@ import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.contract.Request;
 import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.entity.OrganizationDto;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 import ru.ifmo.se.client.connection.ServerManager;
 import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.assembler.CommandAssembler;

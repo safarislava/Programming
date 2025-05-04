@@ -1,4 +1,4 @@
-package ru.ifmo.se.general.parser;
+package ru.ifmo.se.general.common;
 
 import ru.ifmo.se.general.entity.Organization;
 import ru.ifmo.se.general.entity.OrganizationType;

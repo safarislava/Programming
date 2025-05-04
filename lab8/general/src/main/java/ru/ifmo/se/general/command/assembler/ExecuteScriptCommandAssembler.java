@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.ExecuteScriptCommand;
 import ru.ifmo.se.general.command.assembler.type.ClientRequired;
 import ru.ifmo.se.general.common.AbstractClient;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 
 import java.nio.file.Files;

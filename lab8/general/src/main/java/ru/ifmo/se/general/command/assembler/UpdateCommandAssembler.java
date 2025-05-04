@@ -5,7 +5,7 @@ import ru.ifmo.se.general.command.UpdateCommand;
 import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.entity.Organization;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 /**
  * Realisation of CommandAssembler.

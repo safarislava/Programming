@@ -2,7 +2,7 @@ package ru.ifmo.se.general.command;
 
 import ru.ifmo.se.general.common.AbstractClient;
 import ru.ifmo.se.general.contract.CodePhrase;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 import java.nio.file.Path;
 import java.util.Arrays;

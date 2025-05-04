@@ -1,7 +1,6 @@
 package ru.ifmo.se.general.common;
 
 import ru.ifmo.se.general.contract.Response;
-import ru.ifmo.se.general.parser.Parser;
 
 import java.nio.file.Path;
 

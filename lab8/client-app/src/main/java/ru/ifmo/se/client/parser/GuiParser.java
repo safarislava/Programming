@@ -5,7 +5,7 @@ import ru.ifmo.se.client.gui.AskOrganizationController;
 import ru.ifmo.se.client.gui.AskStringController;
 import ru.ifmo.se.client.gui.AskWindowType;
 import ru.ifmo.se.general.entity.*;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 public class GuiParser implements Parser {
     private final App app;

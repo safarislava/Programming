@@ -6,17 +6,23 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ChoiceBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Duration;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LongStringConverter;
 import ru.ifmo.se.client.App;
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.client.command.Action;
 import ru.ifmo.se.general.contract.CodePhrase;
-import ru.ifmo.se.general.entity.Coordinates;
-import ru.ifmo.se.general.entity.Organization;
+import ru.ifmo.se.general.contract.Response;
 import ru.ifmo.se.general.entity.OrganizationDto;
+import ru.ifmo.se.general.entity.OrganizationField;
+import ru.ifmo.se.general.entity.OrganizationType;
 
 import java.io.File;
 import java.time.ZoneId;
@@ -30,6 +36,7 @@ public class MainController {
 
     private Timeline updateTimeline;
     private static final int UPDATE_THRESHOLD = 5;
+    private boolean userEditing = false;
 
     private VisualizationController visualizationController;
 
@@ -86,7 +93,7 @@ public class MainController {
     @FXML
     private TableColumn<OrganizationDto, Integer> employeesCountColumn;
     @FXML
-    private TableColumn<OrganizationDto, String> typeColumn;
+    private TableColumn<OrganizationDto, OrganizationType> typeColumn;
     @FXML
     private TableColumn<OrganizationDto, String> zipcodeColumn;
     @FXML
@@ -168,6 +175,127 @@ public class MainController {
         setUsernameButton();
         setupAutoUpdate();
 
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameColumn.setOnEditStart(event -> userEditing = true);
+        nameColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.NAME.toString(), event.getNewValue()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        nameColumn.setOnEditCancel(event -> userEditing = false);
+
+        coordinateXColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        coordinateXColumn.setOnEditStart(event -> userEditing = true);
+        coordinateXColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.COORDINATE_X.toString(), String.valueOf(event.getNewValue())});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        coordinateXColumn.setOnEditCancel(event -> userEditing = false);
+
+        coordinateYColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        coordinateYColumn.setOnEditStart(event -> userEditing = true);
+        coordinateYColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.COORDINATE_Y.toString(), String.valueOf(event.getNewValue())});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        coordinateYColumn.setOnEditCancel(event -> userEditing = false);
+
+        annualTurnoverColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
+        annualTurnoverColumn.setOnEditStart(event -> userEditing = true);
+        annualTurnoverColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Long.toString(id),
+                    OrganizationField.ANNUAL_TURNOVER.toString(), String.valueOf(event.getNewValue())});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        annualTurnoverColumn.setOnEditCancel(event -> userEditing = false);
+
+        fullNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        fullNameColumn.setOnEditStart(event -> userEditing = true);
+        fullNameColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.FULL_NAME.toString(), event.getNewValue()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        fullNameColumn.setOnEditCancel(event -> userEditing = false);
+
+        typeColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(OrganizationType.values()));
+        typeColumn.setOnEditStart(event -> userEditing = true);
+        typeColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.TYPE.toString(), event.getNewValue().toString()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        typeColumn.setOnEditCancel(event -> userEditing = false);
+
+        employeesCountColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        employeesCountColumn.setOnEditStart(event -> userEditing = true);
+        employeesCountColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.EMPLOYEES_COUNT.toString(), String.valueOf(event.getNewValue())});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        employeesCountColumn.setOnEditCancel(event -> userEditing = false);
+
+        zipcodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        zipcodeColumn.setOnEditStart(event -> userEditing = true);
+        zipcodeColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.ZIPCODE.toString(), event.getNewValue()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        zipcodeColumn.setOnEditCancel(event -> userEditing = false);
+
+        townXColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        townXColumn.setOnEditStart(event -> userEditing = true);
+        townXColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.TOWN_X.toString(), event.getNewValue().toString()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        townXColumn.setOnEditCancel(event -> userEditing = false);
+
+        townYColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        townYColumn.setOnEditStart(event -> userEditing = true);
+        townYColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.TOWN_Y.toString(), event.getNewValue().toString()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        townYColumn.setOnEditCancel(event -> userEditing = false);
+
+        townZColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        townZColumn.setOnEditStart(event -> userEditing = true);
+        townZColumn.setOnEditCommit(event -> {
+            int id = event.getRowValue().organization.getId();
+            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
+                    OrganizationField.TOWN_Z.toString(), event.getNewValue().toString()});
+            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            userEditing = false;
+        });
+        townZColumn.setOnEditCancel(event -> userEditing = false);
+
         visualizationController = new VisualizationController(visualizationCanvas, visualizationLayout, client);
     }
 
@@ -179,7 +307,6 @@ public class MainController {
         updateTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(UPDATE_THRESHOLD), e -> updateOrganization())
         );
-
         updateTimeline.setCycleCount(Timeline.INDEFINITE);
         updateTimeline.play();
     }
@@ -211,8 +338,11 @@ public class MainController {
     }
 
     private synchronized void updateTable(List<OrganizationDto> organizations) {
+        if (userEditing) return;
+
         ObservableList<OrganizationDto> items = FXCollections.observableArrayList(organizations);
 
+        int id = mainTable.getSelectionModel().getSelectedIndex();
         mainTable.getColumns().clear();
 
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().organization.getId()).asObject());
@@ -223,7 +353,7 @@ public class MainController {
         annualTurnoverColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().organization.getAnnualTurnover()).asObject());
         fullNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getFullName()));
         employeesCountColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().organization.getEmployeesCount()).asObject());
-        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getType().toString()));
+        typeColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().organization.getType()));
         zipcodeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getPostalAddress().getZipCode()));
         townXColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getPostalAddress().getTown().getX()).asObject());
         townYColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getPostalAddress().getTown().getY()).asObject());
@@ -236,6 +366,7 @@ public class MainController {
                 zipcodeColumn, townXColumn, townYColumn, townZColumn, creatorColumn);
 
         mainTable.setItems(items);
+        mainTable.getSelectionModel().select(id);
     }
 
     public void insert() {

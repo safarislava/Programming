@@ -47,6 +47,7 @@ public class CommandManager implements AbstractCommandManager {
             put(Action.REMOVE_LOWER.get(), new AssemblerFactory(RemoveLowerCommandAssembler.class));
             put(Action.SHOW.get(), new AssemblerFactory(ShowCommandAssembler.class));
             put(Action.UPDATE.get(), new AssemblerFactory(UpdateCommandAssembler.class));
+            put(Action.UPDATE_FIELD.get(), new AssemblerFactory(UpdateFieldCommandAssembler.class));
         }};
     }
 

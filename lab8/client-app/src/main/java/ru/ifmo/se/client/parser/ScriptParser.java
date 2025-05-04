@@ -1,7 +1,7 @@
 package ru.ifmo.se.client.parser;
 
 import ru.ifmo.se.general.entity.*;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;

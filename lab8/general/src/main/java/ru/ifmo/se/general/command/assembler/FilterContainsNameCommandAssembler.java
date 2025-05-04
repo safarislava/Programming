@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.FilterContainsNameCommand;
 import ru.ifmo.se.general.command.assembler.type.OrganizationDataRequired;
 import ru.ifmo.se.general.data.OrganizationData;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 public class FilterContainsNameCommandAssembler implements OrganizationDataRequired {
     private OrganizationData data;

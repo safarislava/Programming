@@ -1,7 +1,7 @@
 package ru.ifmo.se.general.command.assembler;
 
 import ru.ifmo.se.general.command.Command;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 import java.io.Serializable;
 

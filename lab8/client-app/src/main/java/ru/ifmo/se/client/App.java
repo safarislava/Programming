@@ -9,7 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.ifmo.se.client.gui.*;
 import ru.ifmo.se.client.parser.GuiParser;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 
 import java.io.File;

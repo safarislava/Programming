@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.HelpCommand;
 import ru.ifmo.se.general.command.assembler.type.CommandManagerRequired;
 import ru.ifmo.se.general.common.AbstractCommandManager;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 /**
  * Realisation of CommandAssembler.

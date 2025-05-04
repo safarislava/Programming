@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.RegisterCommand;
 import ru.ifmo.se.general.command.assembler.type.UserDataRequired;
 import ru.ifmo.se.general.data.UserData;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 public class RegisterCommandAssembler implements UserDataRequired {
     private String username;

@@ -4,7 +4,7 @@ import ru.ifmo.se.general.command.Command;
 import ru.ifmo.se.general.command.LoginCommand;
 import ru.ifmo.se.general.command.assembler.type.ClientRequired;
 import ru.ifmo.se.general.common.AbstractClient;
-import ru.ifmo.se.general.parser.Parser;
+import ru.ifmo.se.general.common.Parser;
 
 public class LoginCommandAssembler implements CommandAssembler, ClientRequired {
     private String username;

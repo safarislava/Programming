@@ -1,5 +1,6 @@
 package ru.ifmo.se.server.collection;
 
+import ru.ifmo.se.general.contract.CodePhrase;
 import ru.ifmo.se.general.entity.Organization;
 import ru.ifmo.se.general.data.OrganizationData;
 import ru.ifmo.se.general.data.AuthOrganizationData;
@@ -72,14 +73,14 @@ public class AuthOrganizationManager implements AuthOrganizationData {
     @Override
     public String update(int id, Organization organization) {
         String creator = getCreator(id);
-        if (!creator.equals(username)) return String.format("Failed, %s is owner of organization%n", creator);
+        if (!creator.equals(username)) return CodePhrase.FAILED;
         return organizationData.update(id, organization);
     }
 
     @Override
     public String remove(int id) {
         String creator = getCreator(id);
-        if (!creator.equals(username)) return String.format("Failed, %s is owner of organization%n", creator);
+        if (!creator.equals(username)) return CodePhrase.FAILED;
         return organizationData.remove(id);
     }
 

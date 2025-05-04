@@ -19,9 +19,10 @@ import ru.ifmo.se.client.App;
 import ru.ifmo.se.client.Client;
 import ru.ifmo.se.client.command.Action;
 import ru.ifmo.se.general.contract.CodePhrase;
+import ru.ifmo.se.general.contract.OrganizationConverter;
 import ru.ifmo.se.general.contract.Response;
+import ru.ifmo.se.general.entity.Organization;
 import ru.ifmo.se.general.entity.OrganizationDto;
-import ru.ifmo.se.general.entity.OrganizationField;
 import ru.ifmo.se.general.entity.OrganizationType;
 
 import java.io.File;
@@ -83,7 +84,7 @@ public class MainController {
     @FXML
     private TableColumn<OrganizationDto, Double> coordinateXColumn;
     @FXML
-    private TableColumn<OrganizationDto, Double> coordinateYColumn;
+    private TableColumn<OrganizationDto, Float> coordinateYColumn;
     @FXML
     private TableColumn<OrganizationDto, String> creationTimeColumn;
     @FXML
@@ -99,7 +100,7 @@ public class MainController {
     @FXML
     private TableColumn<OrganizationDto, Double> townXColumn;
     @FXML
-    private TableColumn<OrganizationDto, Double> townYColumn;
+    private TableColumn<OrganizationDto, Long> townYColumn;
     @FXML
     private TableColumn<OrganizationDto, Float> townZColumn;
     @FXML
@@ -178,121 +179,203 @@ public class MainController {
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nameColumn.setOnEditStart(event -> userEditing = true);
         nameColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.NAME.toString(), event.getNewValue()});
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.setName(event.getNewValue());
+            }
+            catch (Exception e) {
+                app.showError();
+                userEditing = false;
+                updateOrganization();
+                return;
+            }
+
+            Response response = client.execute(Action.UPDATE, new String[]{
+                    OrganizationConverter.encode(updatedOrganization)});
             if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
             userEditing = false;
+            updateOrganization();
         });
         nameColumn.setOnEditCancel(event -> userEditing = false);
 
         coordinateXColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         coordinateXColumn.setOnEditStart(event -> userEditing = true);
         coordinateXColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.COORDINATE_X.toString(), String.valueOf(event.getNewValue())});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.getCoordinates().setX(event.getNewValue());
+
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         coordinateXColumn.setOnEditCancel(event -> userEditing = false);
 
-        coordinateYColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        coordinateYColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
         coordinateYColumn.setOnEditStart(event -> userEditing = true);
         coordinateYColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.COORDINATE_Y.toString(), String.valueOf(event.getNewValue())});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.getCoordinates().setY(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         coordinateYColumn.setOnEditCancel(event -> userEditing = false);
 
         annualTurnoverColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
         annualTurnoverColumn.setOnEditStart(event -> userEditing = true);
         annualTurnoverColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Long.toString(id),
-                    OrganizationField.ANNUAL_TURNOVER.toString(), String.valueOf(event.getNewValue())});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.setAnnualTurnover(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         annualTurnoverColumn.setOnEditCancel(event -> userEditing = false);
 
         fullNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         fullNameColumn.setOnEditStart(event -> userEditing = true);
         fullNameColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.FULL_NAME.toString(), event.getNewValue()});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.setFullName(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         fullNameColumn.setOnEditCancel(event -> userEditing = false);
 
         typeColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(OrganizationType.values()));
         typeColumn.setOnEditStart(event -> userEditing = true);
         typeColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.TYPE.toString(), event.getNewValue().toString()});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.setType(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         typeColumn.setOnEditCancel(event -> userEditing = false);
 
         employeesCountColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         employeesCountColumn.setOnEditStart(event -> userEditing = true);
         employeesCountColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.EMPLOYEES_COUNT.toString(), String.valueOf(event.getNewValue())});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.setEmployeesCount(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         employeesCountColumn.setOnEditCancel(event -> userEditing = false);
 
         zipcodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         zipcodeColumn.setOnEditStart(event -> userEditing = true);
         zipcodeColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.ZIPCODE.toString(), event.getNewValue()});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.getPostalAddress().setZipCode(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         zipcodeColumn.setOnEditCancel(event -> userEditing = false);
 
         townXColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         townXColumn.setOnEditStart(event -> userEditing = true);
         townXColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.TOWN_X.toString(), event.getNewValue().toString()});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.getPostalAddress().getTown().setX(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         townXColumn.setOnEditCancel(event -> userEditing = false);
 
-        townYColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        townYColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
         townYColumn.setOnEditStart(event -> userEditing = true);
         townYColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.TOWN_Y.toString(), event.getNewValue().toString()});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.getPostalAddress().getTown().setY(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         townYColumn.setOnEditCancel(event -> userEditing = false);
 
         townZColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
         townZColumn.setOnEditStart(event -> userEditing = true);
         townZColumn.setOnEditCommit(event -> {
-            int id = event.getRowValue().organization.getId();
-            Response response = client.execute(Action.UPDATE_FIELD, new String[]{Integer.toString(id),
-                    OrganizationField.TOWN_Z.toString(), event.getNewValue().toString()});
-            if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            Organization updatedOrganization = event.getRowValue().organization;
+            try {
+                updatedOrganization.getPostalAddress().getTown().setZ(event.getNewValue());
+                Response response = client.execute(Action.UPDATE, new String[]{
+                        OrganizationConverter.encode(updatedOrganization)});
+                if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+            }
+            catch (Exception e) {
+                app.showError();
+            }
             userEditing = false;
+            updateOrganization();
         });
         townZColumn.setOnEditCancel(event -> userEditing = false);
 
@@ -348,7 +431,7 @@ public class MainController {
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().organization.getId()).asObject());
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getName()));
         coordinateXColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getCoordinates().getX()).asObject());
-        coordinateYColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getCoordinates().getY()).asObject());
+        coordinateYColumn.setCellValueFactory(cellData -> new SimpleFloatProperty(cellData.getValue().organization.getCoordinates().getY()).asObject());
         creationTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getCreationDate().withZoneSameInstant(ZoneId.systemDefault()).toString()));
         annualTurnoverColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().organization.getAnnualTurnover()).asObject());
         fullNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getFullName()));
@@ -356,7 +439,7 @@ public class MainController {
         typeColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().organization.getType()));
         zipcodeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().organization.getPostalAddress().getZipCode()));
         townXColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getPostalAddress().getTown().getX()).asObject());
-        townYColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().organization.getPostalAddress().getTown().getY()).asObject());
+        townYColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().organization.getPostalAddress().getTown().getY()).asObject());
         townZColumn.setCellValueFactory(cellData -> new SimpleFloatProperty(cellData.getValue().organization.getPostalAddress().getTown().getZ()).asObject());
         creatorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().creator));
 
@@ -377,7 +460,7 @@ public class MainController {
 
     public void update() {
         String result = client.execute(Action.UPDATE, new String[0]).getContent();
-        if (result.equals(CodePhrase.FAILED)) {app.showError();}
+        if (result.equals(CodePhrase.FAILED) ) {app.showError();}
         updateOrganization();
     }
 

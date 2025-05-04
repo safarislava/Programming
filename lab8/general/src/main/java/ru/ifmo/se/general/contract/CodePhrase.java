@@ -5,4 +5,5 @@ public class CodePhrase {
     public static String SUCCESSFUL = "Successful";
     public static String FAILED = "Failed";
     public static String SKIP = "Skip";
+    public static String PERMISSION_DENIED = "Permission denied";
 }

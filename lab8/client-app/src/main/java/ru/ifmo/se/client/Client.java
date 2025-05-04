@@ -63,7 +63,7 @@ public class Client implements AbstractClient {
 
     public void syncServer() {
         Response response = execute(filterAction, filterArgs.toArray(new String[0]));
-        organizations = OrganizationConverter.decode(response.getContent());
+        organizations = OrganizationConverter.decodeDto(response.getContent());
     }
 
     public void startSync() {

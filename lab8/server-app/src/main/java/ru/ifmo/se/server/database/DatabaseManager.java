@@ -134,7 +134,7 @@ public class DatabaseManager implements OrganizationData, UserData {
 
         } catch (SQLException e) {
             logger.severe("Can't insert organization: " + e.getMessage());
-            return String.format("Failed insert organization %s%n", organization.getName());
+            return CodePhrase.FAILED;
         }
     }
 
@@ -155,7 +155,7 @@ public class DatabaseManager implements OrganizationData, UserData {
 
         } catch (SQLException e) {
             logger.severe("Can't update organization: " + e.getMessage());
-            return String.format("Failed update organization %d%n", id);
+            return CodePhrase.FAILED;
         }
     }
 
@@ -170,7 +170,7 @@ public class DatabaseManager implements OrganizationData, UserData {
 
         } catch (SQLException e) {
             logger.severe("Can't remove organization: " + e.getMessage());
-            return String.format("Failed remove organization %d%n", id);
+            return CodePhrase.FAILED;
         }
     }
 

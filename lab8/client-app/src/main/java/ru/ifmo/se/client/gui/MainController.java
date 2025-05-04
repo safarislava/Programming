@@ -208,6 +208,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -226,6 +227,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -244,6 +246,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -262,6 +265,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -280,6 +284,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -298,6 +303,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -316,6 +322,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -334,6 +341,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -352,6 +360,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
@@ -370,6 +379,7 @@ public class MainController {
                 Response response = client.execute(Action.UPDATE, new String[]{
                         OrganizationConverter.encode(updatedOrganization)});
                 if (response.getContent().equals(CodePhrase.FAILED)) app.showError();
+                client.syncServer();
             }
             catch (Exception e) {
                 app.showError();
